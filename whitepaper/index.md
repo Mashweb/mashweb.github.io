@@ -1,10 +1,13 @@
+---
+title: Document Center
+---
 # Zen White Paper: Owning the Web
 
-Version 0.7.2,
-by Tom Elam,
-Elam & Associates,
-Mysuru, India,
-August 20, 2016
+Version 0.7.3<br />
+by Tom Elam<br />
+Elam & Associates<br />
+Mysuru, India<br />
+August 23, 2016
 
 ## Introduction
 
