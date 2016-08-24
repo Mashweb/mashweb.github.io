@@ -216,7 +216,7 @@ An HTML element's style has four possible values for its *display* property:
 *block*, *inline*, *inline-block*, and *none*.
 Live demo code to implement GUIs to rearrange element positions in the NodeLists
 of the first three of these display styles is
-[located on tomelam.info](http://tomelam.info/~tom/experiments/NodeLists/).
+[located on the author's GitHub Pages](http://tomelam.github.io/zen/whitepaper/experiments/NodeLists/block.html).
 The method of sliding elements in these prototype GUIs was partly inspired by the 15 Puzzle
 and JavaScript-based implementations of the 15 Puzzle.
 [There are notes about some of these implementations on
