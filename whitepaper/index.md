@@ -16,7 +16,7 @@ adaptive approach to the creation of Web experiences&mdash;a new approach
 open to use by a very broad class of people.
 A software system called <em>Zen</em> is being created to explore this approach.
 Why a new approach is necessary and how it will work are the subjects of this paper,
-but some digital archaeology can provide some context.
+but digital archaeology can provide some context.
 A video showing the operation of the first web browser clearly shows that
 at least one of the functions of web technology has not received equal attention as the rest:
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=3c3Rt6QbHDw
