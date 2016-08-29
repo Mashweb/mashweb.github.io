@@ -1,0 +1,15 @@
+# Meta data
+name:         Zen
+authors:      Tom Elam
+description:  Zen
+
+# Dependencies
+highlighter:  rouge
+
+# Permalinks
+permalink:    pretty
+
+# Server
+source:       docs
+port:         4000
+url:          https://github.com/tomelam/zen

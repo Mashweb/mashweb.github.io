@@ -1,5 +1,6 @@
 ---
-title: Document Center
+layout: home
+title: Zen White Paper&#58; Owning the Web
 ---
 # Zen White Paper: Owning the Web
 
@@ -16,7 +17,7 @@ adaptive approach to the creation of Web experiences&mdash;a new approach
 open to use by a very broad class of people.
 A software system called <em>Zen</em> is being created to explore this approach.
 Why a new approach is necessary and how it will work are the subjects of this paper,
-but digital archaeology can provide some context.
+but some digital archaeology can provide some context.
 A video showing the operation of the first web browser clearly shows that
 at least one of the functions of web technology has not received equal attention as the rest:
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=3c3Rt6QbHDw
@@ -216,7 +217,7 @@ An HTML element's style has four possible values for its *display* property:
 *block*, *inline*, *inline-block*, and *none*.
 Live demo code to implement GUIs to rearrange element positions in the NodeLists
 of the first three of these display styles is
-[located on the author's GitHub Pages](http://tomelam.github.io/zen/whitepaper/experiments/NodeLists/block.html).
+[located on tomelam.info](http://tomelam.info/~tom/experiments/NodeLists/).
 The method of sliding elements in these prototype GUIs was partly inspired by the 15 Puzzle
 and JavaScript-based implementations of the 15 Puzzle.
 [There are notes about some of these implementations on

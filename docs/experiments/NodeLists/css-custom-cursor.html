@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Example of CSS cursor property</title>
+<style type="text/css">
+    a {
+        cursor: url("images/updown.gif"), url("images/updown.cur"), default;
+    }
+    .cursor-demo span{
+        min-width: 100px;
+        padding: 5px 10px;
+        margin-bottom: 5px;
+        display: inline-block;
+        border: 1px solid grey;
+        border-radius: 3px;   
+    }
+</style>
+</head>
+<body>
+    <h1>Custom Cursor</h1>
+    <p>Place your mouse pointer <a href="#">over me</a> to reveal the custom cursor.</p>
+    <hr>
+    <h2>More Cursors</h2>
+    <p>Place your mouse pointer over the box to reveal the cursor.</p>
+    <div class="cursor-demo">
+        <span style="cursor: auto;">auto</span>
+        <span style="cursor: default;">default</span>
+        <span style="cursor: none;">none</span>
+        <span style="cursor: context-menu;">context-menu</span>
+        <span style="cursor: help;">help</span>
+        <span style="cursor: pointer;">pointer</span>
+        <span style="cursor: progress;">progress</span>
+        <span style="cursor: wait;">wait</span>
+        <span style="cursor: cell;">cell</span>
+        <span style="cursor: crosshair;">crosshair</span>
+        <span style="cursor: text;">text</span> 
+        <span style="cursor: vertical-text;">vertical-text</span>
+        <span style="cursor: alias;">alias</span>
+        <span style="cursor: copy;">copy</span>
+        <span style="cursor: move;">move</span>
+        <span style="cursor: no-drop;">no-drop</span>
+        <span style="cursor: not-allowed;">not-allowed</span>
+        <span style="cursor: grab;">grab</span>
+        <span style="cursor: grabbing;">grabbing</span>
+        <span style="cursor:e-resize">e-resize</span>
+        <span style="cursor: n-resize;">n-resize</span>
+        <span style="cursor: ne-resize;">ne-resize</span>
+        <span style="cursor: nw-resize;">nw-resize</span>
+        <span style="cursor: s-resize;">s-resize</span>
+        <span style="cursor: se-resize;">se-resize</span>
+        <span style="cursor: sw-resize;">sw-resize</span>
+        <span style="cursor: w-resize;">w-resize</span>
+        <span style="cursor: ew-resize;">ew-resize</span>
+        <span style="cursor: ns-resize;">ns-resize</span>
+        <span style="cursor: nesw-resize;">nesw-resize</span>
+        <span style="cursor: nwse-resize;">nwse-resize</span>
+        <span style="cursor: col-resize;">col-resize</span>
+        <span style="cursor: row-resize;">row-resize</span>
+        <span style="cursor: all-scroll;">all-scroll</span>
+        <span style="cursor: zoom-in;">zoom-in</span>
+        <span style="cursor: zoom-out;">zoom-out</span>
+    </div>
+</body>
+</html>

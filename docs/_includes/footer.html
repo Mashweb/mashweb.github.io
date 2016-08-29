@@ -1,0 +1,45 @@
+<div class="docs-footer">
+  <!-- Social links -->
+  <ul class="social">
+    <li>
+      <iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=tomelam&amp;repo=zen&amp;type=watch&amp;count=true" width="100" height="20"></iframe>
+    </li>
+    <li>
+      <a data-ignore="push" href="https://twitter.com/share" class="twitter-share-button" data-url="http://github.com/tomelam/zen" data-text="A mostly-JavaScript toolkit to enable profoundly easy, personalize, adaptive evolution of websites and web applications" data-via="TomElam">Tweet</a>
+    </li>
+    <li><a data-ignore="push" href="https://twitter.com/tomelam" class="twitter-follow-button" data-show-count="true">
+      Follow @TomElam</a>
+    </li>
+  </ul>
+
+  <p class="docs-footer-text">Code licensed under the
+<a href="https://github.com/tomelam/zen/blob/master/License.txt"
+$ata-ignore="push">GPL v2.0 License</a>.<br />
+Documents © 2016 Thomas Elam. All rights reserved.<br />
+Zen was crafted by <a href="https://twitter.com/tomelam" data-ignore="push">Tom Elam</a>.</p>
+
+  <ul class="docs-footer-links">
+    <li><a href="https://github.com/tomelam/tomelam.github.io/issues" data-ignore="push">Issues</a></li>
+    <li>&middot;</li>
+    <li><a href="https://github.com/tomelam/tomelam.github.io/releases" data-ignore="push">Releases</a></li>
+  </ul>
+</div>
+
+{% comment %}
+  Inject Twitter widgets asynchronously. Snippet snipped from Twitter's
+  JS interface site: https://dev.twitter.com/docs/tfw-javascript
+
+  * "js.async=1;" added to add async attribute to the generated script tag.
+{% endcomment %}
+<script>
+  window.twttr = (function (d,s,id) {
+    var t, js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return; js=d.createElement(s); js.id=id; js.async=1;
+    js.src="//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
+    return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } });
+  }(document, "script", "twitter-wjs"));
+</script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="/dist/js/ratchet.min.js"></script>
+<script src="/assets/js/docs.min.js"></script>
