@@ -10,6 +10,5 @@ highlighter:  rouge
 permalink:    pretty
 
 # Server
-source:       docs
 port:         4000
 url:          https://github.com/tomelam/zen
