@@ -11,5 +11,6 @@ permalink:    pretty
 
 # Server
 port:         4000
-url:          https://github.com/tomelam/zen/whitepaper
+url:          https://github.com/tomelam/zen
+baseurl:      /zen
 markdown:     kramdown
