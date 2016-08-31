@@ -1,9 +1,0 @@
-div.box { width:150px; height:150px; }
-
-.draggable-block:active {
-    cursor: url('../images/updown.gif'),auto;
-}
-
-.draggable-inline:active {
-    cursor: url('../images/ew-move.gif'),auto;
-}
