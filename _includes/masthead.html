@@ -8,11 +8,19 @@
         <a class="docs-nav-trigger icon icon-bars pull-right js-docs-nav-trigger" href="#"></a>
         <div class="docs-nav-group">
           <a class="docs-nav-item" href="/" data-ignore="push">Home</a>
-          <a class="docs-nav-item" href="{{ page.url }}/whitepaper" data-ignore="push">White Paper</a>
+          <a class="docs-nav-item" href="/whitepaper" data-ignore="push">White Paper</a>
           <a class="docs-nav-item" href="/experiments" data-ignore="push">Experiments</a>
           <a class="docs-nav-item" href="https://github.com/tomelam/zen" data-ignore="push">GitHub Project</a>
+	  <!-- Jekyll debugging code -->
+	  <a class="docs-nav-item" href="{{ site.github.url }}/foo1">foo1</a>
+	  <a class="docs-nav-item" href="{{ page.url }}/foo2">foo2</a>
+	  <a class="docs-nav-item" href="{{ page.url | prepend: site.github.url }}/foo3">foo3</a>
         </div>
       </nav>
     </div>
   </div>
+________________________________________________________________________Jekyll debugging code:<br />
+________________________________________________________________________site.github.url: {{ site.github.url }}<br />
+________________________________________________________________________page.url: {{ page.url }}<br />
+________________________________________________________________________page.url | prepend: site.github.url: {{ page.url | prepend: site.github.url }}
 </header>
