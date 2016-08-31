@@ -1,0 +1,21 @@
+---
+layout: home
+title: Zen Experiments
+---
+
+<div class="docs-header">
+  {% include masthead.html %}
+  <div class="docs-header-content">
+    <p class="docs-subtitle">Experiments</p>
+    <a data-ignore="push" href="NodeLists" class="btn btn-primary" onClick="_gaq.push(['_trackEvent', 'Downloads', 'master']);">NodeList DMI GUIs</a>
+    .../experiments/index.html
+    <a class="docs-nav-item" href="{{ site.github.url }}/foo1">foo1</a>
+    <a class="docs-nav-item" href="{{ page.url }}/foo2">foo2</a>
+    <a class="docs-nav-item" href="{{ page.url | prepend: site.github.url }}/foo3">foo3</a>
+    <p class="version">Latest version</p>
+  </div>
+
+  <div class="docs-header-bottom">
+    {% include footer.html %}
+  </div>
+</div>
