@@ -12,5 +12,5 @@ permalink:    pretty
 # Server
 port:         4000
 url:          /
-baseurl:      /
+baseurl:      /zen
 markdown:     kramdown
