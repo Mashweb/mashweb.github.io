@@ -3,7 +3,7 @@
 <head>
 <title>Example of CSS cursor property</title>
 <style type="text/css">
-    a {
+    a.demo {
         cursor: url("images/updown.gif"), url("images/updown.cur"), default;
     }
     .cursor-demo span{
@@ -18,10 +18,10 @@
 </head>
 <body>
     <h1>Custom Cursor</h1>
-    <p>Place your mouse pointer <a href="#">over me</a> to reveal the custom cursor.</p>
+    <p>Place your mouse pointer <a class="demo" href="#">over me</a> to reveal the custom cursor.</p>
     <hr>
-    <h2>More Cursors</h2>
-    <p>Place your mouse pointer over the box to reveal the cursor.</p>
+    <h2>Standard Cursors</h2>
+    <p>See <a href="https://www.sitepoint.com/css3-cursor-styles/">live demos</a> at sitepoint.com.</p>
     <div class="cursor-demo">
         <span style="cursor: auto;">auto</span>
         <span style="cursor: default;">default</span>
