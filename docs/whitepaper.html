@@ -1,18 +1,18 @@
 ---
 layout: home
-title: Zen White Paper&#58; Owning the Web
+title: Zen White Paper
 ---
 
 <div class="docs-sub-header">
   {% include masthead.html %}
   <div class="container">
     <div class="docs-sub-content">
-	<h2 class="page-title">Zen White Paper: Owning the Web</h2>
-	Version 0.9.3<br />
+	<h2 class="page-title">Zen: A New Approach to Web-Page Editing Based upon Direct Manipulation of the DOM</h2>
+	Version 0.10.0<br />
 	by Tom Elam<br />
 	Elam & Associates<br />
 	Mysuru, India<br />
-	September 8, 2016
+	September 22, 2016
     </div>
   </div>
 </div>
@@ -23,12 +23,35 @@ title: Zen White Paper&#58; Owning the Web
       <div class="docs-section">
         <h2>Introduction</h2>
         <p class="lead">This white paper presents a new and profoundly personalized,
-	    adaptive approach to the creation of Web experiences&mdash;a new approach
+	    adaptive approach to the creation of web experiences&mdash;a new approach
 	    open to a very broad class of people.
-	    Augmented with this approach, tradional web content management systems (WCMSs)
-	    and website builders could
-	    enable their users to create more nuanced and structured interfaces for their blogs, websites, and web apps.
+	    This new approach could give users of all experience levels new ways
+	    to add or modify a website's or web app's structure, function, and styling.
 	    A software system called <em>Zen</em> is being created to implement and explore this approach.
+	    Web developers could augment many kinds of software with this approach:
+	    web content management systems (WCMSs), wikis,
+	    website builders, web frameworks, web portals, web development tools
+	    for editing, testing, and debugging code,
+	    and integrated development environments (IDEs) for web development.
+	    Most importantly, this "development" can be continuous
+	    and carried on by a <em>website's users</em> of all levels of experience;
+	    <em>deployment</em> can be <em>continuous</em>.
+	</p>
+
+	<p>
+	    <div style="display:inline-block; float:right; width:300px;">
+		<figure>
+		    <a href="http://www.youtube.com/watch?feature=player_embedded&v=3c3Rt6QbHDw#t=12m9s
+			     " target="_blank">
+			<img style="float:right" src="http://img.youtube.com/vi/3c3Rt6QbHDw/0.jpg" 
+			     alt="www.digial-archaelogy.org demo of Nexus" width="240" height="180" border="10">
+		    </a><br />
+		    <figcaption>
+			<small>Figure 1. Demonstration of the editing function of the first web browser.
+			    Click to open.</small>
+		    </figcaption>
+		</figure>
+	    </div>
 	    Why a new approach is desirable and how it is anticipated to work are the subjects of this paper,
 	    but a video from the Digital Archaeology project<a href="#1"><sup>1</sup></a>
 	    showing the operation of the first web browser can provide some background here.
@@ -42,18 +65,6 @@ title: Zen White Paper&#58; Owning the Web
 		<a href="#3">3</a>,
 		<a href="#4">4</a>
 	    </sup>
-	    <div style="display:inline-block; float:right; width:300px;">
-		<figure>
-		    <a href="http://www.youtube.com/watch?feature=player_embedded&v=3c3Rt6QbHDw#t=12m9s
-			     " target="_blank">
-			<img style="float:right" src="http://img.youtube.com/vi/3c3Rt6QbHDw/0.jpg" 
-			     alt="www.digial-archaelogy.org demo of Nexus" width="240" height="180" border="10">
-		    </a><br />
-		    <figcaption>
-			<small>Figure 1. Demonstration of the editing function of the first web browser.</small>
-		    </figcaption>
-		</figure>
-	    </div>
 	</p>
 
 	<p>Now, a quarter of a century later,
@@ -64,14 +75,17 @@ title: Zen White Paper&#58; Owning the Web
 		<a href="#8">8</a>
 	    </sup>
 	    as the central applications for online sharing seems unshakeable.
-	    Yet till today, not one A-grade web browser has full-fledged Web-authoring capabilities.
+	    Yet till today, not one A-grade web browser has full-fledged web-authoring capabilities.
+	    (We will discuss the browser features <em>contentEditable</em> and <em>designMode</em> later,
+	    since these do not, without external programming, constitute web-authoring capabilities.)
 	    The direct descendents of Berners-Lee's early web-page editing application
 	    are visual web-page editors in three broad categories:
 	    <ol>
 		<li>
-		    Instant-feedback, web-page-embedded, JavaScript-based, in-place, WYSIWYG web-page editors
+		    In-browser rich-text editors.
+		    These are web-page-embedded, JavaScript-based, WYSIWYG web-page editors
 		    that convert HTML textarea fields or other HTML elements into editor instances.
-		    TinyMCE and jeditable are typical examples.
+		    TinyMCE and CKeditor are typical examples.
 		</li>
 		<li>
 		    Standalone WYSIWYG web-page editors that operate on web-page source
@@ -81,23 +95,28 @@ title: Zen White Paper&#58; Owning the Web
 		<li>
 		    WYSIWYM semantic web-page editors.
 		    Examples of this type of editor are WYMEditor, RDFaCE, BlueprintUI, PageDown, and Showdown.
+		    (The author needs to further investigate these editors.)
 		    Source can be HTML or markup that can be translated into HTML.
 		</li>
 	    </ol>
-	    Apart from pure web-page editors, there are other tools and applicaitons for creating web experiences:
+	    Apart from pure web-page editors, there are other tools and applications for developing web experiences:
 	    <ol>
 		<li>
 		    web development tools for testing and debugging code (e.g. Firebug for Firefox,
-		    Developer Tools for Chrome, Developer Tools for Safari, Greasemonkey, Chickenfoot,
-		    X-Ray Goggles, etc.)
+		    Developer Tools for Chrome, Developer Tools for Safari, JSFiddle.net, CodePen.io, jsbin.com,
+		    Greasemonkey, Chickenfoot, X-Ray Goggles, etc.),
+		</li>
 		<li>
-		    web content management systems (Web CMSs or simply WCMSs),
+		    integrated development environments (IDEs) that build websites,
+		</li>
+		<li>
+		    web content management systems (web CMSs or simply WCMSs),
 		</li>
 		<li>
 		    website builders,
 		</li>
 		<li>
-		    web frameworks,
+		    web frameworks, and
 		</li>
 		<li>
 		    web portals.
@@ -108,104 +127,157 @@ title: Zen White Paper&#58; Owning the Web
         <h3>Critique of current WYSIWYG web-page composers</h3>
 
         <p>All the well-known WYSIWYG web-page composers, whether standalone or embedded,
-	    treat web-page composition like 2-D drawing&mdash;that is,
-	    as a layout or graphic design problem,
-	    rather than as an organizational (structured, semantic, dynamic-design) problem.
+	    treat web-page composition like word-processing&mdash;that is, like a layout
+	    or 2-D-drawing  problem&mdash;rather than as an organizational
+	    (structured, semantic, dynamic-design) problem.
 	    Typically visual web-page composers are designed
 	    merely to provide a gentle approach to HTML editing,
 	    leaving out important aspects like styling based upon semantic meaning;
-	    reactive widgets; and dynamic (AJAX-enabled) web pages.
+	    <code>div</code> and <code>span</code> elements; reactive widgets; and dynamic (AJAX-enabled) web pages.
 	    They often sport a button to switch to an HTML-source view.
 	    Their interfaces are reminiscent of IDEs or RAD tools provided by frameworks
 	    used by web-developer frameworks.
 	    Indeed, WYSIWYG web-page composers are sometimes included in IDEs.
 	    The HTML they produce tends not to be "clean," in the sense that it contains	
-	    excess pieces of HTML.
+	    excess pieces of HTML, and not well-behaved, as explained by Nick Santos.<sup><a href="#9">9</a></sup>
 	    The HTML they produce gets dirtier and dirtier as the user makes more and more
 	    changes to the web page.
 	</p>
 
-	<p>Here are screenshots representative of composers in this class:
-	    <div style="margin-left:20px; margin-bottom:20px; display:inline-block;">
+	<p>The main problem with web-page-embedded, JavaScript-based editors
+	    is that the jobs they are tasked with are extremely difficult and not well supported by web browsers.
+	    Piotrek Koszuliński, lead developer of CKEditor, has written
+	    a detailed technical explanation<sup><a href="#10">10</a></sup>
+	    of why the key browser feature supporting web-page editing&mdash;<code>contentEditable</code>&mdash;is
+	    both flawed and indispensable.
+	    Some of his points:
+	    <ol>
+		<li>It is difficult to force every browser to use <code>&lt;strong&gt;</code> instead of
+		    <code>&lt;b&gt;</code> for the <em>bold</em> command.</li>
+		<li>It is difficult to force the <em>Enter</em> key to create new paragraphs instead of
+		    <code>&lt;br&gt;</code> or <code>&lt;div&gt;</code>.</li>
+		<li>Cleaning up pasted code is messy and imperfect.</li>
+		<li>As of August, 2015, the selection systems of the Blink and WebKit web browser engines
+		    had been broken for eight years.</li>
+		<li>APIs and their implementations related to <code>contentEditable</code>
+		    "are incomplete and/or inconsistent and buggy."</li>
+		<li>Trying to avoid <code>contentEditable</code> uncovers many big difficulties of correctly
+		    handling <em>composition events</em> (which allow multiple keystrokes to form an accented letter,
+		    a complex Japanese character, or a letter with a diacritic)
+		    without breaking editing on an iPad, the keystrokes for jumping over words,
+		    shake-to-undo on the iPhone, spell checking, and screen readers.
+		<li>Standardizing browser APIs to address all the above issues is an extremely difficult job.</li>
+	    </ol>
+	</p>
+
+	<p>Nick Santos explains how HTML is not well behaved in WYSIWYG editors.
+	    For example, he says, all the forms:
+	    <small><pre>&lt;strong&gt;&lt;em&gt;Baggins&lt;/em&gt;&lt;/strong&gt;<br>&lt;em&gt;&lt;strong&gt;Baggins&lt;/strong&gt;&lt;/em&gt;<br>&lt;em&gt;&lt;strong&gt;Bagg&lt;/strong&gt;&lt;strong&gt;ins&lt;/strong&gt;&lt;/em&gt;<br>&lt;em&gt;&lt;strong&gt;Bagg&lt;/strong&gt;&lt;/em&gt;&lt;strong&gt;&lt;em&gt;ins&lt;/em&gt;&lt;/strong&gt;</pre></small>
+	    should be treated the same by the WYSIWYG editor.
+	    An edit to any of these forms should be treated the same,
+	    but, as he says, "For many ContentEditable implementations on the web,
+	    some invisible character or empty span tag may slip into the HTML,
+	    so that two ContentEditable elements behave totally differently (even though they look the same)."
+	</p>
+	
+	<p>
+	    According to Dan Dascalescu,<sup><a href="#11">11</a></sup> in a survey of about 60 in-browser,
+	    WYSIWYG editors, only one editor could paste images directly from the clipboard.
+	</p>
+
+	<p>Here are screenshots of a few of the many composers in this class,
+	    leaving aside the composers tied to heavyweight integrated development environments:
+	    <div style="display:inline-block;">
 		<figure>
-		    <img align="right" width="720" height="450"
-    			 src="/zen/images/adobe-dreamweaver-cs6.png"><br />
-		    <figcaption><small>Figure 2. Adobe DreamWeaver</small></figcaption>
+		    <img src="/zen/images/bluegriffon1_6_french.jpg" alt="BlueGriffon" width="680" height="499"
+			 onclick="window.open('/zen/images/bluegriffon1_6_french.jpg', '_blank');" />
+		    <figcaption>
+			<small>Figure 2. BlueGriffon. Click to expand in new window.</small>
+		    </figcaption>
 		</figure>
 	    </div>
-	    <div style="margin-left:20px; margin-bottom:20px; display:inline-block;">
+	    <div style="display:inline-block;">
 		<figure>
-		    <img align="right" width="720" height="528"
-    			 src="/zen/images/bluegriffon1_6_french.jpg"><br />
-		    <figcaption><small>Figure 3. BlueGriffon</small></figcaption>
+		    <img src="/zen/images/ckeditor.jpg" alt="CKeditor" width="680" height="382"
+			 onclick="window.open('/zen/images/ckeditor.jpg', '_blank');" />
+		    <figcaption>
+			<small>Figure 3. CKeditor (web-page-embedded). Click to expand in new window.</small>
+		    </figcaption>
 		</figure>
 	    </div>
-	    <div style="margin-left:20px; margin-bottom:20px; display:inline-block;">
+	    <div style="display:inline-block;">
 		<figure>
-		    <img align="right" width="720" height="405"
-    			 src="/zen/images/ckeditor.jpg"><br />
-		    <figcaption><small>Figure 4. CKeditor (web-page-embedded)</small></figcaption>
+		    <img src="/zen/images/kompozer.png" alt="KompoZer" width="680" height="510"
+			 onclick="window.open('/zen/images/kompozer.png', '_blank');" />
+		    <figcaption>
+			<small>Figure 4. KompoZer (discontinued). Click to expand in new window.</small>
+		    </figcaption>
 		</figure>
 	    </div>
-	    <div style="margin-left:20px; margin-bottom:20px; display:inline-block;">
+	    <div style="display:inline-block;">
 		<figure>
-		    <img align="right" width="580" height="415"
-			 src="/zen/images/kompozer.png"><br />
-		    <figcaption><small>Figure 5. KompoZer (discontinued)</small></figcaption>
+		    <img src="/zen/images/maqetta.png" alt="Maqetta" width="680" height="486"
+			 onclick="window.open('/zen/images/maqetta.png', '_blank');" />
+		    <figcaption>
+			<small>Figure 5. Maqetta (inactive as of May 2013). Click to expand in new window.</small>
+		    </figcaption>
 		</figure>
 	    </div>
-	    <div style="margin-left:20px; margin-bottom:20px; display:inline-block;">
+	    <div style="display:inline-block;">
 		<figure>
-		    <img align="right" width="720" height="515"
-    			 src="/zen/images/maqetta.png"><br />
-		    <figcaption><small>Figure 6. Maqetta (inactive as of May 2013)</small></figcaption>
-		</figure>
-	    </div>
-	    <div style="margin-left:20px; display:inline-block;">
-		<figure>
-		    <img align="right" width="732" height="238"
-    			 src="/zen/images/tinymce.jpg"><br />
-		    <figcaption><small>Figure 7. TinyMCE (web-page-embedded)</small></figcaption>
+		    <img src="/zen/images/tinymce.jpg" alt="TinyMCE" width="680" height="221"
+			 onclick="window.open('/zen/images/tinymce.jpg', '_blank');" />
+		    <figcaption>
+			<small>Figure 6. TinyMCE (web-page-embedded). Click to expand in new window.</small>
+		    </figcaption>
 		</figure>
 	    </div>
 	</p>
 
-	<p>Maqetta, although its development is inactive, provides an interesting and unique approach to WYSIWYG
-	    web-page composition, in that it
-	    <ol>
-		<li>
-		    supports composition with OpenAjax widgets,
-		</li>
-		<li>
-		    "allows User Experience Designers (UXD) to perform drag/drop assembly of live UI mockups,"
-		</li>
-		<li>
-		    includes "deep support for CSS styling (the application includes a full CSS parser/modeler),"
-		</li>
-		<li>
-		    includes "a mechanism for organizing a UI prototype into a series of 'application states'
-		    (aka 'screens' or 'panels') which allows a UI designer to define interactivity without
-		    programming," and
-		</li>
-		<li>
-		    has a code base with "a toolkit-independent architecture that allows for plugging in
-		    arbitrary widget libraries and CSS themes."
-		</li>
-	    </ol>
-	</p>
+	<div style="margin: 0px 50px 50px; padding:10px; background-color:lightgray;">
+	    <h3>Aside</h3>
+	    <small>
+		<p>Maqetta, although its development is inactive, provides an interesting and unique approach to WYSIWYG
+		    web-page composition, in that it
+		    <ol>
+			<li>
+			    supports composition with OpenAjax widgets,
+			</li>
+			<li>
+			    "allows User Experience Designers (UXD) to perform drag/drop assembly of live UI mockups,"
+			</li>
+			<li>
+			    includes "deep support for CSS styling (the application includes
+			    a full CSS parser/modeler),"
+			</li>
+			<li>
+			    includes "a mechanism for organizing a UI prototype into a series of 'application states'
+			    (aka 'screens' or 'panels') which allows a UI designer to define interactivity without
+			    programming," and
+			</li>
+			<li>
+			    has a code base with "a toolkit-independent architecture that allows for plugging in
+			    arbitrary widget libraries and CSS themes."
+			</li>
+		    </ol>
+		</p>
+	    </small>
+	</div>
 
 	<h3>Critique of current WYSIWYM web-page composers</h3>
 
 	<p>WYMeditor is the best-known WYSIWYM web-page composer.
-	    <div style="margin-left:20px; display:inline-block;">
+	    <div style="display:inline-block;">
 		<figure>
-		    <img align="right" width="720" height="528"
-    			 src="/zen/images/WYMeditor.png">
-		    <figcaption><small>Figure 8. WYMeditor</small></figcaption>
+		    <img src="/zen/images/wymeditor.png" alt="WYMeditor" width="680" height="170"
+			 onclick="window.open('/zen/images/wymeditor.png', '_blank');" />
+		    <figcaption>
+			<small>Figure 6. WYMeditor. Click to expand in new window.</small>
+		    </figcaption>
 		</figure>
 	    </div>
 	    WYMeditor is tricky to set up and cannot be embedded in a web page.
-	    According to the Wikipedia article on WYMeditor,<sup><a href="#9">9</a></sup>
+	    According to the Wikipedia article on WYMeditor,<sup><a href="#12">9</a></sup>
 	    "One downside of WYMeditor is that it cannot be used to include JavaScript in the content it edits.
 	    Changing this would require eliminating WYMeditor's use of the innerHtml property."
 	    Thus, WYMeditor won't work with reactive widgets.
@@ -239,10 +311,10 @@ title: Zen White Paper&#58; Owning the Web
         <p class="lead">As pointed out by David Ungar (who pioneered
 	    the type of prototypal object system that JavaScript uses),
 	    from values arise principles and from principles arise
-	    practices.<sup><a href="#10">10</a>, <a href="#11">11</a></sup>
+	    practices.<sup><a href="#13">13</a>, <a href="#14">14</a></sup>
 	    We have just explored the <em>values</em> behind the Zen system.
 	    Now let's explore the <em>principles</em> of the Zen system.
-	    Zen will complement the approach of Lively Kernel,<sup><a href="#12">12</a>, <a href="#13">13</a></sup>
+	    Zen will complement the approach of Lively Kernel,<sup><a href="#15">15</a>, <a href="#16">16</a></sup>
 	    which shares Zen's principles 1&ndash;3 as listed below.
 	    How much, if any, of Lively Kernel's code it will borrow is yet to be determined.
 	    Note, in particular, the following principle 11 of Zen that is different than
@@ -254,7 +326,7 @@ title: Zen White Paper&#58; Owning the Web
 		</li>
 		<li>It will store its apps as web pages, even new versions of itself.
 		</li>
-		<li>It will use only the DOM's interfaces and APIs<sup><a href="#14">14</a>, <a href="#15">15</a></sup>
+		<li>It will use only the DOM's interfaces and APIs<sup><a href="#17">17</a>, <a href="#18">18</a></sup>
 		    for the composition of web pages and web GUIs
 		    by element <em>insertion</em>, <em>manipulation</em>, <em>editing</em>,
 		    and <em>deletion</em>&mdash;
@@ -262,11 +334,11 @@ title: Zen White Paper&#58; Owning the Web
 		</li>
 		<li>Zen will not provide IDEs, but instead will
 		    allow objects in its compositions to be inspected and edited
-		    via a Morphic<sup><a href="#16">16</a></sup>-like interface.
+		    via a Morphic<sup><a href="#19">19</a></sup>-like interface.
 		    Zen will allow its simple programs to be inspected and edited
 		    in a normally hidden visual programming environment, using
 		    HTML elements like DIV to model nodes in the program's abstract syntax tree
-		    (AST).<sup><a href="#17">17</a></sup>
+		    (AST).<sup><a href="#20">20</a></sup>
 		    Zen will enable these program nodes or blocks to be copied, pasted, and rearranged,
 		    just like the normally visible parts of a Zen web page.
 		</li>
@@ -289,12 +361,12 @@ title: Zen White Paper&#58; Owning the Web
 		    for a web page.
 		</li>
 		<li>Zen will not follow Lively Kernel's principle
-		    of implementing a scene graph.<sup><a href="#12">12</a></sup>
-		    Instead, it will honor the CSS2 visual formatting model<sup><a href="#18">18</a></sup>
+		    of implementing a scene graph.<sup><a href="#15">15</a></sup>
+		    Instead, it will honor the CSS2 visual formatting model<sup><a href="#21">21</a></sup>
 		    in its modeling of a document in a web browser.
 		    Zen will not be able use SVG or Canvas graphics for the creation of objects,
 		    except where particular Zen-composed apps borrow the pertinent capabilities
-		    from other Web applications.
+		    from other web applications.
 		</li>
 	    </ol>
 	</p>
@@ -322,7 +394,7 @@ title: Zen White Paper&#58; Owning the Web
 	    with all the obscurity of detail that implies, but when Zen's <em>inspector</em> is open,
 	    Zen will be show a view of the web page with all borders and margins styled in such a way
 	    that, to the extent possible, all <em>block boxes</em>, <em>inline boxes</em>,
-	    and <em>inline-block boxes</em><sup><a href="#17">17</a></sup> are visible.
+	    and <em>inline-block boxes</em><sup><a href="#21">21</a></sup> are visible.
 	    (Other display styles will be modeled by Zen in a subsequent release.)
 	    Zen will provide whatever kinds of object-browsers are necessary to unobscure details
 	    of the page-as-an-object.
@@ -405,11 +477,11 @@ title: Zen White Paper&#58; Owning the Web
 	    the creation of web applications.
 	    The most radical aspect of Zen will be that it will allow simple, sequential
 	    programs to be created and edited using a block representation of the program's
-	    abstract syntax tree (AST),<sup><a href="#17">17</a></sup>
+	    abstract syntax tree (AST),<sup><a href="#20">20</a></sup>
 	    where blocks can be moved around using the same
 	    user interface Zen will provide for moving web page elements, with minimal modifications.
 	    Zen will accomplish this unusual feat by implementing a version of Scheme language
-	    in JavaScript, along with <em>true continuations</em>.<sup><a href="#19">19</a></sup>
+	    in JavaScript, along with <em>true continuations</em>.<sup><a href="#22">22</a></sup>
 	    various supporting functions written in JavaScript, and some resources like icons.
 	    The author has already used such continuations to string together JavaScript evetnt
 	    handlers to create a small sequential program without resorting to callbacks,
@@ -506,61 +578,61 @@ title: Zen White Paper&#58; Owning the Web
 	    This approach is unique in its direct change at the canvas level and in its propagation of changes
 	    backward to page source.
 	    (See, however, <a href="https://gingkoapp.com/hybrid-dom-editors.html">Hybrid HTML/DOM Editors</a>.)
-	    Nowdays the creation of Web experiences is managed by a galaxy of software packages
+	    Nowdays the creation of web experiences is managed by a galaxy of software packages
 	    and services, JavaScript libraries, and CSS libraries,
 	    but by viewing this galaxy through the prism of the question
 	    "What level of detail does the package or service address,"
 	    each package and service can be tentatively placed somewhere along a spectrum.
 	    [Image to be included here.]
 	    At one end of the spectrum, users or developers deal directly with HTML, CSS, and images,
-	    crafting the details of Web pages individually,
+	    crafting the details of web pages individually,
 	    with no further abstraction or intermediation.
 	    At the other end of the spectrum, users or developers have at their disposal
 	    many abstractions and are coaxed or prodded into dealing with higher-level
-	    concerns like minimization of Web assets, quick development,
+	    concerns like minimization of web assets, quick development,
 	    responsive design, patterns, standards, metaphors, and affordances.
 	    There are problems with this oversimplification, of course, and some packages
 	    and services should appear more as a blob
 	    rather than as a single point on the spectrum,
 	    but the metaphor of a spectrum enables us to filter an unmanageably long list of
-	    Web technologies so we can concentrate on comparing like with like.
+	    web technologies so we can concentrate on comparing like with like.
 	    Towards one end of the spectrum (the brass-tacks end) is an enormous set of front-end
 	    (JavaScript and CSS libraries and toolkits) and back-end (web servers with CGI capabilities),
 	    purely for hand-coded website creation, serving, and management,
 	    including the management of website-triggered ancilary services like email and payments.
-	    Let us call this the "Red End" of the Web software and services spectrum.
-	    It allows the Web developer complete control of his Web site
+	    Let us call this the "Red End" of the web software and services spectrum.
+	    It allows the web developer complete control of his website
 	    at the expense of getting his hands very dirty.
 	    Right at the Red End, he directly controls every character
-	    of his every Web page and, if applicable, every table and query
+	    of his every web page and, if applicable, every table and query
 	    definition in his back-end database.
 	    A developer working slightly removed from the extreme Red End
 	    probably engages with templates, themes, and skins.
 	    He might also use plugins.
 	    Anywhere close to the Red End or right at the Red End,
 	    the developer might use a content management system (CMS)
-	    or blog software to create a database-driven dynamic Web site
-	    or a static Web site (such as Moveable Type used to generate).
+	    or blog software to create a database-driven dynamic website
+	    or a static website (such as Moveable Type used to generate).
 	</p>
 
 	<p>The Red End originally comprised just text editors, web servers, and web browsers
 	    and was designed and built to use a stateless protocol for transporting hypertext documents.
-	    The Web was later retrofitted with mobile scripting languages Java and JavaScript
+	    The web was later retrofitted with mobile scripting languages Java and JavaScript
 	    to create a platform for distributed applications.
 	    Web servers eventually developed sufficiently to support collaborative authoring applications.
-	    One cycle of development was thus completed, bringing the Web back around
+	    One cycle of development was thus completed, bringing the web back around
 	    to Berner-Lee's original dream of collaborative authoring, but
 	    Berners-Lee's original vision of a simple, easy, collaborative authoring tool for everyone
-	    lost out to the current ad hoc proliferation<sup>[8](#8)</sup> of non-standard,
-	    anonymous, front-end tools.<sup>[8](#8)</sup>
-	    These anonymous tools typically do not offer Web-technology dilettantes and Web power-users
+	    lost out to the current ad hoc<sup><a href="#23">23</a></sup> proliferation of non-standard,
+	    anonymous, front-end tools.<sup><a href="#24">24</a></sup>
+	    These anonymous tools typically do not offer web-technology dilettantes and web power-users
 	    the facility to add nested structure to HTML; to add JavaScript-backed widgets like
-	    AngularJS, Dojo, ExtJS, jQuery UI, or web-component widgets; to add Web forms;
+	    AngularJS, Dojo, ExtJS, jQuery UI, or web-component widgets; to add web forms;
 	    to develop CSS class hierarchies and frameworks; or even to collaborate in a structured way.
 	    The Red End for nontechnical people can usually only
 	    create flat, static layouts of single pages,
 	    not complicated, dynamic structures, and it often emphasizes
-	    a code view of Web pages (raw HTML and CSS) as much as a WYSIWYG view of pages.
+	    a code view of web pages (raw HTML and CSS) as much as a WYSIWYG view of pages.
 	    Thus the Red End for nontechnical people is not very powerful and often is hard to use.
 	    Meanwhile, on the back end, control of the web frameworks is mostly left up to
 	    programmer-specialists.
@@ -569,8 +641,8 @@ title: Zen White Paper&#58; Owning the Web
         <p>Nowdays many web applications are built inside walled gardens.
 	    Even IDEs like Eclipse, IntelliJ IDEA, NetBeans are in at least a small sense walled gardens
 	    because they impose their own formatting upon source-code files.
-	    Many amateur and professional developers do Web development using
-	    rigid software Web application servers that sell for hundreds of thousands of dollars,
+	    Many amateur and professional developers do web development using
+	    rigid software web application servers that sell for hundreds of thousands of dollars,
 	    such as IBM WebSphere Application Server and Red Hat JBoss.
 	    Developers who use such application servers often deal with rigidly defined software modules
 	    rather than more basic APIs like RDBMS queries and JavaScript library APIs.
@@ -579,16 +651,16 @@ title: Zen White Paper&#58; Owning the Web
 	    Instead, it only involves the insertion of data, such as blog or forum posts,
 	    into databases, to be queried later.
 	    This is a very strict limitation.
-	    Let us call this the Web application servers and Web services the "Violet End".
+	    Let us call this the web application servers and web services the "Violet End".
 	    It is imminently possible to imagine highly flexible, desktop-app-inspired
 	    table, form, query, and report design being built into the Violet End,
 	    but such capabilities are not common.
 	    Nontechnical people are offered very few simple ways to <em>program</em> websites.
-	    The latest and greatest "Web experience management" software and services promise
+	    The latest and greatest "web experience management" software and services promise
 	    to bundle all that is needed to handle xxxxxx.
 	    Given the vastness of the field and the inconceivability of a way to integrate all such xxxx
 	    they end up being like the packaged and preserved MREs (meals ready-to-eat) or Pop-Tarts®.
-	    Furthermore, although there are hundreds or thousands of useful Web services that can be tapped,
+	    Furthermore, although there are hundreds or thousands of useful web services that can be tapped,
 	    very often for free, specialist programming is necessary to use them.
 	</p>
 
@@ -623,10 +695,11 @@ title: Zen White Paper&#58; Owning the Web
 	    Pattern Library&mdash;so he can quickly clip, mash together, and rearrange information from the Web.
 	    This interface must interwork with any A-grade web browser.
 	    Incomplete, specialized, "opinionated" services, such as EverNote and Instapaper, do not support the ad hoc
-	    creation of drawers, panels, and dialogs, which are necessary to cut, paste, transclude<sup>[9](#9)</sup>,
+	    creation of drawers, panels, and dialogs, which are necessary to cut, paste,
+	    transclude<sup><a href="#25">25</a></sup>,
 	    organize, associate, link, tag, and hide blocks of information. This problem is inherently related to
 	    <strong>Problem #1</strong>, but it is also
-	    related to various Web standards, such as the X-Frame-Options standard.<sup><a href="#23">23</a></sup>
+	    related to various Web standards, such as the X-Frame-Options standard.<sup><a href="#26">26</a></sup>
 	</p>
 
 	<p>
@@ -637,9 +710,9 @@ title: Zen White Paper&#58; Owning the Web
 	    When the "too many tabs" problem forces the user to close tabs, or causes the browser to slow to a crawl,
 	    or crashes the browser, the reminders to the user about how he discovered the Web pages he visited get lost.
 	    This is a travesty because many of the user's research insights are won by a hard, painful, lengthy
-	    search.<sup><a href="#24">24</a></sup> For now, the problem can only be somewhat ameliorated
+	    search.<sup><a href="#27">27</a></sup> For now, the problem can only be somewhat ameliorated
 	    by adopting rare, non-free tools, such as the Tabs Outliner plugin for the Chrome web
-	    browser.<sup><a href="#25">25</a></sup>
+	    browser.<sup><a href="#28">28</a></sup>
 	    The right juxtaposition, encapsulation, and highlighting of blocks of information would make
 	    it unnecessary to keep open many browser tabs at once and would make it possible to record the user's path
 	    through the hypermedia sphere. To make these kinds of arrangement easy,
@@ -667,13 +740,13 @@ title: Zen White Paper&#58; Owning the Web
 	    ultimate responsibility for his own bookmarks and put the bookmarks
 	    into the hands of a company or organisation that could
 	    go out of existence or suspend
-	    services.<sup><a href="#26">26</a>, <a href="#27">27</a>, <a href="#28">28</a></sup>.
-	    Xmarks was even made unavailable for awhile in India by court order.<sup><a href="#29">29</a></sup>
-	    In the last few years there has been panic<sup><a href="#30">30</a>, <a href="#31">31</a></sup> and
-	    uncertainty<sup><a href="#32">32</a>, <a href="#33">33</a></sup>
+	    services.<sup><a href="#29">29</a>, <a href="#30">30</a>, <a href="#31">31</a></sup>.
+	    Xmarks was even made unavailable for awhile in India by court order.<sup><a href="#32">32</a></sup>
+	    In the last few years there has been panic<sup><a href="#33">33</a>, <a href="#34">34</a></sup> and
+	    uncertainty<sup><a href="#35">35</a>, <a href="#36">36</a></sup>
 	    surrounding the spate of security breaches by web services that have revealed clients' sensitive data,
 	    such as usernames, passwords, and credit-card
-	    credentials.<sup><a href="#34">34</a>, <a href="#35">35</a></sup>
+	    credentials.<sup><a href="#37">37</a>, <a href="#38">38</a></sup>
 	    There should be a utility to make a Web user's bookmarks
 	    available _offline_ and/or on the user's _own_ website.
 	</p>
@@ -729,11 +802,11 @@ title: Zen White Paper&#58; Owning the Web
 		patterns&mdash;with or without the text and images, with or without style
 		classes, with or without style overrides. It should be possible to add parameters to the patterns so
 		they can be used to easiy add to the Web. The patterns should be stored in a version control system
-		that makes branching of versions very easy, as Git<sup><a href="#36">36</a></sup> does.
+		that makes branching of versions very easy, as Git<sup><a href="#39">39</a></sup> does.
 	    </li>
 
 	    <li>The Web user should have the ability to create spreadsheets
-		(like Google Sheets<sup><a href="#37">37</a></sup>
+		(like Google Sheets<sup><a href="#40">40</a></sup>
 		via simple drag-and-drop. It should be possible to drag and drop whole cells, rows, and tables without
 		even double-clicking and swiping the mouse pointer across words. These spreadsheets should be able
 		to include images.
@@ -745,12 +818,12 @@ title: Zen White Paper&#58; Owning the Web
       <h2>Diving Deeper: Zen According to <em>The Elements of User Experience</em></h2>
 
       <p>Jesse James Garrett, who coined the term AJAX, wrote an influential book entitled
-	  <em>The Elements of User Experience</em><sup><a href="#38">38</a></sup>,
+	  <em>The Elements of User Experience</em><sup><a href="#41">41</a></sup>,
 	  which will serve to inform the strategy for the development of Zen.
 	  (The acronym AJAX refers to a set of Web technologies
 	  that enable the Web to be used as a remote software interface and employing
 	  JavaScript and asynchronous HTTP requests.)
-	  Garrett's elements are summarized in a chart<sup><a href="#39">39</a></sup>.
+	  Garrett's elements are summarized in a chart<sup><a href="#42">42</a></sup>.
 	  The "Surface Plane" described in that book corresponds roughly to the concerns of the Red End;
 	  the "Strategy Plane" to the concerns of the Violet End.
       </p>
@@ -790,7 +863,7 @@ title: Zen White Paper&#58; Owning the Web
 	      </li>
 	      
 	      <li>Users who are fluent in most of the basic, modern user interface patterns used in modern Web
-		  applications like those described in the Yahoo Design Pattern Library<sup><a href="#40">40</a></sup>,
+		  applications like those described in the Yahoo Design Pattern Library<sup><a href="#43">43</a></sup>,
 		  such as Top Navigation, Accordion, Breadcrumbs, Tabs, Navigation Bar, Calendar Picker,
 		  Collapse Transition, Expand Transition, Slide Transition, and Drag and Drop.
 	      </li>
@@ -803,7 +876,7 @@ title: Zen White Paper&#58; Owning the Web
 	      <li>Users who can productively use a complex, specialized Web application such as a Web-page design
 		  application, an application for photo manipulation, a paint application, an application for technical
 		  analysis of financial data&mdash;an application that typically cannot be learned in less than an hour.
-		  Some of the barriers to learning such an applicaition more quickly are jargon, densely packed user
+		  Some of the barriers to learning such an application more quickly are jargon, densely packed user
 		  interface elements, and domain-specific knowledge.
 	      </li>
 	      
@@ -923,10 +996,15 @@ title: Zen White Paper&#58; Owning the Web
 	      all run at the same time.
 	  </li>
 	  <li>APIs for clipboard operations such as copy, cut and paste in web applications,
-	      as described in "Clipboard API and events"<sup><a href="#41">41</a></sup> on w3.org.
+	      as described in "Clipboard API and events"<sup><a href="#44">44</a></sup> on w3.org.
 	  </li>
 	  <li>Publications of the Web Platform Working Group at w3.org.</li>
 	  <li><a href="http://www.svproduct.com/defining-good/">"Defining Good," Silicon Valley Product Group</a></li>
+	  <li><a href="http://www.infovis-wiki.net/index.php/Visual_Information-Seeking_Mantra">B. Schneiderman's "Visual Information-Seeking Mantra"</a></li>
+	  <li><a href="www.mat.ucsb.edu/~g.legrady/academic/courses/11w259/schneiderman.pdf">"A Task by Data Type Taxonomy for Information Visualizations,' B. Schneiderman</a></li>
+	  <li><a href="www.eecs.berkeley.edu/Pubs/TechRpts/2014/EECS-2014-161.pdf">"Programming by Manipulation for Layout", Technical Report</a></li>
+	  <li><a href="https://en.wikipedia.org/wiki/Programming_by_example">"Programming by example", Wikipedia</a></li>
+	  <li><a href="https://www.w3.org/TR/wai-aria/">The W3C's "Accessible Rich Internet Applications (WAI-ARIA) 1.0" recommendation</a></li>
       </ul>
 
       </div>
@@ -950,7 +1028,7 @@ title: Zen White Paper&#58; Owning the Web
 		  "developerWorks Interviews: Tim Berners-Lee"</a>, IBM.com,
 	      retrieved July 8, 2016.
 	  </li>
-	  <li>Berners-Lee, Tim, and Mark Fischetti. 1999,
+	  <li>Berners-Lee, Tim, and Mark Fischetti, 1999,
 	      <a id="4" href="https://www.w3.org/People/Berners-Lee/Weaving/Overview.html">
 		  <em>Weaving the Web:
 		      The original design and ultimate destiny of the World Wide Web by its inventor</em></a>,
@@ -972,148 +1050,163 @@ title: Zen White Paper&#58; Owning the Web
 		  "Comparison of web browsers"</a>, Wikipedia,
 	      retrieved July 8, 2016.
 	  </li>
-	  <li><a id="9" href="https://en.wikipedia.org/wiki/WYMeditor">
+	  <li>Rick Santos, May 14, 2014,
+	      <a id="9" href="https://medium.engineering/why-contenteditable-is-terrible-122d8a40e480#.dw8d785j2">
+		  "Why ContentEditable is Terrible&mdash;Or: How the Medium Editor Works"</a>, Medium Engineering,
+	      retrieved September 11, 2016.
+	  </li>
+	  <li>Piotrek Koszuliński, August 13, 2015,
+	      <a id="10" href="https://medium.com/content-uneditable/contenteditable-the-good-the-bad-and-the-ugly-261a38555e9c#.wczx4t3am">
+		  "ContentEditable — The Good, the Bad and the Ugly"</a>, Medium, retrieved September 21, 2016.
+	  </li>
+	  <li>Dan Dascalescu, September 6, 2016,
+	      <a id="11" href="https://github.com/iDoRecall/comparisons/blob/master/JavaScript-WYSIWYG-editors.md">
+		  "Comparison of JavaScript WYSIWYG editors"</a>, Github, retrieved September 21, 2016.
+	  </li>
+	  <li><a id="12" href="https://en.wikipedia.org/wiki/WYMeditor">
 		  "WYMeditor"</a>, Wikipedia,
 	      retrieved August 31, 2016.
+	  </li>
 	  <li>David Ungar,
-	      <a id="10" href="http://web.stanford.edu/class/ee380/Abstracts/090930.html">
+	      <a id="13" href="http://web.stanford.edu/class/ee380/Abstracts/090930.html">
 		  abstract entitled "Self and self: whys and wherefores"</a>, Stanford.edu,
 	      retrieved August 8, 2016.
 	  </li>
 	  <li>David Ungar, September 30, 2009,
-	      <a id="11" href="https://youtu.be/3ka4KY7TMTU">
+	      <a id="14" href="https://youtu.be/3ka4KY7TMTU">
 		  video entitled "Self and Self: Whys and Wherefores"</a>, YouTub.com,
 	      retrieved August 8, 2016.
 	  </li>
 	  <li>Dan Ingalls,
-	      <a id="12" href="https://youtu.be/QTJRwKOFddc">
+	      <a id="15" href="https://youtu.be/QTJRwKOFddc">
 		  "The Live Web. Drag 'n drop in the cloud"</a>, YouTube.com,
 	      retrieved August 11, 2016.
 	  </li>
-	  <li><a id="13" href="http://lively-kernel.org/">
+	  <li><a id="16" href="http://lively-kernel.org/">
 		  "Lively Kernel"</a>, lively-kernel.org,
 	      retrieved August 11, 2016.
 	  </li>
-	  <li><a id="14" href="https://dom.spec.whatwg.org/">
+	  <li><a id="17" href="https://dom.spec.whatwg.org/">
 		  "DOM&mdash;Living Standard"</a>, WHATWG.org,
 	      retrieved August 11, 2016.
 	  </li>
-	  <li><a id="15" href="https://www.w3.org/DOM/faq.html">
+	  <li><a id="18" href="https://www.w3.org/DOM/faq.html">
 		  "Document Object Model FAQ"</a>, w3c.org,
 	      retrieved September 1, 2016.
 	  </li>
-	  <li><a id="16" href="https://en.wikipedia.org/wiki/Morphic_(software)">
+	  <li><a id="19" href="https://en.wikipedia.org/wiki/Morphic_(software)">
 		  "Morphic (Software)"</a>, Wikipedia,
 	      retrieved August 18, 2016.
 	  </li>
-	  <li><a id="17" href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">
+	  <li><a id="20" href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">
 		  "Abstract syntax tree"</a>, Wikipedia,
 	      retrieved September 1, 2016.
 	  </li>
-	  <li><a id="18" href="https://www.w3.org/TR/CSS2/visuren.html#box-gen">
+	  <li><a id="21" href="https://www.w3.org/TR/CSS2/visuren.html#box-gen">
 		  "Controlling box generation"</a>,
 	      Section 9.2 of "Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification" W3C Recommendation,
 	      retrieved September 1, 2016.
 	  </li>
-	  <li>David Madore, <a id="19" href="http://www.madore.org/~david/computers/callcc.html">
+	  <li>David Madore, <a id="22" href="http://www.madore.org/~david/computers/callcc.html">
 		  "A page about call/cc"</a>, www.madore.org,
 	      retrieved September 1, 2016.
 	  </li>
-	  <li>Steve Wittens, <a id="20" href="http://acko.net/blog/shadow-dom/">
+	  <li>Steve Wittens, <a id="23" href="http://acko.net/blog/shadow-dom/">
 		  "Shadow DOM&mdash;SVG, CSS, React and Angular"</a>, Hackery, Math & Design,
 	      retrieved July 8, 2016.
 	  </li>
-	  <li><a id="21" href="google.com/search?q=web+framework">
+	  <li><a id="24" href="google.com/search?q=web+framework">
 		  "web framework - Google Search"</a>, Google,
 	      retrieved July 28, 2016.
 	  </li>
-	  <li><a id="22" href="https://en.wikipedia.org/wiki/Transclusion">
+	  <li><a id="25" href="https://en.wikipedia.org/wiki/Transclusion">
 		  "Transclusion"</a>, Wikipedia,
 	      retrieved July 12, 2016.
 	  </li>
-	  <li><a id="23" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options">
+	  <li><a id="26" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options">
 		  "X-Frame-Options"</a>, Mozilla Developer Network,
 	      retrieved July 8, 2016.
 	  </li>
-	  <li><a id="24" href="google.com/search?q=chrome+memory+usage">
+	  <li><a id="27" href="google.com/search?q=chrome+memory+usage">
 		  "chrome memory usage - Google Search"</a>, Google,
 	      retrieved July 8, 2016.
 	  </li>
-	  <li><a id="25"
+	  <li><a id="28"
 		 href="https://chrome.google.com/webstore/detail/tabs-outliner/eggkanocgddhmamlbiijnphhppkpkmkl?hl=en">
 		  "Tabs Outliner - Chrome Web Store"</a>, Google,
 	      retrieved July 8, 2016.
 	  </li>
-	  <li><a id="26" href="https://en.wikipedia.org/wiki/Xmarks_Sync#Company_history">
+	  <li><a id="29" href="https://en.wikipedia.org/wiki/Xmarks_Sync#Company_history">
 		  "Xmarks company history"</a>, Wikipedia,
 	      retrieved July 8, 2016.
 	  </li>
-	  <li><a id="27" href="https://en.wikipedia.org/wiki/Category:Discontinued_Google_services">
+	  <li><a id="30" href="https://en.wikipedia.org/wiki/Category:Discontinued_Google_services">
 		  "Wikipedia category: Discontinued Google services"</a>, Wikipedia,
 	      retrieved July 8, 2016.
 	  </li>
-	  <li><a id="28" href="http://www.huffingtonpost.in/2016/04/14/discontinued-google-produ_n_9436180.html">
+	  <li><a id="31" href="http://www.huffingtonpost.in/2016/04/14/discontinued-google-produ_n_9436180.html">
 		  "6 Popular Google Products Which No Longer Exist"</a>, The Huffington Post,
 	      retrieved July 8, 2016.
 	  </li>
-	  <li><a id="29" href="https://en.wikipedia.org/wiki/Xmarks_Sync#Xmarks_domain_blocked_in_India">
+	  <li><a id="32" href="https://en.wikipedia.org/wiki/Xmarks_Sync#Xmarks_domain_blocked_in_India">
 		  "Xmarks domain blocked in India"</a>, Wikipedia,
 	      retrieved July 8, 2016.
 	  </li>
-	  <li><a id="30" href="http://time.com/money/3528487/data-breach-identity-theft-jp-morgan-kmart-staples/">
+	  <li><a id="33" href="http://time.com/money/3528487/data-breach-identity-theft-jp-morgan-kmart-staples/">
 		  "Data Breach Tracker: All the Major Companies That Have Been Hacked"</a>, Time,
 	      retrieved July 8, 2016.
 	  </li>
-	  <li><a id="31"
+	  <li><a id="34"
 		 href="http://www.cio.com/article/2872517/data-breach/6-biggest-business-security-risks-and-how-you-can-fight-back.html">
 		  "6 Biggest Business Security Risks and How You Can Fight Back"</a>, CIO,
 	      retrieved July 8, 2016.
 	  </li>
-	  <li><a id="32"
+	  <li><a id="35"
 		 href="http://www.forbes.com/sites/kashmirhill/2014/08/05/huge-password-breach-shady-antics/#2cf211434769">
 		  "Firm That Exposed Breach Of 'Billion Passwords' Quickly Offered $120 Service
 		  To Find Out If You're Affected"</a>, Forbes,
 	      retrieved July 8, 2016.
 	  </li>
-	  <li><a id="33" href="http://krebsonsecurity.com/2016/05/how-the-pwnedlist-got-pwned/">
+	  <li><a id="36" href="http://krebsonsecurity.com/2016/05/how-the-pwnedlist-got-pwned/">
 		  "How the Pwnedlist Got Pwned"</a>, KrebsonSecurity,
 	      retrieved July 8, 2016.
 	  </li>
-	  <li><a id="34"
+	  <li><a id="37"
 		 href="http://www.nytimes.com/2014/08/06/technology/russian-gang-said-to-amass-more-than-a-billion-stolen-internet-credentials.html?_r=0">
 		  "Russian Hackers Amass Over a Billion Internet Passwords"</a>, The New York Times,
 		  retrieved July 8, 2016.
 	  </li>
-	  <li><a id="35" href="http://www.forbes.com/sites/moneybuilder/2015/01/13/the-big-data-breaches-of-2014/#a5d08f53a48f">
+	  <li><a id="38" href="http://www.forbes.com/sites/moneybuilder/2015/01/13/the-big-data-breaches-of-2014/#a5d08f53a48f">
 		  "The Big Data Breaches of 2014"</a>, Forbes,
 	      retrieved July 8, 2016.
 	  </li>
-	  <li><a id="36" href="https://git-scm.com/">
+	  <li><a id="39" href="https://git-scm.com/">
 		  "Git"</a>, git-scm.com,
 	      retrieved July 12, 2016.
 	  </li>
-	  <li><a id="37"
+	  <li><a id="40"
 		 href="https://www.google.com/sheets/about/?gclid=CjwKEAjwqpK8BRD7ua-U0orrgkESJADlN3YBgbIrdrOIvuMfcqq7taN4Fy3v0WHTdXNLQHsVvpcmWxoCy57w_wcB">
 		  "Google Sheets - create and edit spreadsheets online, for free"</a>, Google,
 	      retrieved July 12, 2016.
 	  </li>
 	  <li>Jesse James Garrett, October 21, 2002,
-	      <a id="38" href="http://www.jjg.net/elements/">
+	      <a id="41" href="http://www.jjg.net/elements/">
 		  <em>The Elements of User Experience: User-Centered Design for the Web</em></a>,
 	      New Riders Publishing, New York.
 	  </li>
 	  <li>Jesse James Garrett,
-	      <a id="39" href="http://www.jjg.net/elements/pdf/elements.pdf">
+	      <a id="42" href="http://www.jjg.net/elements/pdf/elements.pdf">
 		  "The Elements of User Experience"</a>, jjg.net,
 	      retrieved September 1, 2016.
 	  </li>
-	  <li><a id="40" href="https://developer.yahoo.com/ypatterns/">
+	  <li><a id="43" href="https://developer.yahoo.com/ypatterns/">
 		  "Yahoo Design Pattern Library"</a>, developer.yahoo.com,
 	      retrieved September 1, 2016.
 	  </li>
-	  <li><a id="41" href="https://www.w3.org/TR/clipboard-apis/">
+	  <li><a id="44" href="https://www.w3.org/TR/clipboard-apis/">
 		  "Clipboard API and events"</a>, w3.org,
 	      retrieved September 1, 2016.
+	  </li>
       </ol>
       
       </div>
