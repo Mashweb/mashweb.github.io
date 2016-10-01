@@ -25,6 +25,7 @@ handleMousemove = function(event) {
 	if (lastTarget !== undefined) {
 	    // Restore the original style of the node over which the mouse pointer passed.
 	    lastTarget.style.border = lastTarget.zen.saveStyles.border;
+	    //lastTarget.style.display = lastTarget.zen.saveStyles.display;
 	    lastTarget.style.margin = lastTarget.zen.saveStyles.margin;
 	}
 	if (target.zen == undefined) {
@@ -32,6 +33,7 @@ handleMousemove = function(event) {
 	    target.zen.saveStyles = {};
 	}
 	target.zen.saveStyles.border = target.style.border;
+	//target.zen.saveStyles.display = target.style.display;
 	target.zen.saveStyles.margin = target.style.margin;
 	outlineOneNode(target);
 	lastTarget = target;
