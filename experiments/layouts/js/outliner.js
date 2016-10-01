@@ -8,9 +8,8 @@ function outlineOneNode(node) {
     node.zen.saveStyles = {};
     if (node.style !== undefined) {
 	node.zen.saveStyles.border = node.style.border;
-	if (node.style.border == "") {
-	    node.style.border = "2px solid red";
-	}
+	// FIXME: This isn't optimal. It should do something like what the ensureMargin function does, but for borders.
+	node.style.border = "2px solid red";
 	node.zen.saveStyles.display = node.style.display;
 	//node.style.display = "block";
 	node.zen.saveStyles.margin = node.style.margin;
