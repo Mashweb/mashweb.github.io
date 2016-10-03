@@ -1,3 +1,11 @@
+.elem {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+hr {
+    margin-bottom: 70px;
+}
+
 div.container {
     width: 100%;
     border: 1px solid gray;
@@ -13,7 +21,7 @@ header, footer {
 
 nav {
     float: left;
-    border-left: 1px solid gray;
+    border-right: 1px solid gray;
     max-width: 160px;
     margin: 0;
     padding: 1em;

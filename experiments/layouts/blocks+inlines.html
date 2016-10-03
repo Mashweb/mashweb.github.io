@@ -1,6 +1,8 @@
 <html>
     <head>
-	<link rel="stylesheet" href="css/styles2.css">
+	<title>NodeList Manipulation with Dispaly Property Set to Block or Inline</title>
+	<link rel="stylesheet" href="css/styles.css" type="text/css">
+	<link rel="stylesheet" href="css/block.css" type="text/css">
 	<script type="text/javascript" src="js/outliner.js"></script>
 	<script type="text/javascript" src="js/mover.js"></script>
 	<script type="text/javascript" src="js/highlighter.js"></script>
@@ -29,7 +31,7 @@
 	    <article>
 		This is an <span class="elem">&lt;article&gt;</span> element. As you pass the mouse pointer over any element in this web page, that element will be highlighted with a red border of 1 pixel and a margin of (at least) 1 pixel. Please try it.
 		<hr>
-		<p class="box">Here is a paragraph containing some inline elements&mdash;an image and a span. It is here to test a DMI GUI that can handle both block elements and inline elements.<img src="images/birds.png" style="height:31px; width:40px; vertical-align:text-top;"></img><span class="elem">This is a span.</span></p>
+		<p class="box">Here is a paragraph containing some inline elements&mdash;an image and a span. It is here to test a DMI GUI that can handle both block elements and inline elements. (Inline-element handling is not added yet.)<img src="images/birds.png" style="height:31px; width:40px; vertical-align:text-top;"></img><span class="elem">This is a span.</span></p>
 		<p class="box">(Here is another paragraph.) Another GUI feature of this web page is that the previous paragraph can be dragged after this paragraph. Please try it. (You will see that when you click on the first paragraph and drag the mouse, you are not getting any feedback to indicate that you are dragging the first paragraph; however, the mouse position is being tracked and upon the release of the mouse button, the first paragraph will is moved after the second paragraph. The paragraph is moved by changing its position value but rather by removing and re-appending it from its parent element.)</p>
 		<p>TODO: It is easy for a user to miss the fact that the <span class="elem">&lt;hr&gt;</span> element above can be selected by the mouse because it does not have much height. Any element with a small computed value for its height will present the same difficulty. It might be a good idea to set a minimum height of about 5 or 10 pixels to every element.</p>
 	    </article>
