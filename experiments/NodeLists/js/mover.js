@@ -60,6 +60,7 @@ handleMouseup = function(event) {
 }
 
 handleMousemove = function(event) {
+    console.debug("handleMousemove: event.clientY => " + event.clientY);
     if (inDragProcess) {
 	box.style.top = Math.max(event.clientY - startY, 0);
     }

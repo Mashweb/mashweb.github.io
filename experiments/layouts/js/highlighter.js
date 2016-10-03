@@ -3,13 +3,13 @@
 
 var lastTarget;
 
-init = function() {
+initHighlighter = function() {
     var body = document.getElementsByTagName("body")[0];
-    body.addEventListener("mousemove", handleMousemove);
+    body.addEventListener("mousemove", handleMousemoveHighlighter);
     
 }
 
-handleMousemove = function(event) {
+handleMousemoveHighlighter = function(event) {
     var target = event.target;
     if (lastTarget != target) {
 	if (lastTarget !== undefined) {

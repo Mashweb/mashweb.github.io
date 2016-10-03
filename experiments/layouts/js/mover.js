@@ -13,12 +13,8 @@ var boxes, box, body, boxClass, startY, endX, boxTop, parent;
 var inDragProcess = false;
 var minGesture = 10; // Moves less than this many pixels don't move in the NodeList.
 
-initAll = function() {
-    init();
-    init2();
-}
-
-init2 = function() {
+init = function() {
+    initHighlighter();
     boxes = document.getElementsByClassName("box");
     box = boxes[0];
     boxTop = box.style.top;
@@ -65,8 +61,9 @@ handleMouseup = function(event) {
 }
 
 handleMousemove = function(event) {
+    console.debug("handleMousemove: inDragProcess => " + inDragProcess);
     if (inDragProcess) {
+	console.debug("Dragging the movable paragraph.");
 	box.style.top = Math.max(event.clientY - startY, 0);
     }
 }
-    
