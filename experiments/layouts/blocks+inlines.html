@@ -12,15 +12,15 @@
 	<div class="container">
 	    
 	    <header>
-		<h1>This is a <span class="elem">&lt;header&gt;</span> element.</h1>
+		<h1>Layout-Manipulator Prototype Demo</h1>
 	    </header>
 	    
 	    <nav>
 		This is a <span class="elem">&lt;nav&gt;</span> element with its float property set to "left".
 		<ul>
-		    <li><a href="#">This is a link.</a></li>
-		    <li><a href="#">This is second link.</a></li>
-		    <li><a href="#">This is third link.</a></li>
+		    <li><a href="#">Dummy link.</a></li>
+		    <li><a href="#">Second dummy link.</a></li>
+		    <li><a href="#">Third dummy link.</a></li>
 		</ul>
 		This is more text. Notice that it does not fill up an inline or block element,
 		so there is no element to outline in red when the mouse pointer is passed
@@ -29,16 +29,16 @@
 	    </nav>
 	    
 	    <article>
-		This is an <span class="elem">&lt;article&gt;</span> element. As you pass the mouse pointer over any element in this web page, that element will be highlighted with a red border of 1 pixel and a margin of (at least) 1 pixel. Please try it.
+		As you pass the mouse pointer over any element in this web page, that element will be highlighted with a red border of 1 pixel and a margin of (at least) 1 pixel. Please try it.
 		<hr>
-		<p class="box">Here is a paragraph containing some inline elements&mdash;an image and a span. It is here to test a DMI GUI that can handle both block elements and inline elements. (Inline-element handling is not added yet.)<img src="images/birds.png" style="height:31px; width:40px; vertical-align:text-top;"></img><span class="elem">This is a span.</span></p>
-		<p class="box">(Here is another paragraph.) Another GUI feature of this web page is that the previous paragraph can be dragged after this paragraph. Please try it. You will see that when you click on the first paragraph and drag the mouse, you are getting feedback to <em>show</em> that you are dragging the first paragraph; however, the position value of the paragraph is affected only until the mouse button is released. Then the paragraph is removed from the DOM and re-appended after the other paragraph and its position value is returned to what it was before the drag procedure.</p>
-		<p>TODO: It is easy for a user to miss the fact that the <span class="elem">&lt;hr&gt;</span> element above can be selected by the mouse because it does not have much height. Any element with a small computed value for its height will present the same difficulty. It might be a good idea to set a minimum height of about 5 or 10 pixels to every element.</p>
+		<p class="box">Here is a paragraph. It can be dragged and dropped after the next paragraph. Please try it. This paragraph contains some inline elements&mdash;an image and a span, which are here to support tests of a future DMI GUI that can handle both block elements and inline elements. (Inline-element handling is not supported for this web page yet.)<img src="images/birds.png" style="height:31px; width:40px; vertical-align:text-top;"></img><span class="elem">This is a span.</span></p>
+		<p class="box">Here is another paragraph. You will see that when you click on the first paragraph and drag the mouse in the y axis, you are getting feedback to <em>show</em> that you are dragging the first paragraph; however, the position value of the paragraph is affected only until the mouse button is released. Then the paragraph is removed from the DOM and re-appended after this paragraph and its position value is returned to what it was before the drag procedure.</p>
+		<p>This is the last paragraph in the first <span class="elem">&lt;article&gt;</span> element.</p>
 	    </article>
 	    
 	    <article>
-		<h1>This is another <span class="elem">&lt;article&gt;</span> element.</h1>
-		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		<h2>TODO</h2>
+		<p>It is easy for a user to miss the fact that the <span class="elem">&lt;hr&gt;</span> element above can be selected by the mouse because it does not have much height. Any element with a small computed value for its height will present the same difficulty. It might be a good idea to set a minimum height of about 5 or 10 pixels to every element.</p>
 	    </article>
 
 	    <footer>This is a <span class="elem">&lt;footer&gt;</span> element.</footer>
