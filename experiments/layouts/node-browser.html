@@ -1,0 +1,49 @@
+<html>
+    <head>
+	<title>Zen Node-Browser Prototype</title>
+	<link rel="stylesheet" href="css/styles.css" type="text/css">
+	<link rel="stylesheet" href="css/block.css" type="text/css">
+	<script type="text/javascript" src="js/outliner.js"></script>
+	<script type="text/javascript" src="js/mover.js"></script>
+	<script type="text/javascript" src="js/highlighter.js"></script>
+    </head>
+    <body onload="outlineAllNodes()">
+	
+	<div class="container">
+	    
+	    <header>
+		<h1>Zen Node-Browser Prototype</h1>
+	    </header>
+	    
+	    <nav>
+		This is a <span class="elem">&lt;nav&gt;</span> element with its float property set to "left".
+		<ul>
+		    <li><a href="#">Dummy link.</a></li>
+		    <li><a href="#">Second dummy link.</a></li>
+		    <li><a href="#">Third dummy link.</a></li>
+		</ul>
+		This is more text. Notice that it does not fill up an inline or block element,
+		so it has no element to outline in red.
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	    </nav>
+	    
+	    <article>
+		In the node-browser mode of Zen, every node that it is possible to outline will be
+		outlined so the structure of the page can be better visualized.
+		<hr>
+		<p class="box">Here is a paragraph. This paragraph contains some inline elements&mdash;an image and a span.<img src="images/birds.png" style="height:31px; width:40px; vertical-align:text-top;"></img><span class="elem">This is a span.</span></p>
+		<p class="box">Here is another paragraph.</p>
+		<p>This is the last paragraph in the first <span class="elem">&lt;article&gt;</span> element.</p>
+	    </article>
+	    
+	    <article>
+		<h2>TODO</h2>
+		<p>It is easy for a user to miss the fact that the <span class="elem">&lt;hr&gt;</span> element above can be selected by the mouse because it does not have much height. Any element with a small computed value for its height will present the same difficulty. It might be a good idea to set a minimum height of about 5 or 10 pixels to every element.</p>
+	    </article>
+
+	    <footer>This is a <span class="elem">&lt;footer&gt;</span> element.</footer>
+	    
+	</div>
+	
+    </body>
+</html>

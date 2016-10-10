@@ -8,11 +8,11 @@ title: Zen White Paper
   <div class="container">
     <div class="docs-sub-content">
 	<h2 class="page-title">Zen: A New Approach to Web-Page Editing Based upon Direct Manipulation of the DOM</h2>
-	Version 0.10.7<br />
+	Version 0.10.10<br />
 	by Tom Elam<br />
 	Elam & Associates<br />
 	Mysuru, India<br />
-	October 10, 2016
+	October 11, 2016
     </div>
   </div>
 </div>
@@ -154,7 +154,7 @@ title: Zen White Paper
 	    a detailed technical explanation<sup><a href="#10">10</a></sup>
 	    of why the key browser feature supporting web-page editing&mdash;<code>contentEditable</code>&mdash;is
 	    both flawed and indispensable.
-	    Some of his points:
+	    Some of his points are:
 	    <ol>
 		<li>It is difficult to force every browser to use <code>&lt;strong&gt;</code> instead of
 		    <code>&lt;b&gt;</code> for the <em>bold</em> command.</li>
@@ -165,7 +165,7 @@ title: Zen White Paper
 		    had been broken for eight years.</li>
 		<li>APIs and their implementations related to <code>contentEditable</code>
 		    "are incomplete and/or inconsistent and buggy."</li>
-		<li>Trying to avoid <code>contentEditable</code> uncovers many big difficulties of correctly
+		<li>Trying to avoid <code>contentEditable</code> uncovers many large difficulties in correctly
 		    handling <em>composition events</em> (which allow multiple keystrokes to form an accented letter,
 		    a complex Japanese character, or a letter with a diacritic)
 		    without breaking editing on an iPad, the keystrokes for jumping over words,
@@ -196,7 +196,7 @@ title: Zen White Paper
 		    <img src="/zen/images/bluegriffon1_6_french.jpg" alt="BlueGriffon" width="680" height="499"
 			 onclick="window.open('/zen/images/bluegriffon1_6_french.jpg', '_blank');" />
 		    <figcaption>
-			<small>Figure 2. BlueGriffon. Click to expand in new window.</small>
+			<small>Figure 2. BlueGriffon. Click to expand in a new window.</small>
 		    </figcaption>
 		</figure>
 	    </div>
@@ -205,7 +205,7 @@ title: Zen White Paper
 		    <img src="/zen/images/ckeditor.jpg" alt="CKeditor" width="680" height="382"
 			 onclick="window.open('/zen/images/ckeditor.jpg', '_blank');" />
 		    <figcaption>
-			<small>Figure 3. CKeditor (web-page-embedded). Click to expand in new window.</small>
+			<small>Figure 3. CKeditor (web-page-embedded). Click to expand in a new window.</small>
 		    </figcaption>
 		</figure>
 	    </div>
@@ -214,7 +214,7 @@ title: Zen White Paper
 		    <img src="/zen/images/kompozer.png" alt="KompoZer" width="680" height="510"
 			 onclick="window.open('/zen/images/kompozer.png', '_blank');" />
 		    <figcaption>
-			<small>Figure 4. KompoZer (discontinued). Click to expand in new window.</small>
+			<small>Figure 4. KompoZer (discontinued). Click to expand in a new window.</small>
 		    </figcaption>
 		</figure>
 	    </div>
@@ -223,7 +223,7 @@ title: Zen White Paper
 		    <img src="/zen/images/maqetta.png" alt="Maqetta" width="680" height="486"
 			 onclick="window.open('/zen/images/maqetta.png', '_blank');" />
 		    <figcaption>
-			<small>Figure 5. Maqetta (inactive as of May 2013). Click to expand in new window.</small>
+			<small>Figure 5. Maqetta (inactive as of May 2013). Click to expand in a new window.</small>
 		    </figcaption>
 		</figure>
 	    </div>
@@ -232,7 +232,7 @@ title: Zen White Paper
 		    <img src="/zen/images/tinymce.jpg" alt="TinyMCE" width="680" height="221"
 			 onclick="window.open('/zen/images/tinymce.jpg', '_blank');" />
 		    <figcaption>
-			<small>Figure 6. TinyMCE (web-page-embedded). Click to expand in new window.</small>
+			<small>Figure 6. TinyMCE (web-page-embedded). Click to expand in a new window.</small>
 		    </figcaption>
 		</figure>
 	    </div>
@@ -270,13 +270,16 @@ title: Zen White Paper
 
 	<h3>Critique of current WYSIWYM web-page composers</h3>
 
+	<p>[<em>This section is to be expanded to cover a representative set of WYSIWYM composers.</em>]
+	</p>
+	
 	<p>WYMeditor is the best-known WYSIWYM web-page composer.
 	    <div style="display:inline-block;">
 		<figure>
 		    <img src="/zen/images/WYMeditor.png" alt="WYMeditor" width="680" height="170"
 			 onclick="window.open('/zen/images/WYMeditor.png', '_blank');" />
 		    <figcaption>
-			<small>Figure 6. WYMeditor. Click to expand in new window.</small>
+			<small>Figure 6. WYMeditor. Click to expand in a new window.</small>
 		    </figcaption>
 		</figure>
 	    </div>
@@ -370,7 +373,7 @@ title: Zen White Paper
 		    in its modeling of a document in a web browser.
 		    Zen will not be able use SVG or Canvas graphics for the creation of objects,
 		    except where particular Zen-composed apps borrow the pertinent capabilities
-		    from other web applications.
+		    from other software systems.
 		</li>
 	    </ol>
 	</p>
@@ -395,28 +398,70 @@ title: Zen White Paper
 
 	<p>Zen will take a different approach.
 	    In Zen, HTML elements making up the web page will represent themselves at the top-level view,
-	    with all the obscurity of detail that implies, but when Zen's <em>inspector</em> is open,
+	    with all the obscurity of detail that implies, but when Zen's <em>node browser</em> is open,
 	    Zen will be show a view of the web page with all borders and margins styled in such a way
 	    that, to the extent possible, all <em>block boxes</em>, <em>inline boxes</em>,
-	    and <em>inline-block boxes</em><sup><a href="#21">21</a></sup> are visible.
-	    (Other display styles will be modeled by Zen in a subsequent release.)
+	    and <em>inline-block boxes</em><sup><a href="#21">21</a></sup> are visible (Figure 7).
+	    <div style="display:inline-block;">
+		<figure>
+		    <img src="/zen/images/node-browser-cropped.png" 
+			 alt="Node-Browser Prototype" width="643" height="345"
+			 onclick="window.open('/zen/experiments/layouts/node-browser.html', '_blank');" />
+		    <figcaption>
+			<small>Figure 7. Screenshot of a node-browser prototype.
+			    Click to open the live demo in a new window.</small>
+		    </figcaption>
+		</figure>
+	    </div>
+	</p>
+	
+	<p>
+	    (Other display styles besides <em>block</em>, <em>inline</em>, and <em>inline-block</em>
+	    will be modeled by Zen in a subsequent release.)
 	    Zen will provide whatever kinds of object-browsers are necessary to unobscure details
 	    of the page-as-an-object.
 	    Although the details have not yet been worked out, hope and inspiration are provided by the
 	    <a href="https://developer.mozilla.org/en/docs/Tools/3D_View" target="_blank">3D View tool</a>,
 	    and by the
 	    <a href="https://addons.mozilla.org/en-US/firefox/addon/tilt/" target="_blank">Tilt 3D add-on</a>,
-	    for the Firefox browser.
-	    Here are some representative screenshots of the Tilt 3D add-on:<br />
-	    <img src="https://addons.cdn.mozilla.net/user-media/previews/full/62/62218.png" 
-		 alt="Tilt 3D Add-on for Firefox" width="240" height="180" border="10" /></img>
-	    <img src="https://addons.cdn.mozilla.net/user-media/previews/full/62/62220.png" 
-		 alt="Tilt 3D Add-on for Firefox" width="240" height="180" border="10" /></img>
-	    <img src="https://addons.cdn.mozilla.net/user-media/previews/full/62/62222.png" 
-		 alt="Tilt 3D Add-on for Firefox" width="240" height="180" border="10" /></img>
-	    (These screenshots are not meant to represent the paradigm that Zen will use.)
+	    for the Firefox browser (Figure 8).
+
+	    <div style="display:inline-block;">
+		<figure>
+		    <img src="https://addons.cdn.mozilla.net/user-media/previews/full/62/62218.png" 
+			 alt="Tilt 3D Add-on for Firefox" width="720" height="540"
+			 onclick="window.open('https://addons.cdn.mozilla.net/user-media/previews/full/62/62218.png', '_blank');" />
+		    <img src="https://addons.cdn.mozilla.net/user-media/previews/full/62/62220.png" 
+			 alt="Tilt 3D Add-on for Firefox" width="720" height="540"
+			 onclick="window.open('https://addons.cdn.mozilla.net/user-media/previews/full/62/62220.png', '_blank');" />
+		    <img src="https://addons.cdn.mozilla.net/user-media/previews/full/62/62222.png" 
+			 alt="Tilt 3D Add-on for Firefox" width="720" height="540"
+			 onclick="window.open('https://addons.cdn.mozilla.net/user-media/previews/full/62/62222.png', '_blank');" />
+		    <figcaption>
+			<small>Figure 8. Screenshots of Tilt 3D Add-on for Firefox.
+			    (These screenshots are not meant to represent the paradigm that Zen will use.)
+			    Click each to expand it in a new window.</small>
+		    </figcaption>
+		</figure>
+	    </div>
+
 	</p>
 
+	<p>The user will be able to select any node that can be the target of a mouse event.
+	    In node-selection mode, passing the mouse pointer over nodes will highlight them one at a time (Figure 9).
+	    <div style="display:inline-block;">
+		<figure>
+		    <img src="/zen/images/layout-manipulator.png" 
+			 alt="Layout-Manipulator Prototype" width="720" height="540"
+			 onclick="window.open('/zen/experiments/layouts/blocks+inlines.html', '_blank');" />
+		    <figcaption>
+			<small>Figure 9. Layout-manipulator prototype.
+			    Click to open the live demo in a new window.</small>
+		    </figcaption>
+		</figure>
+	    </div>
+	</p>
+	
 	<p>When the user wants to add an HTML element to his web page,
 	    Zen will first present a choice of block, inline, and inline-block box types,
 	    because in Zen's paradighm, the visual behavior of a box is mainly determined
@@ -435,20 +480,36 @@ title: Zen White Paper
 	<p>Zen will allow the user to inspect and manipulate these boxes in a way pioneered and developed by
 	    Smalltalk and Smalltalk variants, using inspectors and browsers to inspect live web-page objects.
 	    For a relatively gentle introduction to Smalltalk-style inspectors and browsers,
-	    see Cincom Smalltalk's tutorials:<br />
-	    <a href="http://www.youtube.com/watch?feature=player_embedded&v=N55hT-abBaA
-		     " target="_blank">
-		<img src="http://img.youtube.com/vi/N55hT-abBaA/0.jpg" 
-		     alt="Cincom Smalltalk Inspector Tool overview tutorial" width="240" height="180" border="10" /></a>
-	    <a href="http://www.youtube.com/watch?feature=player_embedded&v=8Y9vOGSEm14
-		     " target="_blank">
-		<img src="http://img.youtube.com/vi/8Y9vOGSEm14/0.jpg" 
-		     alt="Cincom Smalltalk System Browser tutorial" width="240" height="180" border="10" /></a>
+	    see Cincom Smalltalk's tutorials (Figures 10 and 11).
 	    The specific HTML tag of an HTML element will be a detail to be drilled down to
 	    rather than a primary detail of interest.
+	    <div style="display:inline-block;">
+		<figure>
+		    <a href="http://www.youtube.com/watch?feature=player_embedded&v=N55hT-abBaA" target="_blank">
+			<img src="http://img.youtube.com/vi/N55hT-abBaA/0.jpg" 
+			     alt="Cincom Smalltalk Inspector Tool overview tutorial" width="720" height="480" border="10" /></a>
+		    <figcaption>
+			<small>Figure 10. Cincom Smalltalk Inspector Tool overview tutorial video.
+			    Click to open in a new window.</small>
+		    </figcaption>
+		</figure>
+
+		<figure>
+		    <a href="http://www.youtube.com/watch?feature=player_embedded&v=8Y9vOGSEm14" target="_blank">
+			<img src="http://img.youtube.com/vi/8Y9vOGSEm14/0.jpg" 
+			     alt="Cincom Smalltalk System Browser tutorial" width="720" height="480" border="10" /></a>
+		    <figcaption>
+			<small>Figure 11. Cincom Smalltalk System Browser tutorial video.
+			    Click to open in a new window.</small>
+		    </figcaption>
+		</figure>
+	    </div>
+	    In addition to formal inspectors and browsers, Zen will allow simple operations like stretching
+	    the width or height of an HTML element by grabbing an element's edge or corner and moving
+	    the mouse.
 	</p>
 
-	<p>Zen will take an embedded, instant-feedback, WYSIWYM (not WYSIWYG) approach
+	<p>Zen will take an embedded, instant-feedback, hybrid WYSIWYM-WYSIWYG (not "pure" WYSIWYG) approach
 	    to pull the authoring of novel, Semantic-Web applications
 	    out of the exclusive province of programmer-specialists and put it into the hands of
 	    amateurs and dilettantes (in the original, non-pejorative sense of the words).
@@ -510,21 +571,27 @@ title: Zen White Paper
 	    <em>block</em>, <em>inline</em>, <em>inline-block</em>, and <em>none</em>.
 	    Live demo code to implement GUIs to rearrange element positions in the NodeLists
 	    of the first three of these display styles is
-	    <a href="/zen/experiments/NodeLists/block.html">
+	    <a href="/zen/experiments/NodeLists/">
 		located on the author's GitHub Pages</a>.
 	    The method of sliding elements in these prototype GUIs was partly inspired by the 15 Puzzle
 	    and JavaScript-based implementations of the 15 Puzzle.
 	    There are <a href="/zen/experiments/NodeLists/15-puzzle.html">notes</a>
 	    about some of these implementations on this website.
 	    Here is a screen capture of Jamie Wong's AI-based
-	    automated 15-Puzzle solver, which is written solely in JavaScript, HTML, and CSS.
+	    automated 15-Puzzle solver, which is written solely in JavaScript, HTML, and CSS
+	    (Figure 12).
 	    <div style="margin-left:20px; display:inline-block;">
-		<img align="right" src="/zen/images/15-puzzle.gif">
+		<figure>
+		    <img align="right" src="/zen/images/15-puzzle.gif" alt="Jamie Wong's 15-Puzzle Solver">
+		    <figcaption>
+			<small>Figure 12. Jamie Wong's 15-Puzzle solver.</small>
+		    </figcaption>
+		</figure>
 	    </div>
 	</p>
 
 	<h3>Zen vs. Website Builders</h3>
-        <p>This section is to be added.
+        <p>[<em>This section is to be greatly expanded.</em>]
 	</p>
 
 	<p>
@@ -538,27 +605,41 @@ title: Zen White Paper
 	    When HTML elements are grabbed 
 	    Zen should temporarily apply suitable styles to HTML elements like high-contrast borders
 	    to make them visible during element selection.
-	    When the display-style property of an HTML element is *none*,
+	    When the display-style property of an HTML element is <em>none</em>,
 	    Zen should make it possible for users to temporarily set it to another value so the element can be seen.
 	    Likewise, wherever desired,
 	    Zen should employ similar tactics to make all elements visible and manipulable,
 	    whether they are too small; too big; too transparent; or animated.
 	    Zen should employ intuitive, adaptive, custom cursors with contrast and distinctive patterns
 	    that show up with whatever colors are behind them.
-	    The following animations are actually screen recordings of rough-prototype GUIs
+	    The animations in Figures 13 and 14 are actual screen recordings of rough-prototype GUIs
 	    for rearranging NodeLists that contain just <em>blocks</em> or just <em>inlines</em>, respectively:
-	    <div style="margin-left:20px; display:inline-block;">
-		<img align="right" width="188" height="564" src="/zen/images/block-demo.gif">
-	    </div>
-	    <div style="margin-left:20px; display:inline-block;">
-		<img align="right" width="720" height="304" src="/zen/images/inline-demo.gif">
+	    <div style="display:inline-block;">
+		<figure>
+		    <img src="/zen/images/block-demo.gif"
+			 alt="Block-Manipulator Prototype" width="188" height="564"
+			 onclick="window.open('/zen/experiments/NodeLists/block.html', '_blank');" />
+		    <figcaption>
+			<small>Figure 13. Block-manipulator prototype.
+			    Click to open the live demo in a new window.</small>
+		    </figcaption>
+		</figure>
+		<figure>
+		    <img src="/zen/images/inline-demo.gif"
+			 alt="Inline-Manipulator Prototype" width="720" height="304"
+			 onclick="window.open('/zen/experiments/NodeLists/inline.html', '_blank');" />
+		    <figcaption>
+			<small>Figure 14. Inline-manipulator prototype.
+			    Click to open the live demo in a new window.</small>
+		    </figcaption>
+		</figure>
 	    </div>
 	    (The operations of the <em>inline-blocks</em> and <em>inlines</em> demo-GUIs look identical,
 	    so just one is shown.)
 	    Zen's drag-and-drop and cut-and-paste by themselves would get overly tedious and repetitive,
-	    but eventually they could be automated using Zen's visual programming environment
+	    but eventually compound operations could be automated using Zen's visual programming environment
 	    and leveraged by support and readymade functions
-	    provided a highly networked community built for Zen programmers and users.
+	    provided by a highly networked community built for Zen programmers and users.
 	</p>
 
 	<h3>Scope of the Issues Zen Will Address</h3>

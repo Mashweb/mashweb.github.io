@@ -37,3 +37,19 @@ function ensureEnoughMargin( node, prop, computedProp ) {
 	node.style[prop] = "2px";
     }
 }
+
+function outlineAllNodes( ) {
+    walkDOM( document.body,
+	     function( node ) {
+		 outlineOneNode( node );
+	     });
+}
+
+function walkDOM( node, func ) {
+    func( node );                     //What does this do?
+    node = node.firstChild;
+    while( node ) {
+        walkDOM( node, func );
+        node = node.nextSibling;
+    }
+};
