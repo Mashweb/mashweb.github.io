@@ -8,7 +8,7 @@ title: Zen White Paper
   <div class="container">
     <div class="docs-sub-content">
 	<h2 class="page-title">Zen: A New Approach to Web-Page Editing Based upon Direct Manipulation of the DOM</h2>
-	Version 0.10.11<br />
+	Version 0.10.12<br />
 	by Tom Elam<br />
 	Elam & Associates<br />
 	Mysuru, India<br />
@@ -451,8 +451,8 @@ title: Zen White Paper
 	    In node-selection mode, passing the mouse pointer over nodes will highlight them one at a time (Figure 9).
 	    <div style="display:inline-block;">
 		<figure>
-		    <img src="/zen/images/layout-manipulator.png" 
-			 alt="Layout-Manipulator Prototype" width="720" height="540"
+		    <img src="/zen/images/layout-manipulator.gif" 
+			 alt="Layout-Manipulator Prototype" width="720" height="516"
 			 onclick="window.open('/zen/experiments/layouts/blocks+inlines.html', '_blank');" />
 		    <figcaption>
 			<small>Figure 9. Layout-manipulator prototype.
@@ -576,7 +576,7 @@ title: Zen White Paper
 	    Zen will allow a DOM node to be grabbed and "dragged" to different positions
 	    in its containing NodeList because this is the simplest metaphor for that operation.
 	    Drag-and-drop is a classic feature of direct-manipulation interfaces (DMIs)
-	    and this metaphor of "moving" an HTML is so compelling that we have to look at the code
+	    and this metaphor of "moving" an HTML element or node is so compelling that we have to look at the code
 	    to see that the element has not moved in terms of x and y coordianates, but rather in terms
 	    of its cardinal position in a NodeList.
 	    Zen will allow a DOM node to be "cut and pasted" to any valid position in the DOM&mdash;an
@@ -591,7 +591,7 @@ title: Zen White Paper
 	    and JavaScript-based implementations of the 15 Puzzle.
 	    There are <a href="/zen/experiments/NodeLists/15-puzzle.html">notes</a>
 	    about some of these implementations on this website.
-	    Here is a screen capture of Jamie Wong's AI-based
+	    Below is a screen capture of Jamie Wong's AI-based
 	    automated 15-Puzzle solver, which is written solely in JavaScript, HTML, and CSS
 	    (Figure 13).
 	    <div style="margin-left:20px; display:inline-block;">
@@ -1332,4 +1332,3 @@ title: Zen White Paper
     </div>
   </div>
 </div>
-
