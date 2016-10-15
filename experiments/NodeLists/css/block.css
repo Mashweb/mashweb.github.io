@@ -1,7 +1,7 @@
-div.box { width:150px; height:150px; }
+div.box { width:150px; height:100px; }
 
 .draggable-block:active {
-    cursor: url('../images/updown.gif'),auto;
+    cursor: url('../images/ns-move.gif'),auto;
 }
 
 .draggable-inline:active {

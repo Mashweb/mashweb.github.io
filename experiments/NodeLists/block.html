@@ -2,15 +2,17 @@
 <head>
     <title>NodeList Manipulation with Display Property Set to Block</title>
     <link rel="stylesheet" href="css/block.css" type="text/css">
+    <script type="text/javascript" src="js/outliner.js"></script>
     <script type="text/javascript" src="js/mover.js"></script>
+    <script type="text/javascript" src="js/highlighter.js"></script>
 </head>
 <body onload="init()" style="margin:0px;">
-    <p>Try grabbing the yellow (first) block after the pink (second) block and dropping it there.</p>
-    <div style="position:absolute; background-color:lightgray">
-	<div class="box" style="background-color:yellow;">
-	</div>
-	<div class="box" style="background-color:pink;"></div>
+    <p>Try grabbing a block, dragging it downward after another block, and dropping it there.</p>
+    <div class="parent-box" style="width:150px; background-color:lightgray">
+	<div class="box" style="background-color:yellow;"></div>
+	<div style="height:200px; background-color:pink;"></div>
 	<div class="box" style="background-color:lightgreen"></div>
+	<div class="box" style="background-color:aqua"></div>
     </div>
 </body>
 </html>
