@@ -125,7 +125,6 @@ insertAfter = function(newElement, targetElement) {
 handleMousedown = function(event) {
     console.debug("mousedown, clientY=" + event.clientY);
     boxInMotion = event.target;
-    boxInMotionIndex = findBoxIndex(boxInMotion);
     boxTop = boundingRect.top;
     boxClass = boxInMotion.className;
     boxTop = boxInMotion.style.top;
@@ -143,7 +142,8 @@ handleMouseup = function(event) {
     if (endY > startY + 10) {
 	console.debug("endY => " + endY + ", startY => " + startY);
 	if (targetBoxIndex !== null) {
-	    if (findBoxIndex(boxInMotion) != targetBoxIndex) {
+	    //if (findBoxIndex(boxInMotion) != targetBoxIndex) {
+	    if (parent !== undefined) {
 		parent.removeChild(boxInMotion);
 		console.debug("targetBoxIndex => " + targetBoxIndex + ", index of box in motion => " +
 			      findBoxIndex(boxInMotion));
