@@ -8,7 +8,7 @@ title: Zen White Paper
   <div class="container">
     <div class="docs-sub-content">
 	<h2 class="page-title">Zen: A New Approach to Web-Page Editing Based upon Direct Manipulation of the DOM</h2>
-	Version 0.10.18<br />
+	Version 0.11.0<br />
 	by Tom Elam<br />
 	Elam & Associates<br />
 	Mysuru, India<br />
@@ -21,24 +21,37 @@ title: Zen White Paper
   <div class="column-group">
     <div class="column docs-content">
       <div class="docs-section">
-        <h2>Introduction</h2>
-        <p class="lead">This white paper presents a new and profoundly personalized,
-	    adaptive approach to the creation of web experiences&mdash;a new approach
-	    open to a very broad class of people.
-	    This new approach could give users of all experience levels new ways
-	    to add or modify a website's or web app's structure, function, and styling.
-	    A software system called <em>Zen</em> is being created to implement and explore this approach.
-	    Web developers could augment many kinds of software with this approach:
-	    web content management systems (WCMSs), wikis,
-	    website builders, web frameworks, web portals, web development tools
-	    for editing, testing, and debugging code,
-	    and integrated development environments (IDEs) for web development.
-	    Most importantly, this "development" can be continuous
-	    and carried on by a <em>website's users</em> of all levels of experience;
-	    <em>deployment</em> can be <em>continuous</em>.
+        <h2 id="Introduction">1. Introduction</h2>
+        <p class="lead">This white paper presents a profoundly unique, personalized, and adaptive approach
+	    to the creation of web experiences&mdash;a radically new approach usable by a very broad class of people.
+	    The code name for this approach and its implementation (under development) is <em>Zen</em>.
+	    The unique selling point (USP) of Zen will be in-context, instant-feedback, <em>full-featured</em> editing
+	    of website or web app structure, function, and styling.
+	    In particular, Zen will make it easy for users to create any kind of valid HTML structure in web pages
+	    without getting into the complexity or distraction of code.
+	    Most importantly, this "development" and its <em>deployment</em> can be continuous,
+	    carried on by a <em>website's users</em> of all levels of experience.
 	    Since, with Zen, deploying and sharing a new application could be as simple
 	    as clicking a <em>Share</em> or <em>Deploy</em> button,
 	    self-organizing user communities might develop altogether novel applications.
+	</p>
+	
+	<p>
+	    A deliverable of the Zen project will be an example Zen-based
+	    web application framework<sup><a href="#1">1</a></sup> comprising the Zen
+	    client-side JavaScript library, aka <em>Core Zen</em> and a liberally licensed server-side framework
+	    (possibly Ruby on Rails) augmented with code to store and serve the web pages created and modified by Zen.
+	    Even though Core Zen will only have to be loaded once to create an unlimited number of web pages
+	    with unique URLs, a strong effort will be made to keep the "time-to-interact" (TTI)
+	    delay introduced by Core Zen down to 2&ndash;3 seconds, so that Zen's potential application
+	    can be as broad as possible.
+	    (TTI is the time it takes from the start of a web page
+	    load until the time when the user is comfortable interacting with the web page.)
+	    Potentially many other implementations of Zen could be developed
+	    to incorporate and integrate Core Zen into
+	    web content management systems, wikis, website builders, web frameworks, web portals,
+	    web development tools for editing, testing, and debugging code,
+	    and integrated development environments (IDEs) for web development.
 	</p>
 
 	<p>
@@ -57,7 +70,7 @@ title: Zen White Paper
 	    </div>
 	    Why a new approach is desirable and how it is anticipated to work are the subjects of this whole paper,
 	    but a brief video from the Digital Archaeology project<a href="#1"><sup>1</sup></a>
-	    showing the operation of the first web browser can provide some background context here.
+	    showing the operation of the first web browser can provide some background context.
 	    The video shows the operation of the first web browser, called Nexus, crafted by the inventor
 	    of the World Wide Web himself, Sir Tim Berners-Lee.
 	    Twelve minutes and nine seconds into the video, Nexus's editing function is demonstrated (Figure 1).
@@ -102,7 +115,8 @@ title: Zen White Paper
 		    Source can be HTML or markup that can be translated into HTML.
 		</li>
 	    </ol>
-	    Apart from pure web-page editors, there are other tools and applications for developing web experiences:
+	    Apart from editors that only edit web pages, there are other tools and applications
+	    for developing web experiences:
 	    <ol>
 		<li>
 		    web development tools for testing and debugging code (e.g. Firebug for Firefox,
@@ -127,8 +141,26 @@ title: Zen White Paper
 	    </ol>
 	</p>
 
-        <h3>Critique of current WYSIWYG web-page composers</h3>
-
+	<h3 id="Contents"><strong>Contents</strong></h3>
+	<p>
+	    <ol>
+		<li><a href="#Introduction">Introduction</a></li>
+		<li><a href="#WYSIWYG_Critique">Critique of current WYSIWYG web-page composers</a></li>
+		<li><a href="#WYSIWYM_Critique">Critique of current WYSIWYM web-page composers</a></li>
+		<li><a href="#Values">Values</a></li>
+		<li><a href="#Principles">Principles</a></li>
+		<li><a href="#Practices">Practices</a></li>
+		<li><a href="#Questions_Ideas">Initial Questions and Ideas for Zen Development</a></li>
+		<li><a href="#Diving">Diving Deeper: Zen According to <em>The Elements of User Experience</em></a></li>
+		<li><a href="#Name">Encapsulating the Zen Concept in a Domain Name</a></li>
+		<li><a href="#Study">For Further Study</a></li>
+		<li><a href="#Notes">Notes</a></li>
+	    </ol>
+	</p>
+      </div>
+      
+      <div class="docs-section">
+        <h2 id="WYSIWYG_Critique">2. Critique of current WYSIWYG web-page composers</h2>
         <p>All the well-known WYSIWYG web-page composers, whether standalone or embedded,
 	    treat web-page composition like word-processing&mdash;that is, like a layout
 	    or 2-D-drawing  problem&mdash;rather than as an organizational
@@ -266,8 +298,10 @@ title: Zen White Paper
 		</p>
 	    </small>
 	</div>
+      </div>
 
-	<h3>Critique of current WYSIWYM web-page composers</h3>
+      <div class="docs-section">
+	<h2 id="WYSIWYM_Critique">3. Critique of current WYSIWYM web-page composers</h2>
 
 	<p><em>[This section is to be expanded to cover a representative set of WYSIWYM composers.]</em>
 	</p>
@@ -288,8 +322,10 @@ title: Zen White Paper
 	    Changing this would require eliminating WYMeditor's use of the innerHtml property."
 	    Thus, WYMeditor won't work with reactive widgets.
 	</p>
+      </div>
 
-	<h3>Zen's value system</h3>
+      <div class="docs-section">
+	<h2 id="Values">4. Values</h2>
 
 	<p>The values driving Zen's development are:
 	    <ol>
@@ -313,7 +349,7 @@ title: Zen White Paper
       </div>
 
       <div class="docs-section">
-        <h2>Principles</h2>
+        <h2 id="Principles">5. Principles</h2>
         <p class="lead">As pointed out by David Ungar (who pioneered
 	    the type of prototypal object system that JavaScript uses),
 	    from values arise principles and from principles arise
@@ -380,7 +416,7 @@ title: Zen White Paper
       </div>
 
       <div class="docs-section">
-	<h2>Zen Practices</h2>
+	<h2 id="Practices">6. Practices</h2>
 	  
 	<h3>Zen vs. current WYSIWYG and WYSIWYM web-page composers</h3>
 
@@ -615,7 +651,7 @@ title: Zen White Paper
 	    communication systems are far outside the bounds of casual web authorship.
 	</p>
 
-        <h3>Concessions to Zen's GUI</h3>
+        <h3>Concessions to Usability</h3>
 	<p>Some concessions to manipulability are necessary so that Zen can successfully edit all webpages.
 	    When HTML elements are grabbed 
 	    Zen should temporarily apply suitable styles to HTML elements like high-contrast borders
@@ -863,7 +899,7 @@ title: Zen White Paper
       </div>
 
       <div class="docs-section">
-	<h2>Initial Questions and Ideas for Zen Development</h2>
+	<h2 id="Questions_Ideas">7. Initial Questions and Ideas for Zen Development</h2>
 
 	<p>Now we shall make our first foray into describing Zen.
 	    How do we propose to solve the problems listed in "Introduction"? Which of the following do we want
@@ -916,7 +952,7 @@ title: Zen White Paper
       </div>
 
       <div class="docs-section">
-      <h2>Diving Deeper: Zen According to <em>The Elements of User Experience</em></h2>
+      <h2 id="Diving">8. Diving Deeper: Zen According to <em>The Elements of User Experience</em></h2>
 
       <p>Jesse James Garrett, who coined the term AJAX, wrote an influential book entitled
 	  <em>The Elements of User Experience</em><sup><a href="#42">42</a></sup>,
@@ -1039,7 +1075,7 @@ title: Zen White Paper
       </div>
 
       <div class="docs-section">
-      <h2>Encapsulating the Zen Concept in a Domain Name</h2>
+      <h2 id="Name">9. Encapsulating the Zen Concept in a Domain Name</h2>
       <p>How to convey the proper central concept behind the "Zen website"?
 	  Is the central concept for the Zen website all about being "on the same page"?
 	  Would a better encapsulation of the gestalt of Zen be "own the web" or "your web" or "my web"?
@@ -1083,7 +1119,7 @@ title: Zen White Paper
       </div>
       
       <div class="docs-section">
-      <h2>For Further Study</h2>
+      <h2 id="Study">10. For Further Study</h2>
 
       <ul>
 	  <li>GGG and the Semantic Web. (Very important. Could be greatly helped by Zen.)</li>
@@ -1113,7 +1149,7 @@ title: Zen White Paper
       </div>
 
       <div class="docs-section">
-      <h2>Notes</h2>
+      <h2 id="Notes">11. Notes</h2>
 
       <ol>
 	  <li>Jim Boulton, Kalle Everland, Jesper Lycke, 2014,
