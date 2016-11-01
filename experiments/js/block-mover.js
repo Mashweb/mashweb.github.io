@@ -122,8 +122,6 @@ calcCriticalPositions = function() {
 
 // NodeLists have an insertBefore method, but no insertAfter method, so we create this useful insertAfter function.
 insertAfter = function(newElement, targetElement) {
-    console.dir(newElement);
-    console.dir(targetElement);
     if (container.lastchild == targetElement) {
 	console.debug("targetElement is container's lastchild");
 	container.appendChild(newElement);
