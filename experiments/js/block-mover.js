@@ -66,7 +66,7 @@
  */
 
 // DOM elements
-var container, box, boxInMotion, boxes = [];
+var container, box, boxInMotion, targetBox, boxes = [];
 
 // CSS stuff
 var boxClass, boxTop, startY, deltaY;
@@ -99,7 +99,7 @@ init = function( ) {
     console.info( "block-mover.js" );
     initHighlighter( );
     container = document.getElementsByClassName( "container-box" )[0];
-    calcCriticalPositions();
+    calcCriticalPositions( "init: " );
     body = document.getElementsByTagName( "body" )[0];
     body.addEventListener( "mousedown", handleMousedown );
     body.addEventListener( "mouseup", handleMouseup );
@@ -113,9 +113,9 @@ findBoxIndex = function( box ) {
     return Array.prototype.indexOf.call( container.children, box );
 }
 
-calcCriticalPositions = function( ) {
+calcCriticalPositions = function( str ) {
     boxes = Array.prototype.slice.call( container.children ); // Make a real Array from an HTMLCollection.
-    str = "critical positions => ";
+    str += "critical positions => ";
     for ( boxi = 0; boxi < boxes.length; boxi++ ) {
 	boundingRect = boxes[boxi].getBoundingClientRect( );
 	criticalPositions[boxi] =
@@ -144,7 +144,7 @@ handleMousedown = function( event ) {
     boxInMotion = event.target;
     startY = event.clientY;
     bimIndex = findBoxIndex( boxInMotion );
-    console.debug( "index of boxInMotion in its parent's NodeList => " + bimIndex );
+    console.debug( "mousedown: index of boxInMotion in its parent's NodeList => " + bimIndex );
     if ( findBoxIndex( boxInMotion ) == -1 ) {
 	console.info( "Selected element cannot be handled in this prototype GUI" );
 	console.debug( "" );
@@ -162,22 +162,20 @@ handleMousedown = function( event ) {
 
 handleMouseup = function( event ) {
     if ( inDragProcess ) {
+	console.debug( "" );
 	deltaY = event.clientY - startY;
 	console.debug( "mouseup: deltaY => " + deltaY );
+	console.debug( "mousemove: boxInMotion bottom => " + boundingRect.bottom +
+		       ", criticalPositions[targetBoxIndex] => " + criticalPositions[targetBoxIndex] );
 	if ( deltaY > minGesture ) {
-	    console.debug( "startY => " + startY + ", endY => " + event.clientY );
 	    if ( bimIndex == targetBoxIndex ) {
 		console.warn( "Box in motion is its own target; this is a null operation." );
 	    } else {
 		console.debug( "targetBoxIndex => " + targetBoxIndex );
 		container.removeChild( boxInMotion );
-		// 1 is conditionally subtracted from targetBoxIndex here because after the boxes array was filled,
-		// the box in motion was removed from the parent's NodeList, so the indexes of boxes after
-		// the box in motion will be reduced by 1.
 		boxes.splice( boxi, 1 ); // Remove the box in motion from the array of element references.
-		insertAfter( boxInMotion, boxes[targetBoxIndex] );
+		insertAfter( boxInMotion, targetBox );
 		boxes = Array.prototype.slice.call( container.children ); // Make a real Array from an HTMLCollection.
-		calcCriticalPositions( );
 	    }
 	} else {
 	    console.warn( "Box not dragged more than minGesture pixels downward, so not moved." );
@@ -185,6 +183,7 @@ handleMouseup = function( event ) {
 	boxInMotion.style.position = "static";
 	boxInMotion.className = boxClass;
 	boxInMotion.style.top = boxTop;
+	calcCriticalPositions( "mouseup: exit: " );
 	inDragProcess = false;
 	console.debug( "" );
     }
@@ -194,18 +193,16 @@ handleMousemove = function( event ) {
     if ( inDragProcess ) {
 	deltaY = event.clientY - startY;
 	boxInMotion.style.top = Math.max( deltaY, 0 );
-	for ( boxi = 0; boxi < boxes.length; boxi++ ) {
-	    if ( boxes[boxi] != boxInMotion ) {
-		boundingRect = boxInMotion.getBoundingClientRect( );
-		//console.debug( "boxInMotion top => " + boundingRect.top );
-		//console.debug( "criticalPositions[boxi] => " +
-		//	      criticalPositions[boxi] + ", Target box index => " + boxi );
-		if ( boundingRect.bottom > criticalPositions[boxi] ) {
-		    targetBoxIndex = boxi;			
-		    //console.debug( "boundingRect.top => " + boundingRect.top + ", boxi => " + boxi +
-		    //		  ", criticalPositions[boxi] => " + criticalPositions[boxi] );
-		}
+	boundingRect = boxInMotion.getBoundingClientRect( );
+	targetBoxIndex = boxes.length - 1;			
+	for ( boxi = boxes.length - 1; boxi >= 0; boxi-- ) {
+	    if ( boundingRect.bottom > criticalPositions[boxi] ) {
+		break;
 	    }
+	    targetBoxIndex = boxi - 1;			
 	}
+	targetBox = boxes[targetBoxIndex];
+	//console.debug( "mousemove: boxInMotion bottom => " + boundingRect.bottom +
+	//	       ", criticalPositions[targetBoxIndex] => " + criticalPositions[targetBoxIndex] );
     }
 }
