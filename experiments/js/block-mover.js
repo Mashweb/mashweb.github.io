@@ -1,6 +1,7 @@
 /*
  * Move any block element contained by an element of CSS class "parent-box"
- * from one position to another within the parent box's NodeList.
+ * from one position to another within the parent box's NodeList,
+ * assuming all the elements in the NodeList are block elements.
  * We want to give it a direct-manipulation feel,
  * so we "grab" the DIV by temporarily converting its position value to
  * relative.
@@ -23,23 +24,23 @@
  *
  *      +-----+ 0
  *      |     |
- *      |  0  | <- critcal position for block box 0
+ *      |  0  | <- critcal position for block 0
  *      |     |
  *      +-----+ 100
  *      |     |
- *      |  1  | <- critcal position for block box 1
+ *      |  1  | <- critcal position for block 1
  *      |     |
  *      +-----+ 200
  *      |     |
  *      |     |
  *      |     |
- *      |  2  | <- critical position for bock box 2
+ *      |  2  | <- critical position for bock 2
  *      |     |
  *      |     |
  *      |     |
  *      +-----+ 400
  *      |     |
- *      |  3  | <- critcal position for block box 3
+ *      |  3  | <- critcal position for block 3
  *      |     |
  *      +-----+ 500
  *
@@ -49,60 +50,69 @@
  * element whose children are the moving element or its siblings.
  * This code is for a prototype GUI, so it is assumed that the parent
  * element will be determined by a different method than the method used here.
+ * An unbroken subcollection of block elements in a NodeList should be outlined
+ * to show that any position in it is an easy target for dropping a block.
+ * Subcollections of elements separated by inline or inline-block elements
+ * will be handled differently; they will need to be handled like blocks
+ * with separate parents.
  *
  * FIXME: Make the setting of the body's margin property to 0, which is being
  * done here in block.html, unnecessary.
- *
- * FIXME: BUG: If the bottom of block box 0 is dragged to position Y=30,
- * the box is not moved in its parent's NodeList, but boxInMotion is not set
- * to null. Then if the bottom of block box 1 is dragged to position Y=250,
- * the box is not moved in its parent's NodeList, but since boxInMotion
- * is not null but points to the box in motion (box 1), which at the moment
- * has no parent, the box is not returned to the NodeList and is lost.
  */
 
-var boxes, box, body, boxClass, boxTop, startY, endX, boxTop, parent;
+// DOM elements
+var container, parent, box, body, boxInMotion, boxes = [];
+
+// CSS stuff
+var boxClass, boxTop, startY, deltaY, boxTop;
+
+// Only after a mousedown event is the move process begun,
+// but the mousemove handler can be called many times before then. Hence this.
 var inDragProcess = false;
 
 // Moves smaller than minGesture pixels don't move an element in the NodeList.
 var minGesture = 10;
 
-var boundingRect, boxi, boxInMotion, deltaY;
-var targetBoxIndex = null;
+// Return value of the method getBoundingClientRect (part of the prototype of an element).
+// This allows us to get the absolute positions of a block.
+var boundingRect;
 
+// bimIndex is the NodeList index of the box in motion before removal from the NodeList.
+var bimIndex;
 
+// targetBoxIndex gets set to the NodeList index of the block *after* which the moving box should be put.
+var targetBoxIndex;
+
+// Each "critical position" is the lowest absolute vertical position where, if the top of the box in motion
+// is dropped there, the box in motion will be inserted into the DOM before the box underneath, in the NodeList.
+// If the box in motion is dropped at a position lower than that, it will be inserted somewhere later
+// in the NodeList.
 var criticalPositions = [];
 
 init = function() {
     var str;
+    console.info("block-mover.js");
     initHighlighter();
-    parent = document.getElementsByClassName("parent-box")[0];
+    container = document.getElementsByClassName("container-box")[0];
     calcCriticalPositions();
-    parent.addEventListener("mousedown", handleMousedown);
     body = document.getElementsByTagName("body")[0];
+    body.addEventListener("mousedown", handleMousedown);
     body.addEventListener("mouseup", handleMouseup);
     body.addEventListener("mousemove", handleMousemove);
+    targetBoxIndex = 0;
+    console.debug("");
 }
 
 findBoxIndex = function(box) {
-    for (boxi = 0; boxi < boxes.length; boxi++) {
-	if (box = boxes[boxi]) {
-	    console.debug("findBoxIndex: index is " + boxi);
-	    return boxi;
-	}
-    }
-    console.error("findBoxIndex: Could not find index");
-    return null;
+    // container.children is a NodeList, not an Array, but it is Array-like, so we can apply the indexOf() like this.
+    return Array.prototype.indexOf.call(container.children, box);
 }
 
 calcCriticalPositions = function() {
-    boxes = parent.children;
-    totalHeight = 0;
+    boxes = Array.prototype.slice.call( container.children ); // Make a real Array from an HTMLCollection.
     str = "critical positions => ";
     for (boxi = 0; boxi < boxes.length; boxi++) {
 	boundingRect = boxes[boxi].getBoundingClientRect();
-	//console.debug("boundingRect.top => " + boundingRect.top +
-	//	      ", boundingRect.bottom => " + boundingRect.bottom);
 	criticalPositions[boxi] =
 	    Math.round(((boundingRect.bottom - boundingRect.top) * 0.5) + boundingRect.top);
 	str += criticalPositions[boxi] + ", ";
@@ -110,62 +120,73 @@ calcCriticalPositions = function() {
     console.debug(str);
 }    
 
+// NodeLists have an insertBefore method, but no insertAfter method, so we create this useful insertAfter function.
 insertAfter = function(newElement, targetElement) {
-    var parent = targetElement.parentElement;
-    if (parent.lastchild == targetElement) {
-	parent.appendChild(newElement);
+    console.dir(newElement);
+    console.dir(targetElement);
+    if (container.lastchild == targetElement) {
+	console.debug("targetElement is container's lastchild");
+	container.appendChild(newElement);
     } else {
-	//console.debug("newElement => " + newElement + ", targetElement => " + targetElement);
-	parent.insertBefore(newElement, targetElement.nextSibling);
+	container.insertBefore(newElement, targetElement.nextSibling);
     }
-    //calcCriticalPositions();
-    targetBoxIndex = null;
 }
 
+// When the primary mouse button is clicked, we prevent the default mouse-down event from occuring, remember the click
+// target and find its index in its parent's NodeList, remember the state of the box, temporarily change its position
+// type to relative, and start the box-dragging process.
 handleMousedown = function(event) {
-    console.debug("mousedown, clientY=" + event.clientY);
-    boxInMotion = event.target;
-    boxTop = boundingRect.top;
-    boxClass = boxInMotion.className;
-    boxTop = boxInMotion.style.top;
-    //console.debug("boxTop => " + boxTop + ", boxBottom => " + boundingRect.bottom + ", boxClass => " + boxClass);
-    startY = event.clientY;
-    boxInMotion.style.position = "relative";
-    boxInMotion.className += " draggable-block";
     event.preventDefault();
-    inDragProcess = true;
+    //console.debug("mousedown: clientY=" + event.clientY);
+    boxInMotion = event.target;
+    startY = event.clientY;
+    bimIndex = findBoxIndex(boxInMotion);
+    console.debug("index of boxInMotion in its parent's NodeList => " + bimIndex);
+    if (findBoxIndex(boxInMotion) == -1) {
+	console.info("Selected element cannot be handled in this prototype GUI");
+	console.debug("");
+    } else {
+	boxTop = boundingRect.top;
+	boxClass = boxInMotion.className;
+	boxTop = boxInMotion.style.top;
+	//console.debug("boxTop => " + boxTop + ", boxBottom => " + boundingRect.bottom + ", boxClass => " + boxClass);
+	boxInMotion.style.position = "relative";
+	boxInMotion.className += " draggable-block";
+	inDragProcess = true;
+    }
 }
 
 handleMouseup = function(event) {
-    console.debug("mouseup, clientY=" + event.clientY);
-    endY = event.clientY;
-    if (endY > startY + 10) {
-	console.debug("endY => " + endY + ", startY => " + startY);
-	if (targetBoxIndex !== null) {
-	    //if (findBoxIndex(boxInMotion) != targetBoxIndex) {
-	    if (parent !== undefined) {
-		parent.removeChild(boxInMotion);
-		console.debug("targetBoxIndex => " + targetBoxIndex + ", index of box in motion => " +
-			      findBoxIndex(boxInMotion));
-		// 1 is subtracted from targetBoxIndex here because after the boxes array was filled, the box in motion
-		// was removed from the parent's NodeList, so the indexes of boxes will be reduced by 1.
-		insertAfter(boxInMotion, boxes[targetBoxIndex - 1]); // Subtract 1 because we removed boxInMotion.
+    if (inDragProcess) {
+	deltaY = event.clientY - startY;
+	console.debug("mouseup: deltaY => " + deltaY);
+	if (deltaY > minGesture) {
+	    console.debug("startY => " + startY + ", endY => " + event.clientY);
+	    if (bimIndex == targetBoxIndex) {
+		console.warn("Box in motion is its own target; this is a null operation.");
 	    } else {
-		console.debug("Box in motion is its own target; this is a null operation.");
+		console.debug("targetBoxIndex => " + targetBoxIndex);
+		container.removeChild(boxInMotion);
+		// 1 is conditionally subtracted from targetBoxIndex here because after the boxes array was filled,
+		// the box in motion was removed from the parent's NodeList, so the indexes of boxes after
+		// the box in motion will be reduced by 1.
+		boxes.splice(boxi, 1); // Remove the box in motion from the array of element references.
+		insertAfter(boxInMotion, boxes[targetBoxIndex]);
+		boxes = Array.prototype.slice.call( container.children ); // Make a real Array from an HTMLCollection.
+		calcCriticalPositions();
 	    }
 	} else {
-	    console.debug("targetBoxIndex null");
+	    console.warn("Box not dragged more than minGesture pixels downward, so not moved.");
 	}
+	boxInMotion.style.position = "static";
+	boxInMotion.className = boxClass;
+	boxInMotion.style.top = boxTop;
+	inDragProcess = false;
+	console.debug("");
     }
-    boxInMotion.style.position = "static";
-    boxInMotion.className = boxClass;
-    boxInMotion.style.top = boxTop;
-    calcCriticalPositions();
-    inDragProcess = false;
 }
 
 handleMousemove = function(event) {
-    var doMoveBox = false;
     if (inDragProcess) {
 	deltaY = event.clientY - startY;
 	boxInMotion.style.top = Math.max(deltaY, 0);
@@ -184,4 +205,3 @@ handleMousemove = function(event) {
 	}
     }
 }
-    
