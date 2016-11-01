@@ -165,16 +165,20 @@ handleMouseup = function( event ) {
 	console.debug( "" );
 	deltaY = event.clientY - startY;
 	console.debug( "mouseup: deltaY => " + deltaY );
-	console.debug( "mousemove: boxInMotion bottom => " + boundingRect.bottom +
+	console.debug( "boxInMotion bottom => " + boundingRect.bottom + ", targetBoxIndex => " + targetBoxIndex +
 		       ", criticalPositions[targetBoxIndex] => " + criticalPositions[targetBoxIndex] );
-	if ( deltaY > minGesture ) {
+	if ( Math.abs( deltaY ) > minGesture ) {
 	    if ( bimIndex == targetBoxIndex ) {
 		console.warn( "Box in motion is its own target; this is a null operation." );
 	    } else {
 		console.debug( "targetBoxIndex => " + targetBoxIndex );
 		container.removeChild( boxInMotion );
 		boxes.splice( boxi, 1 ); // Remove the box in motion from the array of element references.
-		insertAfter( boxInMotion, targetBox );
+		if ( targetBoxIndex == -1 ) { // -1 refers to a virtual target before all the boxes.
+		    container.insertBefore( boxInMotion, boxes[0] );
+		} else {
+		    insertAfter( boxInMotion, targetBox );
+		}
 		boxes = Array.prototype.slice.call( container.children ); // Make a real Array from an HTMLCollection.
 	    }
 	} else {
@@ -192,7 +196,8 @@ handleMouseup = function( event ) {
 handleMousemove = function( event ) {
     if ( inDragProcess ) {
 	deltaY = event.clientY - startY;
-	boxInMotion.style.top = Math.max( deltaY, 0 );
+	//boxInMotion.style.top = Math.max( deltaY, 0 );
+	boxInMotion.style.top = deltaY;
 	boundingRect = boxInMotion.getBoundingClientRect( );
 	targetBoxIndex = boxes.length - 1;			
 	for ( boxi = boxes.length - 1; boxi >= 0; boxi-- ) {
