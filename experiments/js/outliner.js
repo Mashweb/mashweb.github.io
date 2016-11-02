@@ -6,7 +6,7 @@ function outlineOneNode( node ) {
     var computedPropTab = [ "margin-top",    "margin-right",    "margin-bottom",    "margin-left"    ];
     node.zen = {};
     node.zen.saveStyles = {};
-    if ( node.style !== undefined ) {
+    if ( typeof node.style !== "undefined" ) {
 	node.zen.saveStyles.border = node.style.border;
 	// FIXME: This isn't optimal. It should do something like what the ensureMargin function does, but for borders.
 	node.style.border = "2px solid red";

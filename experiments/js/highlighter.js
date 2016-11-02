@@ -14,13 +14,13 @@ initHighlighter = function() {
 handleMousemoveHighlighter = function(event) {
     var target = event.target;
     if (lastTarget != target) {
-	if (lastTarget !== undefined) {
+	if (typeof lastTarget !== "undefined") {
 	    // Restore the original style of the node over which the mouse pointer passed.
 	    lastTarget.style.border = lastTarget.zen.saveStyles.border;
 	    //lastTarget.style.display = lastTarget.zen.saveStyles.display;
 	    lastTarget.style.margin = lastTarget.zen.saveStyles.margin;
 	}
-	if (target.zen == undefined) {
+	if (typeof target.zen == "undefined") {
 	    target.zen = {};
 	    target.zen.saveStyles = {};
 	}
