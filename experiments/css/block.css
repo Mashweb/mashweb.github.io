@@ -1,4 +1,4 @@
-div.box { width:150px; height:100px; }
+div.box { height:100px; }
 
 .draggable-block:active {
     cursor: url('../images/ns-move.gif'),auto;

@@ -3,31 +3,26 @@
  * As the mouse pointer moves away from the element, reset the element's borders and margins.
  */
 
-var lastTarget;
+var previousTarget = null;
 
-initHighlighter = function() {
-    var body = document.getElementsByTagName("body")[0];
-    body.addEventListener("mousemove", handleMousemoveHighlighter);
-    
+initHighlighter = function( ) {
+    var body = document.getElementsByTagName( "body" )[ 0 ];
+    body.addEventListener("mouseover", handleMouseover);
 }
 
-handleMousemoveHighlighter = function(event) {
+// TODO: Don't hightlight the document body element.
+handleMouseover = function( event ) {
     var target = event.target;
-    if (lastTarget != target) {
-	if (typeof lastTarget !== "undefined") {
-	    // Restore the original style of the node over which the mouse pointer passed.
-	    lastTarget.style.border = lastTarget.zen.saveStyles.border;
-	    //lastTarget.style.display = lastTarget.zen.saveStyles.display;
-	    lastTarget.style.margin = lastTarget.zen.saveStyles.margin;
-	}
-	if (typeof target.zen == "undefined") {
-	    target.zen = {};
-	    target.zen.saveStyles = {};
-	}
-	target.zen.saveStyles.border = target.style.border;
-	//target.zen.saveStyles.display = target.style.display;
-	target.zen.saveStyles.margin = target.style.margin;
-	outlineOneNode(target);
-	lastTarget = target;
+    console.group( "handleMouseover" );
+    console.dir( target );
+    console.groupEnd( );
+    if ( previousTarget !== null ) {
+	// Restore the original style of the node the mouse pointer passed away from.
+	unoutlineOneNode( previousTarget );
+    }
+    if ( previousTarget === null || previousTarget !== target ) {
+	outlineOneNode( target, "aqua" );
+	// Now the node is the "previous" node.
+	previousTarget = target;
     }
 }

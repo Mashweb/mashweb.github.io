@@ -1,17 +1,20 @@
 /*
- * Move any block element contained by an element of CSS class "parent-box"
+ * The idea of the code below is to allow the user to
+ * move any block element contained by an element of CSS class "container-box"
  * from one position to another within the parent box's NodeList,
  * assuming all the elements in the NodeList are block elements.
  * We want to give it a direct-manipulation feel,
  * so we "grab" the DIV by temporarily converting its position value to
- * relative.
+ * "relative".
  *
  * The critical position for any block box B is, for the sake of a good GUI effect,
  * halfway between the top and bottom of the box. If the bottom of the
  * box in motion is dropped farther down the web page than this position, the
  * box in motion will be moved somewhere *after* box B in the parent's NodeList.
- * If the top of the box in motion is up the page from the critical position
- * for any block box B, the box in motion will be moved somewhere *before* box B.
+ * If the bottom of the box in motion is up the page from the critical position
+ * for any block box B, the box in motion will be moved somewhere *before* box B
+ * unless the block in motion would be moved after itself, in which case the
+ * operation is considered a null operation and ignored.
  *
  * Take an example.
  * If the following diagram represents the web page, box 0 is the box in motion,
@@ -44,10 +47,10 @@
  *      |     |
  *      +-----+ 500
  *
- * FIXME: Probably the comparison of critical positions to the movement
- * of the box in motion is not done properly. The *delta* is probably
- * irrelevant. What should probably matter is the absolution position
- * of the box bottom.
+ * FIXME: Certain page structures and widths of the web page make it difficult
+ * to highlight horizontal lines (with the red border) by passing the mouse over
+ * them, because the element's extra size when highlighted makes all the
+ * containers' content shift around, affecting the computed position of elements.
  *
  * FIXME: Allow any static block to be moved to any position in the NodeList.
  *
@@ -69,7 +72,7 @@
 var container, box, boxInMotion, targetBox, boxes = [];
 
 // CSS stuff
-var boxClass, boxTop, startY, deltaY;
+var boxClass, boxTop, startY, deltaY; //FIXME: Get rid of variables boxBorder, containerBorder, startY, deltaY.
 
 // Only after a mousedown event is the move process begun,
 // but the mousemove handler can be called many times before then. Hence this.
@@ -105,7 +108,6 @@ init = function( ) {
     body.addEventListener( "mouseup", handleMouseup );
     body.addEventListener( "mousemove", handleMousemove );
     targetBoxIndex = 0;
-    console.debug( "" );
 }
 
 findBoxIndex = function( box ) {
@@ -139,6 +141,7 @@ insertAfter = function( newElement, targetElement ) {
 // target and find its index in its parent's NodeList, remember the state of the box, temporarily change its position
 // type to relative, and start the box-dragging process.
 handleMousedown = function( event ) {
+    console.debug( "" );
     event.preventDefault( );
     //console.debug( "mousedown: clientY=" + event.clientY );
     boxInMotion = event.target;
@@ -149,13 +152,16 @@ handleMousedown = function( event ) {
 	console.info( "Selected element cannot be handled in this prototype GUI" );
 	console.debug( "" );
     } else {
-	boxTop = boundingRect.top;
 	boxClass = boxInMotion.className;
 	boxTop = boxInMotion.style.top;
+	//boxBorder = boxInMotion.style.border;
+	//containerBorder = container.style.border;
+	boxes.forEach( function( node ) { if ( node != boxInMotion ) { outlineOneNode( node, "blue" ); } } );
 	//console.debug( "boxTop => " + boxTop + ", boxBottom => " + boundingRect.bottom +
-	//               ", boxClass => " + boxClass);
+	//               ", boxClass => " + boxClass + ", containerBorder => " + containerBorder);
 	boxInMotion.style.position = "relative";
 	boxInMotion.className += " draggable-block";
+	outlineOneNode( container, "red" );
 	inDragProcess = true;
     }
 }
@@ -184,9 +190,15 @@ handleMouseup = function( event ) {
 	} else {
 	    console.warn( "Box not dragged more than minGesture pixels downward, so not moved." );
 	}
+	boxes.forEach( function( node ) { if ( node != boxInMotion ) { unoutlineOneNode( node ); } } );
 	boxInMotion.style.position = "static";
 	boxInMotion.className = boxClass;
 	boxInMotion.style.top = boxTop;
+	//console.debug( "boxBorder => " + boxBorder );
+	//boxInMotion.style.border = previousTarget.zen.preoutlineStyle.border;
+	//unoutlineOneNode( boxInMotion );
+	unoutlineOneNode( container );
+	console.debug( "-----" );
 	calcCriticalPositions( "mouseup: exit: " );
 	inDragProcess = false;
 	console.debug( "" );
