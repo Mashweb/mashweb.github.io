@@ -100,14 +100,16 @@ var criticalPositions = [];
 init = function( ) {
     var str, body;
     console.info( "block-mover.js" );
-    initHighlighter( );
     container = document.getElementsByClassName( "container-box" )[0];
     calcCriticalPositions( "init: " );
     body = document.getElementsByTagName( "body" )[0];
+    //body.addEventListener( "mouseclick", handleMouseclick );    
     body.addEventListener( "mousedown", handleMousedown );
     body.addEventListener( "mouseup", handleMouseup );
-    body.addEventListener( "mousemove", handleMousemove );
+    container.addEventListener( "mousemove", handleMousemove );
+    initHighlighter( container );
     targetBoxIndex = 0;
+    saveBorders( );
 }
 
 findBoxIndex = function( box ) {
@@ -124,7 +126,7 @@ calcCriticalPositions = function( str ) {
 	    Math.round((( boundingRect.bottom - boundingRect.top ) * 0.5 ) + boundingRect.top );
 	str += criticalPositions[boxi] + ", ";
     }
-    console.debug( str );
+    //console.debug( str );
 }    
 
 // NodeLists have an insertBefore method, but no insertAfter method, so we create this useful insertAfter function.
@@ -141,43 +143,55 @@ insertAfter = function( newElement, targetElement ) {
 // target and find its index in its parent's NodeList, remember the state of the box, temporarily change its position
 // type to relative, and start the box-dragging process.
 handleMousedown = function( event ) {
-    console.debug( "" );
     event.preventDefault( );
     //console.debug( "mousedown: clientY=" + event.clientY );
     boxInMotion = event.target;
     startY = event.clientY;
     bimIndex = findBoxIndex( boxInMotion );
-    console.debug( "mousedown: index of boxInMotion in its parent's NodeList => " + bimIndex );
+    //console.debug( "mousedown: index of boxInMotion in its parent's NodeList => " + bimIndex );
     if ( findBoxIndex( boxInMotion ) == -1 ) {
 	console.info( "Selected element cannot be handled in this prototype GUI" );
-	console.debug( "" );
     } else {
 	boxClass = boxInMotion.className;
 	boxTop = boxInMotion.style.top;
-	//boxBorder = boxInMotion.style.border;
-	//containerBorder = container.style.border;
+	log( "handleMousedown: outlining boxes" );
 	boxes.forEach( function( node ) { if ( node != boxInMotion ) { outlineOneNode( node, "blue" ); } } );
-	//console.debug( "boxTop => " + boxTop + ", boxBottom => " + boundingRect.bottom +
-	//               ", boxClass => " + boxClass + ", containerBorder => " + containerBorder);
 	boxInMotion.style.position = "relative";
+	console.log("mousedown: adding 'draggable-block' class to boxInMotion");
 	boxInMotion.className += " draggable-block";
+	log( "handleMousedown: outlining container box in red" );
 	outlineOneNode( container, "red" );
 	inDragProcess = true;
     }
+    console.debug( "mousedown: exit" );
+}
+
+handleMouseclick = function( event ) {
+    event.preventDefault( );
+    console.debug( "mouseclick: clientY=" + event.clientY );
+    boxInMotion = event.target;
+    bimIndex = findBoxIndex( boxInMotion );
+    //console.debug( "mousedown: index of boxInMotion in its parent's NodeList => " + bimIndex );
+    if ( findBoxIndex( boxInMotion ) == -1 ) {
+	console.info( "Selected element cannot be handled in this prototype GUI" );
+    } else {
+	boxInMotion.className += " draggable-block";
+    }
+    console.debug( "mouseclick: exit" );
 }
 
 handleMouseup = function( event ) {
     if ( inDragProcess ) {
 	console.debug( "" );
 	deltaY = event.clientY - startY;
-	console.debug( "mouseup: deltaY => " + deltaY );
-	console.debug( "boxInMotion bottom => " + boundingRect.bottom + ", targetBoxIndex => " + targetBoxIndex +
-		       ", criticalPositions[targetBoxIndex] => " + criticalPositions[targetBoxIndex] );
+	//console.debug( "mouseup: deltaY => " + deltaY );
+	//console.debug( "boxInMotion bottom => " + boundingRect.bottom + ", targetBoxIndex => " + targetBoxIndex +
+	//	       ", criticalPositions[targetBoxIndex] => " + criticalPositions[targetBoxIndex] );
 	if ( Math.abs( deltaY ) > minGesture ) {
 	    if ( bimIndex == targetBoxIndex ) {
 		console.warn( "Box in motion is its own target; this is a null operation." );
 	    } else {
-		console.debug( "targetBoxIndex => " + targetBoxIndex );
+		//console.debug( "targetBoxIndex => " + targetBoxIndex );
 		container.removeChild( boxInMotion );
 		boxes.splice( boxi, 1 ); // Remove the box in motion from the array of element references.
 		if ( targetBoxIndex == -1 ) { // -1 refers to a virtual target before all the boxes.
@@ -190,25 +204,22 @@ handleMouseup = function( event ) {
 	} else {
 	    console.warn( "Box not dragged more than minGesture pixels downward, so not moved." );
 	}
+	log( "handleMouseup: unoutlining boxes" );
 	boxes.forEach( function( node ) { if ( node != boxInMotion ) { unoutlineOneNode( node ); } } );
 	boxInMotion.style.position = "static";
+	console.log("mousedown: removing 'draggable-block' class from boxInMotion");
 	boxInMotion.className = boxClass;
 	boxInMotion.style.top = boxTop;
-	//console.debug( "boxBorder => " + boxBorder );
-	//boxInMotion.style.border = previousTarget.zen.preoutlineStyle.border;
-	//unoutlineOneNode( boxInMotion );
+	log( "handleMouseup: unoutlining container box" );
 	unoutlineOneNode( container );
-	console.debug( "-----" );
 	calcCriticalPositions( "mouseup: exit: " );
 	inDragProcess = false;
-	console.debug( "" );
     }
 }
 
 handleMousemove = function( event ) {
     if ( inDragProcess ) {
 	deltaY = event.clientY - startY;
-	//boxInMotion.style.top = Math.max( deltaY, 0 );
 	boxInMotion.style.top = deltaY;
 	boundingRect = boxInMotion.getBoundingClientRect( );
 	targetBoxIndex = boxes.length - 1;			

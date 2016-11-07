@@ -5,22 +5,24 @@
 
 var previousTarget = null;
 
-initHighlighter = function( ) {
-    var body = document.getElementsByTagName( "body" )[ 0 ];
-    body.addEventListener("mouseover", handleMouseover);
+initHighlighter = function( container ) {
+    container.addEventListener("mouseover", handleMouseover);
 }
 
 // TODO: Don't hightlight the document body element.
 handleMouseover = function( event ) {
     var target = event.target;
-    console.group( "handleMouseover" );
-    console.dir( target );
-    console.groupEnd( );
+    //console.group( "handleMouseover" );
+    //console.dir( target );
+    //console.groupEnd( );
     if ( previousTarget !== null ) {
 	// Restore the original style of the node the mouse pointer passed away from.
+	log("unoutline previous hover position");
 	unoutlineOneNode( previousTarget );
     }
     if ( previousTarget === null || previousTarget !== target ) {
+	//log(["previous target", target, "x"]);
+	log("**outline current hover position");
 	outlineOneNode( target, "aqua" );
 	// Now the node is the "previous" node.
 	previousTarget = target;

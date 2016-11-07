@@ -1,10 +1,49 @@
 var computedProps = [];
 
+function dumpLog( index = -5 ) {
+    for ( ix = log.history.count + index; ix <= log.history.count; ix++ ) {
+	console.debug(log.history[ix]);
+    }
+    return "Done."
+}
+
+function log( obj ) {
+    log.history = log.history || [];
+    log.history.push(obj);
+    log.history.count = log.history.count + 1 || 0;
+}
+
+function clearLog( ) {
+    log.history = [];
+    log.history.count = 0;
+}
+
+function saveBorders( ) {
+    boxes.forEach( function( node ) {
+	if ( typeof node.zen == "undefined" || typeof node.zen.preoutlineStyle == "undefined" ) {
+	    node.zen = {};
+	    node.zen.preoutlineStyle = {};
+	}
+	node.zen.preoutlineStyle.border = node.style.border;
+    } );
+    if ( typeof container.zen == "undefined" || typeof container.zen.preoutlineStyle == "undefine" ) {
+	container.zen = { };
+	container.zen.preoutlineStyle = { };
+    }
+    container.zen.preoutlineStyle.border = container.style.border;
+}
+
 function outlineOneNode( node, color ) {
     var computedStyle;
     var propTab         = [ "marginTop",     "marginRight",     "marginBottom",     "marginLeft"     ];
     var computedPropTab = [ "margin-top",    "margin-right",    "margin-bottom",    "margin-left"    ];
+    var id;
+
+    if (typeof boxInMotion == "undefined") { id = "boxInMotion not found"; } else { id = boxInMotion.id; }
+    if (typeof node.zen == "undefined") { brdr = "border not saved"; } else { brdr = node.zen.preoutlineStyle.border; }
+    log( [ node.id+","+color+")","now "+node.style.border,"prev "+brdr,"bim "+id ] );
     if (node == document.body) { // Don't outline the document body element.
+	log("outlineOneNode: enter: called for body with color => " + color);
 	return;
     }
     if ( typeof node.zen == "undefined" || typeof node.zen.preoutlineStyle == "undefined" ) {
@@ -14,16 +53,8 @@ function outlineOneNode( node, color ) {
     if ( typeof node.style == "undefined" ) {
 	console.error("outlineOneNode: node.style is undefined");
     } else {
-	console.debug("outlineOneNode: node => " + node + ", node.style.border => " + node.style.border);
-	node.zen.preoutlineStyle.border = node.style.border;
 	// FIXME: This isn't optimal. It should do something like what the ensureMargin function does, but for borders.
 	node.style.border = "3px solid " + color;
-	console.debug("outlineOneNode: node.style.border => " + node.style.border);
-	console.debug("outlineOneNode: document.body.style.border => " + document.body.style.border);
-	node.zen.preoutlineStyle.display = node.style.display;
-
-	//node.style.display = "block";
-	node.zen.preoutlineStyle.margin = node.style.margin;
 	// getComputedStyle is necessary here to accomodate any margin-related property in the user-agent stylesheet
 	// such as -webkit-margin-before in Chrome. If such extra margin applied to <h1> elements were not
 	// accomodated, passing the mouse pointer over an <h1> element would cause the margin to shrink suddenly
@@ -33,19 +64,18 @@ function outlineOneNode( node, color ) {
 	    computedProps[propIndex] = computedStyle.getPropertyValue( computedPropTab[propIndex] );
 	    ensureEnoughMargin( node, propTab[propIndex], computedProps[propIndex] );
 	}
-	console.debug("outlineOneNode: node => " + node + ", document.body.style.border => " +
-		      document.body.style.border);
     }
+    if (typeof boxInMotion == "undefined") { id = "boxInMotion not found"; } else { id = boxInMotion.id; }
 }
 
 function unoutlineOneNode ( node ) {
-    console.group("unoutlineOneNode");
-    console.dir(node);
-    console.groupEnd();
+    if (typeof boxInMotion == "undefined") { id = "boxInMotion not found"; } else { id = boxInMotion.id; }
+    //log( [ node.id, "now " + node.style.border, "prev " + brdr, "bim " + id ] );
     if (node !== document.body) {
 	node.style.border = node.zen.preoutlineStyle.border;
 	node.style.margin = node.zen.preoutlineStyle.margin;
     }
+    if (typeof boxInMotion == "undefined") { id = "boxInMotion not found"; } else { id = boxInMotion.id; }
 }
 
 // This function sets the top, right, bottom, or left of a node to 2 pixels

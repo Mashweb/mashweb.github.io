@@ -1,7 +1,21 @@
-div.box { height:100px; }
+body { background-color: snow; }
 
-.draggable-block:active {
+.yellow { background-color:yellow }
+
+.wheat { background-color:wheat }
+
+.pink { background-color:pink }
+
+.lavender { background-color:lavender }
+
+div.box { height:90px; margin:10px; padding:10px; }
+
+div.big-box { height:190px; }
+
+/* .draggable-block:active { */
+.draggable-block {
     cursor: url('../images/ns-move.gif'),auto;
+    /* cursor: ns-resize; */
 }
 
 .draggable-inline:active {
