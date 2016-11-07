@@ -166,20 +166,6 @@ handleMousedown = function( event ) {
     console.debug( "mousedown: exit" );
 }
 
-handleMouseclick = function( event ) {
-    event.preventDefault( );
-    console.debug( "mouseclick: clientY=" + event.clientY );
-    boxInMotion = event.target;
-    bimIndex = findBoxIndex( boxInMotion );
-    //console.debug( "mousedown: index of boxInMotion in its parent's NodeList => " + bimIndex );
-    if ( findBoxIndex( boxInMotion ) == -1 ) {
-	console.info( "Selected element cannot be handled in this prototype GUI" );
-    } else {
-	boxInMotion.className += " draggable-block";
-    }
-    console.debug( "mouseclick: exit" );
-}
-
 handleMouseup = function( event ) {
     if ( inDragProcess ) {
 	console.debug( "" );
