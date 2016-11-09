@@ -6,7 +6,7 @@
  * We want to give it a direct-manipulation feel,
  * so we "grab" the DIV by temporarily converting its position value to
  * "relative" and tying its vertical position to the relative vertical motion
-*  of the mouse.
+ *  of the mouse.
  *
  * The critical position for any block box B is, for the sake of a good GUI effect,
  * halfway between the top and bottom of the box. If the bottom of the
@@ -151,6 +151,7 @@ handleMousedown = function( event ) {
     boxInMotion = event.target;
     startY = event.clientY;
     startX = event.clientX;
+    console.log( "mousedown: startX => " + startX );
     bimIndex = findBoxIndex( boxInMotion );
     //console.debug( "mousedown: index of boxInMotion in its parent's NodeList => " + bimIndex );
     if ( findBoxIndex( boxInMotion ) == -1 ) {
@@ -174,8 +175,11 @@ handleMouseup = function( event ) {
     if ( inDragProcess ) {
 	console.debug( "" );
 	deltaY = event.clientY - startY;
+	deltaX = event.clientX = startX;
 	console.debug( "mouseup: deltaY => " + deltaY );
-	console.debug( "boxInMotion bottom => " + boundingRect.bottom + ", targetBoxIndex => " + targetBoxIndex +
+	console.debug( "mouseup: deltaX => " + deltaX );
+	console.debug( "mouseup: boxInMotion bottom => " + boundingRect.bottom +
+		       ", targetBoxIndex => " + targetBoxIndex +
 		       ", criticalPositions[targetBoxIndex] => " + criticalPositions[targetBoxIndex] );
 	if ( Math.abs( deltaY ) > minGesture ) {
 	    if ( bimIndex == targetBoxIndex ) {
@@ -210,7 +214,11 @@ handleMouseup = function( event ) {
 handleMousemove = function( event ) {
     if ( inDragProcess ) {
 	deltaY = event.clientY - startY;
+	deltaX = event.clientX = startX;
 	boxInMotion.style.top = deltaY;
+	if ( boxInMotion.style.display == "inline-block" ) {
+	    boxInMotion.style.left = deltaX; // This can only work for inline or inline-block, not block.
+	}
 	boundingRect = boxInMotion.getBoundingClientRect( );
 	targetBoxIndex = boxes.length - 1;			
 	for ( boxi = boxes.length - 1; boxi >= 0; boxi-- ) {
@@ -219,8 +227,13 @@ handleMousemove = function( event ) {
 	    }
 	    targetBoxIndex = boxi - 1;			
 	}
-	targetBox = boxes[targetBoxIndex];
+	targetBox = boxes[targetBoxIndex]; // This is the target box if there are no other boxes inline with it.
 	//console.debug( "mousemove: boxInMotion bottom => " + boundingRect.bottom +
+	//	       ", mousemove: boxInMotion right => " + boundingRect.right +
 	//	       ", criticalPositions[targetBoxIndex] => " + criticalPositions[targetBoxIndex] );
+	computedStyle = window.getComputedStyle( targetBox );
+	if ( computedStyle.display == "inline-block" ) {
+	    boxInMotion.style.display = "inline-block";
+	}
     }
 }

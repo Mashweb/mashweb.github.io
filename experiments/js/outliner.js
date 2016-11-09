@@ -49,6 +49,7 @@ function outlineOneNode( node, color ) {
     if ( typeof node.zen == "undefined" || typeof node.zen.preoutlineStyle == "undefined" ) {
 	node.zen = {};
 	node.zen.preoutlineStyle = {};
+	node.zen.preoutlineStyle.border = node.style.border;
     }
     if ( typeof node.style == "undefined" ) {
 	console.error("outlineOneNode: node.style is undefined");

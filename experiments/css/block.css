@@ -1,5 +1,11 @@
 body { background-color: snow; }
 
+.ruler { float:left; display:block; width:20px; }
+
+.decade { float:left; display:block; background-color:black; height:1px; width:20px; }
+
+.line { float:left; display:block; height:9px; width:20px; font-size:10px; }
+
 .yellow { background-color:yellow }
 
 .wheat { background-color:wheat }
@@ -8,9 +14,21 @@ body { background-color: snow; }
 
 .lavender { background-color:lavender }
 
-div.box { height:90px; margin:10px; padding:10px; }
+.salmon { background-color:salmon }
+
+.tan { background-color:tan }
+
+.silver { background-color:silver }
+
+.thistle { background-color:thistle }
+
+div.box { height:80px; margin:10px; padding:10px; }
 
 div.big-box { height:190px; }
+
+div.inline { display:inline; margin:10px 10px 0px 10px; padding:2px; font-size:14px; }
+
+.inline-block { display:inline-block; margin:10px 10px 0px 10px; height:80px; width:50px; }
 
 /* .draggable-block:active { */
 .draggable-block {
