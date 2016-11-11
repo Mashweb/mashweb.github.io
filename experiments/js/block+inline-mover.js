@@ -72,14 +72,11 @@
  * done here in block.html, unnecessary.
  */
 
-// For debugging: a string to be constructed that represents all the critical Y-positions, prepended with a header.
-var yPositions;
-
 // DOM elements
 var container, box, boxInMotion, targetBox, boxes = [];
 
 // CSS stuff
-var boxClass, boxTop, boxDisplay, startY, deltaY, startX, deltaX;
+var boxClass, boxTop, boxLeft, boxDisplay, startY, deltaY, startX, deltaX;
 
 // Only after a mousedown event is the move process begun,
 // but the mousemove handler can be called many times before then. Hence this.
@@ -102,7 +99,7 @@ var targetBoxIndex;
 // is dropped there, the box in motion will be inserted into the DOM before the box underneath, in the NodeList.
 // If the box in motion is dropped at a position lower than that, it will be inserted somewhere later
 // in the NodeList.
-var criticalPositions = [];
+var criticalYPositions = [], criticalXPositions = [];
 
 // Perform all the page initialization.
 init = function( ) {
@@ -129,15 +126,16 @@ findBoxIndex = function( box ) {
     return Array.prototype.indexOf.call( container.children, box );
 }
 
+// yPositions is a debug string to be constructed that represents all the critical Y-positions, prepended with a header.
 calcCriticalPositions = function( yPositions ) {
     boxes = Array.prototype.slice.call( container.children ); // Make a real Array from an HTMLCollection.
     yPositions += "critical positions => ";
     for ( boxi = 0; boxi < boxes.length; boxi++ ) {
 	boundingRect = boxes[boxi].getBoundingClientRect( );
-	console.log(boxes[boxi].id+" top => "+boundingRect.top+", bottom => "+boundingRect.bottom);
-	criticalPositions[boxi] =
+	console.debug( boxes[boxi].id+" top => "+boundingRect.top+", bottom => "+boundingRect.bottom );
+	criticalYPositions[boxi] =
 	    Math.round((( boundingRect.bottom - boundingRect.top ) * 0.5 ) + boundingRect.top );
-	yPositions += criticalPositions[boxi] + ", ";
+	yPositions += criticalYPositions[boxi] + ", ";
     }
     console.debug( yPositions );
 }    
@@ -161,7 +159,7 @@ handleMousedown = function( event ) {
     boxInMotion = event.target;
     startY = event.clientY;
     startX = event.clientX;
-    console.log( "mousedown: startX => " + startX );
+    console.debug( "mousedown: startX => " + startX );
     bimIndex = findBoxIndex( boxInMotion );
     //console.debug( "mousedown: index of boxInMotion in its parent's NodeList => " + bimIndex );
     if ( findBoxIndex( boxInMotion ) == -1 ) {
@@ -169,11 +167,12 @@ handleMousedown = function( event ) {
     } else {
 	boxClass = boxInMotion.className;
 	boxTop = boxInMotion.style.top;
+	boxLeft = boxInMotion.style.left;
 	boxDisplay = boxInMotion.style.display;
 	log( "handleMousedown: outlining boxes" );
 	boxes.forEach( function( node ) { if ( node != boxInMotion ) { outlineOneNode( node, "blue" ); } } );
 	boxInMotion.style.position = "relative";
-	//console.log("mousedown: adding 'draggable-block' class to boxInMotion");
+	//console.debug( "mousedown: adding 'draggable-block' class to boxInMotion" );
 	boxInMotion.className += " draggable-block";
 	log( "handleMousedown: outlining container box in red" );
 	outlineOneNode( container, "red" );
@@ -193,7 +192,7 @@ handleMousemove = function( event ) {
 	boundingRect = boxInMotion.getBoundingClientRect( );
 	targetBoxIndex = boxes.length - 1;			
 	for ( boxi = boxes.length - 1; boxi >= 0; boxi-- ) {
-	    if ( boundingRect.bottom > criticalPositions[boxi] ) {
+	    if ( boundingRect.bottom > criticalYPositions[boxi] ) {
 		break;
 	    }
 	    targetBoxIndex = boxi - 1;			
@@ -201,7 +200,7 @@ handleMousemove = function( event ) {
 	targetBox = boxes[targetBoxIndex]; // This is the target box if there are no other boxes inline with it.
 	//console.debug( "mousemove: boxInMotion bottom => " + boundingRect.bottom +
 	//	       ", mousemove: boxInMotion right => " + boundingRect.right +
-	//	       ", criticalPositions[targetBoxIndex] => " + criticalPositions[targetBoxIndex] );
+	//	       ", criticalYPositions[targetBoxIndex] => " + criticalYPositions[targetBoxIndex] );
 	computedStyle = window.getComputedStyle( targetBox );
 	if ( computedStyle.display == "inline-block" ) {
 	    boxInMotion.style.display = "inline-block";
@@ -218,7 +217,7 @@ handleMouseup = function( event ) {
 	console.debug( "mouseup: deltaX => " + deltaX );
 	console.debug( "mouseup: boxInMotion bottom => " + boundingRect.bottom +
 		       ", targetBoxIndex => " + targetBoxIndex +
-		       ", criticalPositions[targetBoxIndex] => " + criticalPositions[targetBoxIndex] );
+		       ", criticalYPositions[targetBoxIndex] => " + criticalYPositions[targetBoxIndex] );
 	if ( Math.abs( deltaY ) > minGesture ) {
 	    if ( bimIndex == targetBoxIndex ) {
 		console.warn( "Box in motion is its own target; this is a null operation." );
@@ -239,10 +238,11 @@ handleMouseup = function( event ) {
 	log( "handleMouseup: unoutlining boxes" );
 	boxes.forEach( function( node ) { if ( node != boxInMotion ) { unoutlineOneNode( node ); } } );
 	boxInMotion.style.position = "static";
-	//console.log("mouseup: removing 'draggable-block' class from boxInMotion");
-	console.log("mouseup: boxClass => " + boxClass + ", boxTop => " + boxTop + ", boxDisplay => " + boxDisplay);
+	//console.debug( "mouseup: removing 'draggable-block' class from boxInMotion" );
+	console.debug( "mouseup: boxClass => " + boxClass + ", boxTop => " + boxTop + ", boxDisplay => " + boxDisplay );
 	boxInMotion.className = boxClass;
 	boxInMotion.style.top = boxTop;
+	boxInMotion.style.left = boxLeft;
 	boxInMotion.style.display = boxDisplay;
 	log( "handleMouseup: unoutlining container box" );
 	unoutlineOneNode( container );
