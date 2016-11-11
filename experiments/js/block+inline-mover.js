@@ -1,4 +1,6 @@
 /*
+ * FIXME: Update the header comments to reflect the latest code.
+ *
  * The idea of the code below is to allow the user to
  * move any block element contained by an element of CSS class "container-box"
  * from one position to another within the parent box's NodeList,
@@ -70,11 +72,14 @@
  * done here in block.html, unnecessary.
  */
 
+// For debugging: a string to be constructed that represents all the critical Y-positions, prepended with a header.
+var yPositions;
+
 // DOM elements
 var container, box, boxInMotion, targetBox, boxes = [];
 
 // CSS stuff
-var boxClass, boxTop, startY, deltaY, startX, deltaX;
+var boxClass, boxTop, boxDisplay, startY, deltaY, startX, deltaX;
 
 // Only after a mousedown event is the move process begun,
 // but the mousemove handler can be called many times before then. Hence this.
@@ -99,18 +104,23 @@ var targetBoxIndex;
 // in the NodeList.
 var criticalPositions = [];
 
+// Perform all the page initialization.
 init = function( ) {
-    var str, body;
-    console.info( "block-mover.js" );
+    var body; // document.body
+    console.info( "Initializing block-mover.js" );
+    // Find the element whose NodeList we will work on. Only for this prototype; in production it'll be different.
     container = document.getElementsByClassName( "container-box" )[0];
+    // For the current page structure, determine the regions where dropping a moving box will have different results.
     calcCriticalPositions( "init: " );
+    // Add all the event listeners.
     body = document.getElementsByTagName( "body" )[0];
-    //body.addEventListener( "mouseclick", handleMouseclick );    
     body.addEventListener( "mousedown", handleMousedown );
     body.addEventListener( "mouseup", handleMouseup );
     container.addEventListener( "mousemove", handleMousemove );
-    initHighlighter( container );
-    targetBoxIndex = 0;
+    initHighlighter( container ); // Initialize the mouseover event listener in the highlighter.js module.
+    // Miscellaneous.
+    //targetBoxIndex = 0;
+    // Save the original, statically set borders of the elements we will highlight during page edits.
     saveBorders( );
 }
 
@@ -119,17 +129,17 @@ findBoxIndex = function( box ) {
     return Array.prototype.indexOf.call( container.children, box );
 }
 
-calcCriticalPositions = function( str ) {
+calcCriticalPositions = function( yPositions ) {
     boxes = Array.prototype.slice.call( container.children ); // Make a real Array from an HTMLCollection.
-    str += "critical positions => ";
+    yPositions += "critical positions => ";
     for ( boxi = 0; boxi < boxes.length; boxi++ ) {
 	boundingRect = boxes[boxi].getBoundingClientRect( );
 	console.log(boxes[boxi].id+" top => "+boundingRect.top+", bottom => "+boundingRect.bottom);
 	criticalPositions[boxi] =
 	    Math.round((( boundingRect.bottom - boundingRect.top ) * 0.5 ) + boundingRect.top );
-	str += criticalPositions[boxi] + ", ";
+	yPositions += criticalPositions[boxi] + ", ";
     }
-    console.debug( str );
+    console.debug( yPositions );
 }    
 
 // NodeLists have an insertBefore method, but no insertAfter method, so we create this useful insertAfter function.
@@ -159,6 +169,7 @@ handleMousedown = function( event ) {
     } else {
 	boxClass = boxInMotion.className;
 	boxTop = boxInMotion.style.top;
+	boxDisplay = boxInMotion.style.display;
 	log( "handleMousedown: outlining boxes" );
 	boxes.forEach( function( node ) { if ( node != boxInMotion ) { outlineOneNode( node, "blue" ); } } );
 	boxInMotion.style.position = "relative";
@@ -169,6 +180,33 @@ handleMousedown = function( event ) {
 	inDragProcess = true;
     }
     //console.debug( "mousedown: exit" );
+}
+
+handleMousemove = function( event ) {
+    if ( inDragProcess ) {
+	deltaY = event.clientY - startY;
+	deltaX = event.clientX = startX;
+	boxInMotion.style.top = deltaY;
+	if ( boxInMotion.style.display == "inline-block" ) {
+	    boxInMotion.style.left = deltaX; // This can only work for inline or inline-block, not block.
+	}
+	boundingRect = boxInMotion.getBoundingClientRect( );
+	targetBoxIndex = boxes.length - 1;			
+	for ( boxi = boxes.length - 1; boxi >= 0; boxi-- ) {
+	    if ( boundingRect.bottom > criticalPositions[boxi] ) {
+		break;
+	    }
+	    targetBoxIndex = boxi - 1;			
+	}
+	targetBox = boxes[targetBoxIndex]; // This is the target box if there are no other boxes inline with it.
+	//console.debug( "mousemove: boxInMotion bottom => " + boundingRect.bottom +
+	//	       ", mousemove: boxInMotion right => " + boundingRect.right +
+	//	       ", criticalPositions[targetBoxIndex] => " + criticalPositions[targetBoxIndex] );
+	computedStyle = window.getComputedStyle( targetBox );
+	if ( computedStyle.display == "inline-block" ) {
+	    boxInMotion.style.display = "inline-block";
+	}
+    }
 }
 
 handleMouseup = function( event ) {
@@ -202,38 +240,13 @@ handleMouseup = function( event ) {
 	boxes.forEach( function( node ) { if ( node != boxInMotion ) { unoutlineOneNode( node ); } } );
 	boxInMotion.style.position = "static";
 	//console.log("mouseup: removing 'draggable-block' class from boxInMotion");
+	console.log("mouseup: boxClass => " + boxClass + ", boxTop => " + boxTop + ", boxDisplay => " + boxDisplay);
 	boxInMotion.className = boxClass;
 	boxInMotion.style.top = boxTop;
+	boxInMotion.style.display = boxDisplay;
 	log( "handleMouseup: unoutlining container box" );
 	unoutlineOneNode( container );
 	calcCriticalPositions( "mouseup: exit: " );
 	inDragProcess = false;
-    }
-}
-
-handleMousemove = function( event ) {
-    if ( inDragProcess ) {
-	deltaY = event.clientY - startY;
-	deltaX = event.clientX = startX;
-	boxInMotion.style.top = deltaY;
-	if ( boxInMotion.style.display == "inline-block" ) {
-	    boxInMotion.style.left = deltaX; // This can only work for inline or inline-block, not block.
-	}
-	boundingRect = boxInMotion.getBoundingClientRect( );
-	targetBoxIndex = boxes.length - 1;			
-	for ( boxi = boxes.length - 1; boxi >= 0; boxi-- ) {
-	    if ( boundingRect.bottom > criticalPositions[boxi] ) {
-		break;
-	    }
-	    targetBoxIndex = boxi - 1;			
-	}
-	targetBox = boxes[targetBoxIndex]; // This is the target box if there are no other boxes inline with it.
-	//console.debug( "mousemove: boxInMotion bottom => " + boundingRect.bottom +
-	//	       ", mousemove: boxInMotion right => " + boundingRect.right +
-	//	       ", criticalPositions[targetBoxIndex] => " + criticalPositions[targetBoxIndex] );
-	computedStyle = window.getComputedStyle( targetBox );
-	if ( computedStyle.display == "inline-block" ) {
-	    boxInMotion.style.display = "inline-block";
-	}
     }
 }
