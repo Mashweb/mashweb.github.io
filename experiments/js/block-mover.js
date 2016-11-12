@@ -6,7 +6,7 @@
  * We want to give it a direct-manipulation feel,
  * so we "grab" the DIV by temporarily converting its position value to
  * "relative" and tying its vertical position to the relative vertical motion
-*  of the mouse.
+ *  of the mouse.
  *
  * The critical position for any block box B is, for the sake of a good GUI effect,
  * halfway between the top and bottom of the box. If the bottom of the
@@ -120,14 +120,15 @@ findBoxIndex = function( box ) {
 }
 
 calcCriticalPositions = function( str ) {
+    var boxIndex;
     boxes = Array.prototype.slice.call( container.children ); // Make a real Array from an HTMLCollection.
     str += "critical positions => ";
-    for ( boxi = 0; boxi < boxes.length; boxi++ ) {
-	boundingRect = boxes[boxi].getBoundingClientRect( );
-	console.log(boxes[boxi].id+" top => "+boundingRect.top+", bottom => "+boundingRect.bottom);
-	criticalPositions[boxi] =
+    for ( boxIndex = 0; boxIndex < boxes.length; boxIndex++ ) {
+	boundingRect = boxes[boxIndex].getBoundingClientRect( );
+	console.log(boxes[boxIndex].id + " top => " + boundingRect.top + ", bottom => " + boundingRect.bottom);
+	criticalPositions[boxIndex] =
 	    Math.round((( boundingRect.bottom - boundingRect.top ) * 0.5 ) + boundingRect.top );
-	str += criticalPositions[boxi] + ", ";
+	str += criticalPositions[boxIndex] + ", ";
     }
     console.debug( str );
 }    
@@ -146,6 +147,10 @@ insertAfter = function( newElement, targetElement ) {
 // target and find its index in its parent's NodeList, remember the state of the box, temporarily change its position
 // type to relative, and start the box-dragging process.
 handleMousedown = function( event ) {
+    // Without the call to the preventDefault method, the mouseup event won't
+    // work for images. The rationale for this is that browsers might have
+    // native image drag-and-drop to targets outside the browser.
+    // See http://stackoverflow.com/a/13236751 .
     event.preventDefault( );
     //console.debug( "mousedown: clientY=" + event.clientY );
     boxInMotion = event.target;
@@ -182,14 +187,16 @@ handleMouseup = function( event ) {
 		console.warn( "Box in motion is its own target; this is a null operation." );
 	    } else {
 		//console.debug( "targetBoxIndex => " + targetBoxIndex );
-		container.removeChild( boxInMotion );
-		boxes.splice( boxi, 1 ); // Remove the box in motion from the array of element references.
-		if ( targetBoxIndex == -1 ) { // -1 refers to a virtual target before all the boxes.
-		    container.insertBefore( boxInMotion, boxes[0] );
-		} else {
-		    insertAfter( boxInMotion, targetBox );
+		if ( bimIndex !== 0 ) { // If the box in motion is already first in the container, do nothing.
+		    container.removeChild( boxInMotion );
+		    boxes.splice( bimIndex, 1 ); // Remove the box in motion from the array of element references.
+		    if ( targetBoxIndex == -1 ) { // -1 refers to a virtual target before all the boxes.
+			container.insertBefore( boxInMotion, boxes[0] );
+		    } else {
+			insertAfter( boxInMotion, targetBox );
+		    }
+		    boxes = Array.prototype.slice.call( container.children ); // Make real Array from an HTMLCollection.
 		}
-		boxes = Array.prototype.slice.call( container.children ); // Make a real Array from an HTMLCollection.
 	    }
 	} else {
 	    console.warn( "Box not dragged more than minGesture pixels downward, so not moved." );
@@ -208,16 +215,17 @@ handleMouseup = function( event ) {
 }
 
 handleMousemove = function( event ) {
+    var boxIndex;
     if ( inDragProcess ) {
 	deltaY = event.clientY - startY;
 	boxInMotion.style.top = deltaY;
 	boundingRect = boxInMotion.getBoundingClientRect( );
 	targetBoxIndex = boxes.length - 1;			
-	for ( boxi = boxes.length - 1; boxi >= 0; boxi-- ) {
-	    if ( boundingRect.bottom > criticalPositions[boxi] ) {
+	for ( boxIndex = boxes.length - 1; boxIndex >= 0; boxIndex-- ) {
+	    if ( boundingRect.bottom > criticalPositions[boxIndex] ) {
 		break;
 	    }
-	    targetBoxIndex = boxi - 1;			
+	    targetBoxIndex = boxIndex - 1;			
 	}
 	targetBox = boxes[targetBoxIndex];
 	//console.debug( "mousemove: boxInMotion bottom => " + boundingRect.bottom +

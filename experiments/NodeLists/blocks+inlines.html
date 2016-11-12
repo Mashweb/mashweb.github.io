@@ -1,8 +1,9 @@
 <html>
     <head>
 	<title>NodeList Manipulation with Dispaly Property Set to Block or Inline</title>
-	<link rel="stylesheet" href="css/styles.css" type="text/css">
+	<link rel="stylesheet" href="../css/styles.css" type="text/css">
 	<link rel="stylesheet" href="../css/block.css" type="text/css">
+	<script type="text/javascript" src="../js/logger.js"></script>
 	<script type="text/javascript" src="../js/outliner.js"></script>
 	<script type="text/javascript" src="../js/block-mover.js"></script>
 	<script type="text/javascript" src="../js/highlighter.js"></script>
@@ -22,21 +23,24 @@
 		    <li><a href="#">Second dummy link.</a></li>
 		    <li><a href="#">Third dummy link.</a></li>
 		</ul>
-		This is more text. Notice that it does not fill up an inline or block element,
-		so there is no element to outline in red when the mouse pointer is passed
-		over it.
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 	    </nav>
 
 	    <div>
 		<article class="container-box" style="margin: 5px; background-color: lightgray">
-		    Here is an <span class="elem">&lt;article&gt;</span> element.
-		    <p>(Note: a paragraph begins here.) As you pass the mouse pointer over any element in this web page, that element will be highlighted with a red border of 2 pixels and a margin of (at least) 2 pixels. Please try it. Another thing to try is clicking on a paragraph or line in the light-gray part of the web page&mdash;without moving the mouse. You will see an orange border around the area where you can drag the paragraph or line.</p>
+		    The current version of the prototype NodeList-manipulator prototype can only move
+		    the child elements of a single element. In this demo page, that parent element is
+		    the part with a light gray background. It is an &lt;article&gt; element.
+		    This sentence text is represented by one or more TextNodes in the DOM whose parent
+		    is the &lt;article&gt; element, so when you pass the mouse
+		    over the sentence, the whole &lt;article&gt; element gets highlighted.
 		    <hr>
-		    <p>Here is a second paragraph. Any paragraph or horizontal line inside the orange box can be dragged and dropped after any paragraph or line inside the blue box. Please try it. (Note: This paragraph contains some inline elements&mdash;an image and a span, which are here to support tests of a future DMI GUI that can handle both block elements and inline elements. Inline-element handling is not supported for this web page yet. Here is the image: &nbsp;<img src="images/birds.png" style="height:62px; width:80px; vertical-align:text-top;"></img>&nbsp;<span class="elem">Here is the span.</span>)</p>
+		    <p>(Note: a paragraph begins here.) As you pass the mouse pointer over any child element in the gray-background &lt;article&gt; element, that child will be highlighted by an aqua border of 3 pixels and a margin of (at least) 2 pixels. Please try it. Another thing to try is clicking on a paragraph or line in the light-gray part of the web page&mdash;without moving the mouse. You will see a red border around the area where you can drag the paragraph or line and a cursor indicating the directions in which you can drag it.</p>
+		    <p>Here is a second paragraph. Any paragraph or horizontal line inside the red box can be dragged and dropped after any paragraph or line inside the blue box. Please try it. (Note: This paragraph contains some inline elements&mdash;an image and a span, which are here to support tests of a future DMI GUI that can handle both block elements and inline elements. Inline-element handling is not supported for this web page yet. Here is the image: &nbsp;<img src="images/birds.png" style="height:62px; width:80px; vertical-align:text-top;"></img>&nbsp;<span class="elem">Here is the span.</span>)</p>
 		    <p>Here is a third paragraph. You will see that when you click on a paragraph or line inside the blue box and drag the mouse upward or downward, you get feedback to <em>show</em> that you are dragging the paragraph or line; however, the NodeList position of the paragraph or line is affected only until the mouse button is released. Then the paragraph or line is removed from the DOM and re-appended after another paragraph or line and its position value is returned to what it was before the drag procedure.</p>
+		    <p>This is the last paragraph in the first <span class="elem">&lt;article&gt; element</span>.</p>
 		    <hr>
-		    <p>This is the last paragraph in the first <span class="elem">&lt;article&gt;</span> element.</p>
 		</article>
 		
 		<article>

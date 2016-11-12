@@ -4,8 +4,6 @@
  * so we "grab" the DIV by temporarily converting its position value to
  * relative.
  *
- * See http://stackoverflow.com/a/13236751 .
- *
  * FIXME: Allow any static block to be moved to any position in the NodeList.
  * Make the setting of the body's margin property to 0, which is being done
  * here in block.html, unnecessary.
@@ -42,6 +40,10 @@ handleMousedown = function(event) {
     startX = event.clientX;
     box.style.position = "relative";
     box.className += " draggable-inline";
+    // Without the call to the preventDefault method, the mouseup event won't
+    // work for images. The rationale for this is that browsers might have
+    // native image drag-and-drop to targets outside the browser.
+    // See http://stackoverflow.com/a/13236751 .
     event.preventDefault();
     inDragProcess = true;
 }

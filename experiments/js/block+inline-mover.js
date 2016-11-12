@@ -103,20 +103,16 @@ var criticalYPositions = [], criticalXPositions = [];
 
 // Perform all the page initialization.
 init = function( ) {
-    var body; // document.body
-    console.info( "Initializing block-mover.js" );
-    // Find the element whose NodeList we will work on. Only for this prototype; in production it'll be different.
-    container = document.getElementsByClassName( "container-box" )[0];
-    // For the current page structure, determine the regions where dropping a moving box will have different results.
-    calcCriticalPositions( "init: " );
     // Add all the event listeners.
-    body = document.getElementsByTagName( "body" )[0];
+    var body = document.getElementsByTagName( "body" )[0];
     body.addEventListener( "mousedown", handleMousedown );
     body.addEventListener( "mouseup", handleMouseup );
+    container = document.getElementsByClassName( "container-box" )[0]; // The element we will work on.
     container.addEventListener( "mousemove", handleMousemove );
     initHighlighter( container ); // Initialize the mouseover event listener in the highlighter.js module.
-    // Miscellaneous.
-    //targetBoxIndex = 0;
+    console.info( "Initializing block-mover.js" );
+    // For the current page structure, determine the regions where dropping a moving box will have different results.
+    calcCriticalPositions( "init: " );
     // Save the original, statically set borders of the elements we will highlight during page edits.
     saveBorders( );
 }
@@ -132,7 +128,7 @@ calcCriticalPositions = function( yPositions ) {
     yPositions += "critical positions => ";
     for ( boxi = 0; boxi < boxes.length; boxi++ ) {
 	boundingRect = boxes[boxi].getBoundingClientRect( );
-	console.debug( boxes[boxi].id+" top => "+boundingRect.top+", bottom => "+boundingRect.bottom );
+	console.debug( boxes[boxi].id + " top => " + boundingRect.top + ", bottom => " + boundingRect.bottom );
 	criticalYPositions[boxi] =
 	    Math.round((( boundingRect.bottom - boundingRect.top ) * 0.5 ) + boundingRect.top );
 	yPositions += criticalYPositions[boxi] + ", ";
@@ -154,7 +150,7 @@ insertAfter = function( newElement, targetElement ) {
 // target and find its index in its parent's NodeList, remember the state of the box, temporarily change its position
 // type to relative, and start the box-dragging process.
 handleMousedown = function( event ) {
-    event.preventDefault( );
+    event.preventDefault( ); // I forget why this was necessary, but it was only necessary for 
     //console.debug( "mousedown: clientY=" + event.clientY );
     boxInMotion = event.target;
     startY = event.clientY;
@@ -223,14 +219,16 @@ handleMouseup = function( event ) {
 		console.warn( "Box in motion is its own target; this is a null operation." );
 	    } else {
 		//console.debug( "targetBoxIndex => " + targetBoxIndex );
-		container.removeChild( boxInMotion );
-		boxes.splice( boxi, 1 ); // Remove the box in motion from the array of element references.
-		if ( targetBoxIndex == -1 ) { // -1 refers to a virtual target before all the boxes.
-		    container.insertBefore( boxInMotion, boxes[0] );
-		} else {
-		    insertAfter( boxInMotion, targetBox );
+		if ( bimIndex !== 0 ) { // If the box in motion is already first in the container, do nothing.
+		    container.removeChild( boxInMotion );
+		    boxes.splice( bimIndex, 1 ); // Remove the box in motion from the array of element references.
+		    if ( targetBoxIndex == -1 ) { // -1 refers to a virtual target before all the boxes.
+			container.insertBefore( boxInMotion, boxes[0] );
+		    } else {
+			insertAfter( boxInMotion, targetBox );
+		    }
+		    boxes = Array.prototype.slice.call( container.children ); // Make real Array from an HTMLCollection.
 		}
-		boxes = Array.prototype.slice.call( container.children ); // Make a real Array from an HTMLCollection.
 	    }
 	} else {
 	    console.warn( "Box not dragged more than minGesture pixels downward, so not moved." );

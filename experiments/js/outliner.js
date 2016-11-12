@@ -75,11 +75,22 @@ function ensureEnoughMargin( node, prop, computedProp ) {
 }
 
 // Unused.
-function outlineAllNodes( ) {
+// This will fail if it encounters a text node and the like, because text nodes have no style property.
+// For that reason, use the outlineAllElements function instead.
+function outlineAllNodes( color ) {
     walkDOM( document.body,
 	     function( node ) {
-		 outlineOneNode( node );
+		 console.debug( "outlineAllNodes: node => " + node );
+		 outlineOneNode( node, color );
 	     });
+}
+
+function outlineAllElements( color ) {
+    walkElementTree( document.body,
+		  function( element ) {
+		      console.dir( element );
+		      outlineOneNode( element, color );
+		  });
 }
 
 // Unused.
@@ -89,5 +100,14 @@ function walkDOM( node, func ) {
     while( node ) {
         walkDOM( node, func );
         node = node.nextSibling;
+    }
+};
+
+function walkElementTree( element, func ) {
+    func( element );
+    element = element.firstElementChild;
+    while( element ) {
+        walkElementTree( element, func );
+        element = element.nextElementSibling;
     }
 };

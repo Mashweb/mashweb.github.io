@@ -2,12 +2,13 @@
     <head>
 	<title>Element Outliner</title>
 	<link rel="stylesheet" href="css/styles.css">
+	<script type="text/javascript" src="../js/logger.js"></script>
 	<script type="text/javascript" src="../js/outliner.js"></script>
 	<script type="text/javascript" src="../js/highlighter.js"></script>
     </head>
-    <body onload="initHighlighter()">
+    <body onload="initHighlighter( document.getElementsByClassName( 'container-box' )[0] )">
 	
-	<div class="container">
+	<div class="container-box">
 	    
 	    <header>
 		<h1>Element-Outliner Prototype Demo</h1>
@@ -23,7 +24,7 @@
 	    
 	    <article>
 		<h1>Description</h1>
-		<p>As you pass the mouse pointer over any element in this web page, that element will be highlighted with a red border of 1 pixel and a margin of (at least) 1 pixel. Please try it.</p>
+		<p>As you pass the mouse pointer over any element in this web page, that element will be highlighted with an aqua border of 3 pixels and a margin of (at least) 2 pixels. Please try it.</p>
 	    </article>
 	    
 	    <footer>Dummy footer</footer>
