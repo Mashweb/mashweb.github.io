@@ -219,7 +219,10 @@ handleMouseup = function( event ) {
 		console.warn( "Box in motion is its own target; this is a null operation." );
 	    } else {
 		//console.debug( "targetBoxIndex => " + targetBoxIndex );
-		if ( bimIndex !== 0 ) { // If the box in motion is already first in the container, do nothing.
+		// Check to see if the box in motion is already first in the container and is targetted to be moved
+		// to be the first in the container (-1, the virtual target before all other boxes). If both of those
+		// conditions are met, no box needs to be moved.
+		if ( bimIndex !== 0 || targetBoxIndex !== -1 ) {
 		    container.removeChild( boxInMotion );
 		    boxes.splice( bimIndex, 1 ); // Remove the box in motion from the array of element references.
 		    if ( targetBoxIndex == -1 ) { // -1 refers to a virtual target before all the boxes.
