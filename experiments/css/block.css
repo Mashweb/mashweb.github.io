@@ -39,3 +39,7 @@ div.inline { display:inline; margin:10px 10px 0px 10px; padding:2px; font-size:1
 .draggable-inline:active {
     cursor: url('../images/ew-move.gif'),auto;
 }
+
+.draggable-nsew-inline:active {
+    cursor: url('../images/nsew-move.gif'),auto;
+}

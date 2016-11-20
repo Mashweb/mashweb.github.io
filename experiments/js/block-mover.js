@@ -125,7 +125,7 @@ calcCriticalPositions = function( str ) {
     str += "critical positions => ";
     for ( boxIndex = 0; boxIndex < boxes.length; boxIndex++ ) {
 	boundingRect = boxes[boxIndex].getBoundingClientRect( );
-	console.log(boxes[boxIndex].id + " top => " + boundingRect.top + ", bottom => " + boundingRect.bottom);
+	console.log(boxes[boxIndex].id + "top => " + boundingRect.top + ", bottom => " + boundingRect.bottom);
 	criticalPositions[boxIndex] =
 	    Math.round((( boundingRect.bottom - boundingRect.top ) * 0.5 ) + boundingRect.top );
 	str += criticalPositions[boxIndex] + ", ";

@@ -117,23 +117,56 @@ init = function( ) {
     saveBorders( );
 }
 
+getCStyle = function( node ) {
+    var computedStyle;
+    try {
+	computedStyle = window.getComputedStyle( node );
+    }
+
+    catch ( error ) {
+	console.error( "getStyle: node => " + node );
+	alert( error );
+    }
+
+    return computedStyle;
+}
+
 findBoxIndex = function( box ) {
     // container.children is a NodeList, not an Array, but it is Array-like, so we can apply the indexOf() like this.
     return Array.prototype.indexOf.call( container.children, box );
 }
 
 // yPositions is a debug string to be constructed that represents all the critical Y-positions, prepended with a header.
-calcCriticalPositions = function( yPositions ) {
+calcCriticalPositions = function( header ) {
+    var boxIndex, yPositions, xPositions;
     boxes = Array.prototype.slice.call( container.children ); // Make a real Array from an HTMLCollection.
-    yPositions += "critical positions => ";
-    for ( boxi = 0; boxi < boxes.length; boxi++ ) {
-	boundingRect = boxes[boxi].getBoundingClientRect( );
-	console.debug( boxes[boxi].id + " top => " + boundingRect.top + ", bottom => " + boundingRect.bottom );
-	criticalYPositions[boxi] =
-	    Math.round((( boundingRect.bottom - boundingRect.top ) * 0.5 ) + boundingRect.top );
-	yPositions += criticalYPositions[boxi] + ", ";
+    yPositions = header + "critical Y positions => ";
+    xPositions = header + "critical X positions => ";
+    for ( boxIndex = 0; boxIndex < boxes.length; boxIndex++ ) {
+	boundingRect = boxes[boxIndex].getBoundingClientRect( );
+	//console.debug( "id => " + boxes[boxIndex].id + ", top => " + boundingRect.top +
+	//	       ", bottom => " + boundingRect.bottom );
+	criticalYPositions[boxIndex] =
+	    Math.round((( boundingRect.bottom - boundingRect.top ) * 0.75 ) + boundingRect.top );
+	yPositions += criticalYPositions[boxIndex] + ", ";
     }
-    console.debug( yPositions );
+    for ( boxIndex = 0; boxIndex < boxes.length; boxIndex++ ) {
+	computedStyle = window.getCStyle( boxes[boxIndex], null );
+	//console.debug( "mousedown: Is computedStyle necessary? boxes[boxIndex].style.display => " +
+	//	       boxes[boxIndex].display ); // Yes, necessary: the debug statement prints 'undefined'.
+	if ( computedStyle.display == "inline" || computedStyle.display == "inline-block" ) {
+	    boundingRect = boxes[boxIndex].getBoundingClientRect( );
+	    console.debug( "id => " + boxes[boxIndex].id + ", top => " + boundingRect.top +
+			   ", bottom => " + boundingRect.bottom );
+	    criticalXPositions[boxIndex] =
+		Math.round((( boundingRect.right - boundingRect.left ) * 0.5 ) + boundingRect.left );
+	} else {
+	    criticalXPositions[boxIndex] = -1; // Flag a block box, because it takes up the whole line.
+	}
+	xPositions += criticalXPositions[boxIndex] + ", ";
+    }
+    //console.debug( yPositions );
+    //console.debug( xPositions );
 }    
 
 // NodeLists have an insertBefore method, but no insertAfter method, so we create this useful insertAfter function.
@@ -153,6 +186,9 @@ handleMousedown = function( event ) {
     event.preventDefault( ); // I forget why this was necessary, but it was only necessary for 
     //console.debug( "mousedown: clientY=" + event.clientY );
     boxInMotion = event.target;
+    if ( findBoxIndex( boxInMotion ) !== -1 ) {
+	outlineOneNode( boxInMotion, "red" );
+    }
     startY = event.clientY;
     startX = event.clientX;
     console.debug( "mousedown: startX => " + startX );
@@ -168,38 +204,52 @@ handleMousedown = function( event ) {
 	log( "handleMousedown: outlining boxes" );
 	boxes.forEach( function( node ) { if ( node != boxInMotion ) { outlineOneNode( node, "blue" ); } } );
 	boxInMotion.style.position = "relative";
-	//console.debug( "mousedown: adding 'draggable-block' class to boxInMotion" );
-	boxInMotion.className += " draggable-block";
-	log( "handleMousedown: outlining container box in red" );
-	outlineOneNode( container, "red" );
+	console.dir( boxInMotion );
+	console.debug( "mousedown: boxInMotion.style.display => " + boxInMotion.style.display );
+	computedStyle = window.getCStyle( boxInMotion, null );
+	console.debug( "mousedown: Is computedStyle necessary? boxInMotion.style.display => " + boxInMotion.display );
+	if ( computedStyle.display == "inline" || computedStyle.display == "inline-block" ) {
+	    console.debug( "mousedown: adding 'draggable-nsew-inline' class to boxInMotion" );
+	    boxInMotion.className += " draggable-nsew-inline";
+	} else {
+	    console.debug( "mousedown: adding 'draggable-block' class to boxInMotion" );
+	    boxInMotion.className += " draggable-block";
+	}
+	log( "handleMousedown: outlining container box in magenta" );
+	outlineOneNode( container, "magenta" );
 	inDragProcess = true;
     }
     //console.debug( "mousedown: exit" );
 }
 
 handleMousemove = function( event ) {
+    var boxIndex;
     if ( inDragProcess ) {
 	deltaY = event.clientY - startY;
-	deltaX = event.clientX = startX;
+	deltaX = event.clientX - startX;
 	boxInMotion.style.top = deltaY;
 	if ( boxInMotion.style.display == "inline-block" ) {
+	    console.debug( "mousemove: setting boxInMotion.style.left" );
 	    boxInMotion.style.left = deltaX; // This can only work for inline or inline-block, not block.
 	}
 	boundingRect = boxInMotion.getBoundingClientRect( );
 	targetBoxIndex = boxes.length - 1;			
-	for ( boxi = boxes.length - 1; boxi >= 0; boxi-- ) {
-	    if ( boundingRect.bottom > criticalYPositions[boxi] ) {
+	for ( boxIndex = boxes.length - 1; boxIndex >= 0; boxIndex-- ) {
+	    if ( boundingRect.bottom > criticalYPositions[boxIndex] ) {
 		break;
 	    }
-	    targetBoxIndex = boxi - 1;			
+	    targetBoxIndex = boxIndex - 1;			
 	}
 	targetBox = boxes[targetBoxIndex]; // This is the target box if there are no other boxes inline with it.
 	//console.debug( "mousemove: boxInMotion bottom => " + boundingRect.bottom +
 	//	       ", mousemove: boxInMotion right => " + boundingRect.right +
 	//	       ", criticalYPositions[targetBoxIndex] => " + criticalYPositions[targetBoxIndex] );
-	computedStyle = window.getComputedStyle( targetBox );
+	computedStyle = window.getCStyle( targetBox, null );
+	console.debug( "mousedown: Is computedStyle necessary? targetBox.style.display => " + targetBox.display );
 	if ( computedStyle.display == "inline-block" ) {
 	    boxInMotion.style.display = "inline-block";
+	} else {
+	    boxInMotion.style.display = boxDisplay;
 	}
     }
 }
@@ -207,13 +257,17 @@ handleMousemove = function( event ) {
 handleMouseup = function( event ) {
     if ( inDragProcess ) {
 	console.debug( "" );
+	if ( findBoxIndex( boxInMotion ) !== -1 ) {
+	    unoutlineOneNode( boxInMotion );
+	}
 	deltaY = event.clientY - startY;
 	deltaX = event.clientX = startX;
 	console.debug( "mouseup: deltaY => " + deltaY );
-	console.debug( "mouseup: deltaX => " + deltaX );
-	console.debug( "mouseup: boxInMotion bottom => " + boundingRect.bottom +
+	console.debug( "mouseup: boxInMotion bottom => " + boundingRect.bottom + ", top => " + boundingRect.top +
 		       ", targetBoxIndex => " + targetBoxIndex +
-		       ", criticalYPositions[targetBoxIndex] => " + criticalYPositions[targetBoxIndex] );
+		       ", criticalYPositions[targetBoxIndex] => " + criticalYPositions[targetBoxIndex] +
+		       ", criticalXPositions[targetBoxIndex] => " + criticalXPositions[targetBoxIndex]
+		     );
 	if ( Math.abs( deltaY ) > minGesture ) {
 	    if ( bimIndex == targetBoxIndex ) {
 		console.warn( "Box in motion is its own target; this is a null operation." );
@@ -230,7 +284,7 @@ handleMouseup = function( event ) {
 		    } else {
 			insertAfter( boxInMotion, targetBox );
 		    }
-		    boxes = Array.prototype.slice.call( container.children ); // Make real Array from an HTMLCollection.
+		    boxes = Array.prototype.slice.call( container.children ); // Make real Array from HTMLCollection.
 		}
 	    }
 	} else {
@@ -240,7 +294,8 @@ handleMouseup = function( event ) {
 	boxes.forEach( function( node ) { if ( node != boxInMotion ) { unoutlineOneNode( node ); } } );
 	boxInMotion.style.position = "static";
 	//console.debug( "mouseup: removing 'draggable-block' class from boxInMotion" );
-	console.debug( "mouseup: boxClass => " + boxClass + ", boxTop => " + boxTop + ", boxDisplay => " + boxDisplay );
+	console.debug( "mouseup: boxClass => " + boxClass + ", boxTop => " + boxTop +
+		       ", boxDisplay => " + boxDisplay );
 	boxInMotion.className = boxClass;
 	boxInMotion.style.top = boxTop;
 	boxInMotion.style.left = boxLeft;
