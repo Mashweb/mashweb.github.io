@@ -76,7 +76,8 @@
 var container, box, boxInMotion, targetBox, boxes = [];
 
 // CSS stuff
-var boxClass, boxTop, boxLeft, boxDisplay, startY, deltaY, startX, deltaX;
+var boxClass, boxTop, boxLeft, boxDisplay;
+var startingYDisplacement, currentYDisplacement, startingXDisplacement, currentXDisplacement;
 
 // Only after a mousedown event is the move process begun,
 // but the mousemove handler can be called many times before then. Hence this.
@@ -98,8 +99,8 @@ var targetBoxIndex;
 // Each "critical position" is the lowest absolute vertical position where, if the top of the box in motion
 // is dropped there, the box in motion will be inserted into the DOM before the box underneath, in the NodeList.
 // If the box in motion is dropped at a position lower than that, it will be inserted somewhere later
-// in the NodeList.
-var criticalYPositions = [], criticalXPositions = [];
+// in the NodeList. The bounding rectangles are obtained for the necessary calculations.
+var criticalYPositions = [], criticalXPositions = [], boundingRectangles = [];
 
 // Perform all the page initialization.
 init = function( ) {
@@ -122,12 +123,10 @@ getCStyle = function( node ) {
     try {
 	computedStyle = window.getComputedStyle( node );
     }
-
     catch ( error ) {
-	console.error( "getStyle: node => " + node );
+	console.error( "window.getComputedStyle( node ) called with node " + node );
 	alert( error );
     }
-
     return computedStyle;
 }
 
@@ -138,10 +137,11 @@ findBoxIndex = function( box ) {
 
 // yPositions is a debug string to be constructed that represents all the critical Y-positions, prepended with a header.
 calcCriticalPositions = function( header ) {
-    var boxIndex, yPositions, xPositions;
+    var boxIndex, yPositions, xPositions, boxBounds, computedStyle;
     boxes = Array.prototype.slice.call( container.children ); // Make a real Array from an HTMLCollection.
     yPositions = header + "critical Y positions => ";
     xPositions = header + "critical X positions => ";
+    boxBounds = header + "box bounds (top, left) => ";
     for ( boxIndex = 0; boxIndex < boxes.length; boxIndex++ ) {
 	boundingRect = boxes[boxIndex].getBoundingClientRect( );
 	//console.debug( "id => " + boxes[boxIndex].id + ", top => " + boundingRect.top +
@@ -154,19 +154,22 @@ calcCriticalPositions = function( header ) {
 	computedStyle = window.getCStyle( boxes[boxIndex], null );
 	//console.debug( "mousedown: Is computedStyle necessary? boxes[boxIndex].style.display => " +
 	//	       boxes[boxIndex].display ); // Yes, necessary: the debug statement prints 'undefined'.
+	boundingRect = boxes[boxIndex].getBoundingClientRect( );
+	boundingRectangles[boxIndex] = boundingRect;
 	if ( computedStyle.display == "inline" || computedStyle.display == "inline-block" ) {
-	    boundingRect = boxes[boxIndex].getBoundingClientRect( );
-	    console.debug( "id => " + boxes[boxIndex].id + ", top => " + boundingRect.top +
-			   ", bottom => " + boundingRect.bottom );
+	    //console.debug( "id => " + boxes[boxIndex].id + ", top => " + boundingRect.top +
+	    //		   ", bottom => " + boundingRect.bottom );
 	    criticalXPositions[boxIndex] =
 		Math.round((( boundingRect.right - boundingRect.left ) * 0.5 ) + boundingRect.left );
 	} else {
 	    criticalXPositions[boxIndex] = -1; // Flag a block box, because it takes up the whole line.
 	}
 	xPositions += criticalXPositions[boxIndex] + ", ";
+	boxBounds += boundingRect.top + ", " + boundingRect.left + "; ";
     }
     //console.debug( yPositions );
     //console.debug( xPositions );
+    console.debug( boxBounds );
 }    
 
 // NodeLists have an insertBefore method, but no insertAfter method, so we create this useful insertAfter function.
@@ -183,38 +186,44 @@ insertAfter = function( newElement, targetElement ) {
 // target and find its index in its parent's NodeList, remember the state of the box, temporarily change its position
 // type to relative, and start the box-dragging process.
 handleMousedown = function( event ) {
+    var computedStyle;
     event.preventDefault( ); // I forget why this was necessary, but it was only necessary for 
-    //console.debug( "mousedown: clientY=" + event.clientY );
+    console.debug( "mousedown: event.clientY => " + event.clientY + ", event.clientX => " + event.clientX );
     boxInMotion = event.target;
-    if ( findBoxIndex( boxInMotion ) !== -1 ) {
-	outlineOneNode( boxInMotion, "red" );
-    }
-    startY = event.clientY;
-    startX = event.clientX;
-    console.debug( "mousedown: startX => " + startX );
     bimIndex = findBoxIndex( boxInMotion );
-    //console.debug( "mousedown: index of boxInMotion in its parent's NodeList => " + bimIndex );
-    if ( findBoxIndex( boxInMotion ) == -1 ) {
-	console.info( "Selected element cannot be handled in this prototype GUI" );
+    if ( bimIndex == -1 ) {
+	console.info( "The selected element cannot be handled in this prototype GUI." );
     } else {
+	outlineOneNode( boxInMotion, "red" );
+	startingYDisplacement = event.clientY - boundingRectangles[bimIndex].top;
+	startingXDisplacement = event.clientX - boundingRectangles[bimIndex].left;
+	console.debug( "mousedown: startYDisplacement => " + startingYDisplacement +
+		       ", startingXDisplacement => " + startingXDisplacement );
 	boxClass = boxInMotion.className;
 	boxTop = boxInMotion.style.top;
 	boxLeft = boxInMotion.style.left;
 	boxDisplay = boxInMotion.style.display;
 	log( "handleMousedown: outlining boxes" );
-	boxes.forEach( function( node ) { if ( node != boxInMotion ) { outlineOneNode( node, "blue" ); } } );
+	//FIXME: The margins that the following line add to boxes spoils the boxInMotion position calculations.
+	//boxes.forEach( function( node ) { if ( node != boxInMotion ) { outlineOneNode( node, "blue" ); } } );
 	boxInMotion.style.position = "relative";
-	console.dir( boxInMotion );
-	console.debug( "mousedown: boxInMotion.style.display => " + boxInMotion.style.display );
+	//console.dir( boxInMotion );
+	//console.debug( "mousedown: boxInMotion.style.display => " + boxInMotion.style.display );
 	computedStyle = window.getCStyle( boxInMotion, null );
-	console.debug( "mousedown: Is computedStyle necessary? boxInMotion.style.display => " + boxInMotion.display );
+	//console.debug( "mousedown: Is computedStyle necessary? boxInMotion.style.display => " + boxInMotion.display );
 	if ( computedStyle.display == "inline" || computedStyle.display == "inline-block" ) {
 	    console.debug( "mousedown: adding 'draggable-nsew-inline' class to boxInMotion" );
 	    boxInMotion.className += " draggable-nsew-inline";
+	    boxInMotion.style.left = startingXDisplacement;
 	} else {
 	    console.debug( "mousedown: adding 'draggable-block' class to boxInMotion" );
 	    boxInMotion.className += " draggable-block";
 	}
+	//FIXME: Figure out why 10 needs to be subtracted from the X and Y positions to keep the cursor over the box.
+	boxInMotion.style.top = startingYDisplacement - 10;
+	boxInMotion.style.left = startingXDisplacement - 10;
+	console.debug( "mousedown: boxInMotion top => " + startingYDisplacement +
+		       ", left => " + startingXDisplacement );
 	log( "handleMousedown: outlining container box in magenta" );
 	outlineOneNode( container, "magenta" );
 	inDragProcess = true;
@@ -222,16 +231,18 @@ handleMousedown = function( event ) {
     //console.debug( "mousedown: exit" );
 }
 
+// If a block box's is constrained to move only vertically and not horizontally, it makes it obvious to the user
+// that the block can only be moved vertically. However, we don't constrain it to move only vertically because
+// if we did that, the mouse pointer could move horizontally away from the block while the block was still
+// in motion.
 handleMousemove = function( event ) {
-    var boxIndex;
+    var boxIndex, computedStyle;
     if ( inDragProcess ) {
-	deltaY = event.clientY - startY;
-	deltaX = event.clientX - startX;
-	boxInMotion.style.top = deltaY;
-	if ( boxInMotion.style.display == "inline-block" ) {
-	    console.debug( "mousemove: setting boxInMotion.style.left" );
-	    boxInMotion.style.left = deltaX; // This can only work for inline or inline-block, not block.
-	}
+	currentYDisplacement = event.clientY - boundingRectangles[bimIndex].top;
+	currentXDisplacement = event.clientX - boundingRectangles[bimIndex].left;
+	//FIXME: Figure out why 10 needs to be subtracted from the X and Y positions to keep the cursor over the box.
+	boxInMotion.style.top = currentYDisplacement - 20;
+	boxInMotion.style.left = currentXDisplacement - 20;
 	boundingRect = boxInMotion.getBoundingClientRect( );
 	targetBoxIndex = boxes.length - 1;			
 	for ( boxIndex = boxes.length - 1; boxIndex >= 0; boxIndex-- ) {
@@ -245,25 +256,50 @@ handleMousemove = function( event ) {
 	//	       ", mousemove: boxInMotion right => " + boundingRect.right +
 	//	       ", criticalYPositions[targetBoxIndex] => " + criticalYPositions[targetBoxIndex] );
 	computedStyle = window.getCStyle( targetBox, null );
-	console.debug( "mousedown: Is computedStyle necessary? targetBox.style.display => " + targetBox.display );
-	if ( computedStyle.display == "inline-block" ) {
+	//console.debug( "mousedown: Is computedStyle necessary? targetBox.style.display => " + targetBox.display );
+	if ( computedStyle.display == "inline-block" ) { //FIXME: Add "inline" to the test?
+	    console.debug( "mousemove: boxInMotion is passing over an inline-block" );
+	    if ( typeof boxInMotion.zen.isTempBlock !== "undefined" ) {
+		console.debug( "mousemove: restoring orignal class name and display type of boxInMotion" );
+		delete boxInMotion.zen.isTempBlock;
+		boxInMotion.className = boxClass;
+		boxInMotion.display = boxDisplay;
+	    }
+	    if ( typeof boxInMotion.zen.isTempInline == "undefined" ) { // Prevent multiple additions of class name.
+		boxInMotion.className = boxClass + " draggable-nsew-inline"; // Add class name.
+		boxInMotion.zen.isTempInline = true;
+	    }
 	    boxInMotion.style.display = "inline-block";
 	} else {
-	    boxInMotion.style.display = boxDisplay;
+	    console.debug( "mousemove: boxInMotion is passing over a block" );
+	    if ( typeof boxInMotion.zen.isTempInline !== "undefined" ) {
+		console.debug( "mousemove: restoring orignal class name and display type of boxInMotion" );
+		delete boxInMotion.zen.isTempInline;
+		boxInMotion.className = boxClass;
+		boxInMotion.display = boxDisplay;
+	    }
+	    if ( typeof boxInMotion.zen.isTempBlock == "undefined" ) { // Prevent multiple additions of class name.
+		console.debug( "mousemove: adding 'draggable-block' class to boxInMotion" );
+		boxInMotion.className = boxClass + " draggable-block"; // Add class name.
+		boxInMotion.zen.isTempBlock = true;
+	    }
+	    boxInMotion.style.display = "block";
 	}
     }
 }
 
 handleMouseup = function( event ) {
+    var deltaY;
     if ( inDragProcess ) {
 	console.debug( "" );
 	if ( findBoxIndex( boxInMotion ) !== -1 ) {
 	    unoutlineOneNode( boxInMotion );
 	}
-	deltaY = event.clientY - startY;
-	deltaX = event.clientX = startX;
+	deltaY = event.clientY - startingYDisplacement;
+	deltaX = event.clientX - startingXDisplacement;
 	console.debug( "mouseup: deltaY => " + deltaY );
-	console.debug( "mouseup: boxInMotion bottom => " + boundingRect.bottom + ", top => " + boundingRect.top +
+	console.debug( "mouseup: boxInMotion bottom => " + boundingRect.bottom +
+		       ", top => " + boundingRect.top +
 		       ", targetBoxIndex => " + targetBoxIndex +
 		       ", criticalYPositions[targetBoxIndex] => " + criticalYPositions[targetBoxIndex] +
 		       ", criticalXPositions[targetBoxIndex] => " + criticalXPositions[targetBoxIndex]
@@ -288,7 +324,7 @@ handleMouseup = function( event ) {
 		}
 	    }
 	} else {
-	    console.warn( "Box not dragged more than minGesture pixels downward, so not moved." );
+	    console.warn( "Box not dragged more than minGesture pixels vertically, so not moved." );
 	}
 	log( "handleMouseup: unoutlining boxes" );
 	boxes.forEach( function( node ) { if ( node != boxInMotion ) { unoutlineOneNode( node ); } } );

@@ -125,7 +125,7 @@ calcCriticalPositions = function( str ) {
     str += "critical positions => ";
     for ( boxIndex = 0; boxIndex < boxes.length; boxIndex++ ) {
 	boundingRect = boxes[boxIndex].getBoundingClientRect( );
-	console.log(boxes[boxIndex].id + "top => " + boundingRect.top + ", bottom => " + boundingRect.bottom);
+	console.log(boxes[boxIndex].id + " top => " + boundingRect.top + ", bottom => " + boundingRect.bottom);
 	criticalPositions[boxIndex] =
 	    Math.round((( boundingRect.bottom - boundingRect.top ) * 0.5 ) + boundingRect.top );
 	str += criticalPositions[boxIndex] + ", ";
@@ -152,7 +152,7 @@ handleMousedown = function( event ) {
     // native image drag-and-drop to targets outside the browser.
     // See http://stackoverflow.com/a/13236751 .
     event.preventDefault( );
-    //console.debug( "mousedown: clientY=" + event.clientY );
+    console.debug( "mousedown: clientY=" + event.clientY );
     boxInMotion = event.target;
     startY = event.clientY;
     startX = event.clientX;

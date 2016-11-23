@@ -1,18 +1,21 @@
 var computedProps = [];
 
 function saveBorders( ) {
+    //console.debug("saveBorders");
     boxes.forEach( function( node ) {
 	if ( typeof node.zen == "undefined" || typeof node.zen.preoutlineStyle == "undefined" ) {
 	    node.zen = {};
 	    node.zen.preoutlineStyle = {};
 	}
 	node.zen.preoutlineStyle.border = node.style.border;
+	node.zen.preoutlineStyle.margin = node.style.margin;
     } );
     if ( typeof container.zen == "undefined" || typeof container.zen.preoutlineStyle == "undefine" ) {
 	container.zen = { };
 	container.zen.preoutlineStyle = { };
     }
     container.zen.preoutlineStyle.border = container.style.border;
+    container.zen.preoutlineStyle.margin = container.style.margin;
 }
 
 function outlineOneNode( node, color ) {
@@ -21,6 +24,7 @@ function outlineOneNode( node, color ) {
     var computedPropTab = [ "margin-top",    "margin-right",    "margin-bottom",    "margin-left"    ];
     var id;
 
+    //console.debug("outlineOneNode");
     if (typeof boxInMotion == "undefined") { id = "boxInMotion not found"; } else { id = boxInMotion.id; }
     if (typeof node.zen == "undefined") { brdr = "border not saved"; } else { brdr = node.zen.preoutlineStyle.border; }
     log( [ node.id+","+color+")","now "+node.style.border,"prev "+brdr,"bim "+id ] );
@@ -32,6 +36,7 @@ function outlineOneNode( node, color ) {
 	node.zen = {};
 	node.zen.preoutlineStyle = {};
 	node.zen.preoutlineStyle.border = node.style.border;
+	node.zen.preoutlineStyle.margin = node.style.margin;
     }
     if ( typeof node.style == "undefined" ) {
 	console.error("outlineOneNode: node.style is undefined");
@@ -52,6 +57,7 @@ function outlineOneNode( node, color ) {
 }
 
 function unoutlineOneNode ( node ) {
+    //console.debug("unoutlineOneNode");
     if (typeof boxInMotion == "undefined") { id = "boxInMotion not found"; } else { id = boxInMotion.id; }
     //log( [ node.id, "now " + node.style.border, "prev " + brdr, "bim " + id ] );
     if (node !== document.body) {

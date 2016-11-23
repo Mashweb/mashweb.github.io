@@ -1,6 +1,8 @@
 body { background-color: snow; }
 
-.ruler { float:left; display:block; width:20px; }
+/* div { margin-top:0px; margin-bottom:0px; } */
+
+.ruler { float:left; display:block; width:20px; z-index:-100; }
 
 .decade { float:left; display:block; background-color:black; height:1px; width:20px; }
 
@@ -22,13 +24,18 @@ body { background-color: snow; }
 
 .thistle { background-color:thistle }
 
-div.box { height:80px; margin:10px; padding:10px; }
+.hover { position:absolute; right:0px; width:200px; margin:10px; padding:5px;
+	 background-color:lightgreen; opacity:0.7; }
 
-div.big-box { height:190px; }
+div.container-box { margin:0px 25px 0px 25px; }
+
+div.box { height:80px; margin:0px 10px 0px 10px; padding:10px; }
+
+div.big-box { height:180px; }
 
 div.inline { display:inline; margin:10px 10px 0px 10px; padding:2px; font-size:14px; }
 
-.inline-block { display:inline-block; margin:10px 10px 0px 10px; height:80px; width:50px; }
+.inline-block { display:inline-block; margin:0px 10px 0px 10px; height:100px; width:50px; }
 
 /* .draggable-block:active { */
 .draggable-block {
