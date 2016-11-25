@@ -1,6 +1,10 @@
+module.exports = function( ) {
+
+logger = require( "./logger.js" )();
+
 var computedProps = [];
 
-function saveBorders( ) {
+function saveBorders( container, boxes ) {
     //console.debug("saveBorders");
     boxes.forEach( function( node ) {
 	if ( typeof node.zen == "undefined" || typeof node.zen.preoutlineStyle == "undefined" ) {
@@ -10,7 +14,7 @@ function saveBorders( ) {
 	node.zen.preoutlineStyle.border = node.style.border;
 	node.zen.preoutlineStyle.margin = node.style.margin;
     } );
-    if ( typeof container.zen == "undefined" || typeof container.zen.preoutlineStyle == "undefine" ) {
+    if ( typeof container.zen == "undefined" || typeof container.zen.preoutlineStyle == "undefined" ) {
 	container.zen = { };
 	container.zen.preoutlineStyle = { };
     }
@@ -27,9 +31,9 @@ function outlineOneNode( node, color ) {
     //console.debug("outlineOneNode");
     if (typeof boxInMotion == "undefined") { id = "boxInMotion not found"; } else { id = boxInMotion.id; }
     if (typeof node.zen == "undefined") { brdr = "border not saved"; } else { brdr = node.zen.preoutlineStyle.border; }
-    log( [ node.id+","+color+")","now "+node.style.border,"prev "+brdr,"bim "+id ] );
+    logger.log( [ node.id+","+color+")","now "+node.style.border,"prev "+brdr,"bim "+id ] );
     if (node == document.body) { // Don't outline the document body element.
-	log("outlineOneNode: enter: called for body with color => " + color);
+	logger.log("outlineOneNode: enter: called for body with color => " + color);
 	return;
     }
     if ( typeof node.zen == "undefined" || typeof node.zen.preoutlineStyle == "undefined" ) {
@@ -59,7 +63,7 @@ function outlineOneNode( node, color ) {
 function unoutlineOneNode ( node ) {
     //console.debug("unoutlineOneNode");
     if (typeof boxInMotion == "undefined") { id = "boxInMotion not found"; } else { id = boxInMotion.id; }
-    //log( [ node.id, "now " + node.style.border, "prev " + brdr, "bim " + id ] );
+    //logger.log( [ node.id, "now " + node.style.border, "prev " + brdr, "bim " + id ] );
     if (node !== document.body) {
 	node.style.border = node.zen.preoutlineStyle.border;
 	node.style.margin = node.zen.preoutlineStyle.margin;
@@ -107,7 +111,7 @@ function walkDOM( node, func ) {
         walkDOM( node, func );
         node = node.nextSibling;
     }
-};
+}
 
 function walkElementTree( element, func ) {
     func( element );
@@ -116,4 +120,7 @@ function walkElementTree( element, func ) {
         walkElementTree( element, func );
         element = element.nextElementSibling;
     }
+}
+
+return { saveBorders: saveBorders, outlineOneNode: outlineOneNode, unoutlineOneNode: unoutlineOneNode };
 };
