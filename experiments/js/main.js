@@ -195,14 +195,14 @@ insertAfter = function( newElement, targetElement ) {
 handleMousedown = function( event ) {
     var computedStyle;
     event.preventDefault( ); // I forget why this was necessary, but it was only necessary for
-    console.debug( "mousedown: event.clientY => " + event.clientY + ", event.clientX => " + event.clientX );
+    //console.debug( "mousedown: event.clientY => " + event.clientY + ", event.clientX => " + event.clientX );
     boxInMotion = event.target;
     container = boxInMotion.parentElement;
-    console.debug( "mousedown: container => " + container + ", id => " + container.id  );
+    //console.debug( "mousedown: container => " + container + ", id => " + container.id  );
     //highlighter.initHighlighter( container );
-    console.group( "boxInMotion, container, container.children" );
-    console.dir( boxInMotion ); console.dir( container ); console.dir (container.children );
-    console.groupEnd( );
+    //console.group( "boxInMotion, container, container.children" );
+    //console.dir( boxInMotion ); console.dir( container ); console.dir (container.children );
+    //console.groupEnd( );
     bimIndex = findBoxIndex( boxInMotion );
     if ( bimIndex == -1 ) {
 	console.info( "The selected element cannot be handled in this prototype GUI." );
@@ -213,15 +213,15 @@ handleMousedown = function( event ) {
 	console.groupEnd( );
 	startingYDisplacement = event.clientY - boundingRectangles[bimIndex].top;
 	startingXDisplacement = event.clientX - boundingRectangles[bimIndex].left;
-	console.debug( "mousedown: startYDisplacement => " + startingYDisplacement +
-		       ", startingXDisplacement => " + startingXDisplacement );
+	//console.debug( "mousedown: startYDisplacement => " + startingYDisplacement +
+	//	       ", startingXDisplacement => " + startingXDisplacement );
 	boxClass = boxInMotion.className;
 	boxTop = boxInMotion.style.top;
 	boxLeft = boxInMotion.style.left;
 	boxDisplay = boxInMotion.style.display;
 	logger.log( "handleMousedown: outlining boxes" );
 	//FIXME: The margins that the following line add to boxes spoils the boxInMotion position calculations.
-	//boxes.forEach( function( node ) { if ( node != boxInMotion ) { outliner.outlineOneNode( node, "blue" ); } } );
+	boxes.forEach( function( node ) { if ( node != boxInMotion ) { outliner.outlineOneNode( node, "blue" ); } } );
 	boxInMotion.style.position = "relative";
 	//console.dir( boxInMotion );
 	//console.debug( "mousedown: boxInMotion.style.display => " + boxInMotion.style.display );
@@ -238,13 +238,13 @@ handleMousedown = function( event ) {
 	//FIXME: Figure out why 10 needs to be subtracted from the X and Y positions to keep the cursor over the box.
 	boxInMotion.style.top = startingYDisplacement - 10;
 	boxInMotion.style.left = startingXDisplacement - 10;
-	console.debug( "mousedown: boxInMotion top => " + startingYDisplacement +
-		       ", left => " + startingXDisplacement );
+	//console.debug( "mousedown: boxInMotion top => " + startingYDisplacement +
+	//	       ", left => " + startingXDisplacement );
 	logger.log( "handleMousedown: outlining container box in magenta" );
 	outliner.outlineOneNode( container, "magenta" );
 	inDragProcess = true;
     }
-    //console.debug( "mousedown: exit" );
+    console.debug( "" );
 };
 
 // If a block box's is constrained to move only vertically and not horizontally, it makes it obvious to the user
@@ -278,8 +278,8 @@ handleMousemove = function( event ) {
 	//	       ", criticalYPositions[targetBoxIndex] => " + criticalYPositions[targetBoxIndex] );
 	computedStyle = window.getCStyle( targetBox, null );
 	//console.debug( "mousedown: Is computedStyle necessary? targetBox.style.display => " + targetBox.display );
-	if ( computedStyle.display == "inline-block" ) { //FIXME: Add "inline" to the test?
-	    console.debug( "mousemove: boxInMotion is passing over an inline-block" );
+	if ( computedStyle.display == "inline-block" || computedStyle.display == "inline" ) {
+	    console.debug( "mousemove: boxInMotion is passing over an " + computedStyle.display );
 	    if ( typeof boxInMotion.zen.isTempBlock !== "undefined" ) {
 		console.debug( "mousemove: restoring orignal class name and display type of boxInMotion" );
 		delete boxInMotion.zen.isTempBlock;
@@ -323,13 +323,13 @@ handleMouseup = function( event ) {
 	}
 	deltaY = event.clientY - startingYDisplacement;
 	deltaX = event.clientX - startingXDisplacement;
-	console.debug( "mouseup: deltaY => " + deltaY );
-	console.debug( "mouseup: boxInMotion bottom => " + boundingRect.bottom +
-		       ", top => " + boundingRect.top +
-		       ", targetBoxIndex => " + targetBoxIndex +
-		       ", criticalYPositions[targetBoxIndex] => " + criticalYPositions[targetBoxIndex] +
-		       ", criticalXPositions[targetBoxIndex] => " + criticalXPositions[targetBoxIndex]
-		     );
+	//console.debug( "mouseup: deltaY => " + deltaY );
+	//console.debug( "mouseup: boxInMotion bottom => " + boundingRect.bottom +
+	//	       ", top => " + boundingRect.top +
+	//	       ", targetBoxIndex => " + targetBoxIndex +
+	//	       ", criticalYPositions[targetBoxIndex] => " + criticalYPositions[targetBoxIndex] +
+	//	       ", criticalXPositions[targetBoxIndex] => " + criticalXPositions[targetBoxIndex]
+	//	     );
 	if ( Math.abs( deltaY ) > minGesture ) {
 	    if ( bimIndex == targetBoxIndex ) {
 		console.warn( "Box in motion is its own target; this is a null operation." );
@@ -349,8 +349,7 @@ handleMouseup = function( event ) {
 			}
 			catch ( error ) {
 			    console.group( "insertAfter error: boxInMotion, targetBox" );
-			    console.dir( boxInMotion );
-			    console.dir( targetBox );
+			    console.dir( boxInMotion ); console.dir( targetBox );
 			    console.groupEnd( );
 			}
 		    }
@@ -368,7 +367,7 @@ handleMouseup = function( event ) {
 		}
 		catch ( error ) {
 		    console.error( "mouseup forEach: " + error );
-		    console.group( "node" ); console.dir( node ); console.groupEnd( );
+		    //console.group( "node" ); console.dir( node ); console.groupEnd( );
 		}
 	    }
 	} );

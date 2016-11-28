@@ -11,7 +11,7 @@ outliner = require( "./outliner.js" )();
 var target = null, previousTarget = null;
 
 initHighlighter = function( target ) {
-    //document.body.addEventListener( "mousemove", handleMousemove );
+    //document.body.addEventListener( "mousemove", handleMousemoveX );
     // Save the original, statically set borders of the element the mouse is over.
     outliner.saveBorders( target );
 };
