@@ -103,27 +103,25 @@ var targetBoxIndex;
 var criticalYPositions = [], criticalXPositions = [], boundingRectangles = [];
 
 // Perform all the page initialization.
-init = function( cont ) {
-    container = cont;
+init = function( ) {
     highlighter = require( "./highlighter.js" )();
-    console.dir( highlighter );
+    //console.dir( highlighter );
     logger = require( "./logger.js" )();
-    console.dir( logger );
+    //console.dir( logger );
     outliner = require( "./outliner.js" )();
-    console.dir( outliner );
+    //console.dir( outliner );
 
     // Add all the event listeners.
     var body = document.getElementsByTagName( "body" )[0];
     body.addEventListener( "mousedown", handleMousedown );
     body.addEventListener( "mouseup", handleMouseup );
+    body.addEventListener( "mousemove", handleMousemove );
     //container = document.getElementsByClassName( "container-box" )[0]; // The element we will work on.
-    container.addEventListener( "mousemove", handleMousemove );
-    highlighter.initHighlighter( container ); // Initialize the mouseover event listener in the highlighter.js module.
+    container = body;
+    highlighter.initHighlighter( body ); // Initialize the mouseover event listener in the highlighter.js module.
     console.info( "Initializing block-mover.js" );
     // For the current page structure, determine the regions where dropping a moving box will have different results.
     calcCriticalPositions( "init: " );
-    // Save the original, statically set borders of the elements we will highlight during page edits.
-    outliner.saveBorders( container, boxes );
 };
 
 getCStyle = function( node ) {
@@ -158,9 +156,10 @@ calcCriticalPositions = function( header ) {
 	    Math.round((( boundingRect.bottom - boundingRect.top ) * 0.75 ) + boundingRect.top );
 	yPositions += criticalYPositions[boxIndex] + ", ";
     }
+    console.group( "boxes" ); console.dir( boxes ); console.groupEnd( );
     for ( boxIndex = 0; boxIndex < boxes.length; boxIndex++ ) {
 	computedStyle = window.getCStyle( boxes[boxIndex], null );
-	//console.debug( "mousedown: Is computedStyle necessary? boxes[boxIndex].style.display => " +
+	//console.debug( "calcCriticalPositions: Is computedStyle necessary? boxes[boxIndex].style.display => " +
 	//	       boxes[boxIndex].display ); // Yes, necessary: the debug statement prints 'undefined'.
 	boundingRect = boxes[boxIndex].getBoundingClientRect( );
 	boundingRectangles[boxIndex] = boundingRect;
@@ -198,11 +197,20 @@ handleMousedown = function( event ) {
     event.preventDefault( ); // I forget why this was necessary, but it was only necessary for
     console.debug( "mousedown: event.clientY => " + event.clientY + ", event.clientX => " + event.clientX );
     boxInMotion = event.target;
+    container = boxInMotion.parentElement;
+    console.debug( "mousedown: container => " + container + ", id => " + container.id  );
+    //highlighter.initHighlighter( container );
+    console.group( "boxInMotion, container, container.children" );
+    console.dir( boxInMotion ); console.dir( container ); console.dir (container.children );
+    console.groupEnd( );
     bimIndex = findBoxIndex( boxInMotion );
     if ( bimIndex == -1 ) {
 	console.info( "The selected element cannot be handled in this prototype GUI." );
     } else {
 	outliner.outlineOneNode( boxInMotion, "red" );
+	calcCriticalPositions( "mousedown" );
+	console.group( "bimIndex, boundingRectangles" ); console.debug( bimIndex ); console.dir( boundingRectangles );
+	console.groupEnd( );
 	startingYDisplacement = event.clientY - boundingRectangles[bimIndex].top;
 	startingXDisplacement = event.clientX - boundingRectangles[bimIndex].left;
 	console.debug( "mousedown: startYDisplacement => " + startingYDisplacement +
@@ -245,12 +253,14 @@ handleMousedown = function( event ) {
 // in motion.
 handleMousemove = function( event ) {
     var boxIndex, computedStyle;
+    //console.debug( "mousemove" );
     if ( inDragProcess ) {
 	currentYDisplacement = event.clientY - boundingRectangles[bimIndex].top;
 	currentXDisplacement = event.clientX - boundingRectangles[bimIndex].left;
 	//FIXME: Figure out why 10 needs to be subtracted from the X and Y positions to keep the cursor over the box.
 	boxInMotion.style.top = currentYDisplacement - 20;
 	boxInMotion.style.left = currentXDisplacement - 20;
+	//console.group( "boxInMotion" ); console.dir( boxInMotion ); console.groupEnd( );
 	boundingRect = boxInMotion.getBoundingClientRect( );
 	targetBoxIndex = boxes.length - 1;
 	for ( boxIndex = boxes.length - 1; boxIndex >= 0; boxIndex-- ) {
@@ -259,6 +269,9 @@ handleMousemove = function( event ) {
 	    }
 	    targetBoxIndex = boxIndex - 1;
 	}
+	if ( targetBoxIndex == -1 ) {
+	    console.info( "The selected target element cannot be handled in this prototype GUI." );
+	} else {
 	targetBox = boxes[targetBoxIndex]; // This is the target box if there are no other boxes inline with it.
 	//console.debug( "mousemove: boxInMotion bottom => " + boundingRect.bottom +
 	//	       ", mousemove: boxInMotion right => " + boundingRect.right +
@@ -292,7 +305,7 @@ handleMousemove = function( event ) {
 		boxInMotion.zen.isTempBlock = true;
 	    }
 	    boxInMotion.style.display = "block";
-	}
+	}}
     }
 };
 
@@ -301,7 +314,12 @@ handleMouseup = function( event ) {
     if ( inDragProcess ) {
 	console.debug( "" );
 	if ( findBoxIndex( boxInMotion ) !== -1 ) {
-	    outliner.unoutlineOneNode( boxInMotion );
+	    try {
+		outliner.unoutlineOneNode( boxInMotion );
+	    }
+	    catch ( error ) {
+		console.error( "mouseup: " + error );
+	    }
 	}
 	deltaY = event.clientY - startingYDisplacement;
 	deltaX = event.clientX - startingXDisplacement;
@@ -326,7 +344,15 @@ handleMouseup = function( event ) {
 		    if ( targetBoxIndex == -1 ) { // -1 refers to a virtual target before all the boxes.
 			container.insertBefore( boxInMotion, boxes[0] );
 		    } else {
-			insertAfter( boxInMotion, targetBox );
+			try {
+			    insertAfter( boxInMotion, targetBox );
+			}
+			catch ( error ) {
+			    console.group( "insertAfter error: boxInMotion, targetBox" );
+			    console.dir( boxInMotion );
+			    console.dir( targetBox );
+			    console.groupEnd( );
+			}
 		    }
 		    boxes = Array.prototype.slice.call( container.children ); // Make real Array from HTMLCollection.
 		}
@@ -335,7 +361,17 @@ handleMouseup = function( event ) {
 	    console.warn( "Box not dragged more than minGesture pixels vertically, so not moved." );
 	}
 	logger.log( "handleMouseup: unoutlining boxes" );
-	boxes.forEach( function( node ) { if ( node != boxInMotion ) { outliner.unoutlineOneNode( node ); } } );
+	boxes.forEach( function( node ) {
+	    if ( node != boxInMotion ) {
+		try {
+		    outliner.unoutlineOneNode( node );
+		}
+		catch ( error ) {
+		    console.error( "mouseup forEach: " + error );
+		    console.group( "node" ); console.dir( node ); console.groupEnd( );
+		}
+	    }
+	} );
 	boxInMotion.style.position = "static";
 	//console.debug( "mouseup: removing 'draggable-block' class from boxInMotion" );
 	console.debug( "mouseup: boxClass => " + boxClass + ", boxTop => " + boxTop +
@@ -350,3 +386,5 @@ handleMouseup = function( event ) {
 	inDragProcess = false;
     }
 }
+
+document.addEventListener( "DOMContentLoaded", init );

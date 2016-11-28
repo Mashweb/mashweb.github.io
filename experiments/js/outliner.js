@@ -4,9 +4,10 @@ logger = require( "./logger.js" )();
 
 var computedProps = [];
 
-function saveBorders( container, boxes ) {
+function saveBorders( container ) {
     //console.debug("saveBorders");
-    boxes.forEach( function( node ) {
+    var elements = Array.prototype.slice.call( container.children ); // Make real Array from HTMLCollection.
+    elements.forEach( function( node ) {
 	if ( typeof node.zen == "undefined" || typeof node.zen.preoutlineStyle == "undefined" ) {
 	    node.zen = {};
 	    node.zen.preoutlineStyle = {};
@@ -29,13 +30,15 @@ function outlineOneNode( node, color ) {
     var id;
 
     //console.debug("outlineOneNode");
-    if (typeof boxInMotion == "undefined") { id = "boxInMotion not found"; } else { id = boxInMotion.id; }
+    //if (typeof boxInMotion == "undefined") { id = "boxInMotion not found"; } else { id = boxInMotion.id; }
     if (typeof node.zen == "undefined") { brdr = "border not saved"; } else { brdr = node.zen.preoutlineStyle.border; }
     logger.log( [ node.id+","+color+")","now "+node.style.border,"prev "+brdr,"bim "+id ] );
+    /*
     if (node == document.body) { // Don't outline the document body element.
 	logger.log("outlineOneNode: enter: called for body with color => " + color);
 	return;
     }
+    */
     if ( typeof node.zen == "undefined" || typeof node.zen.preoutlineStyle == "undefined" ) {
 	node.zen = {};
 	node.zen.preoutlineStyle = {};
@@ -57,18 +60,18 @@ function outlineOneNode( node, color ) {
 	    ensureEnoughMargin( node, propTab[propIndex], computedProps[propIndex] );
 	}
     }
-    if (typeof boxInMotion == "undefined") { id = "boxInMotion not found"; } else { id = boxInMotion.id; }
+    //if (typeof boxInMotion == "undefined") { id = "boxInMotion not found"; } else { id = boxInMotion.id; }
 }
 
 function unoutlineOneNode ( node ) {
     //console.debug("unoutlineOneNode");
-    if (typeof boxInMotion == "undefined") { id = "boxInMotion not found"; } else { id = boxInMotion.id; }
+    //if (typeof boxInMotion == "undefined") { id = "boxInMotion not found"; } else { id = boxInMotion.id; }
     //logger.log( [ node.id, "now " + node.style.border, "prev " + brdr, "bim " + id ] );
     if (node !== document.body) {
 	node.style.border = node.zen.preoutlineStyle.border;
 	node.style.margin = node.zen.preoutlineStyle.margin;
     }
-    if (typeof boxInMotion == "undefined") { id = "boxInMotion not found"; } else { id = boxInMotion.id; }
+    //if (typeof boxInMotion == "undefined") { id = "boxInMotion not found"; } else { id = boxInMotion.id; }
 }
 
 // This function sets the top, right, bottom, or left of a node to 2 pixels
