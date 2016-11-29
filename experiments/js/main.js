@@ -113,24 +113,24 @@ init = function( ) {
 
     // Add all the event listeners.
     var body = document.getElementsByTagName( "body" )[0];
+    highlighter.initHighlighter( body ); // Initialize the mouseover event listener in the highlighter.js module.
     body.addEventListener( "mousedown", handleMousedown );
     body.addEventListener( "mouseup", handleMouseup );
     body.addEventListener( "mousemove", handleMousemove );
     //container = document.getElementsByClassName( "container-box" )[0]; // The element we will work on.
     container = body;
-    highlighter.initHighlighter( body ); // Initialize the mouseover event listener in the highlighter.js module.
     console.info( "Initializing block-mover.js" );
     // For the current page structure, determine the regions where dropping a moving box will have different results.
     calcCriticalPositions( "init: " );
 };
 
-getCStyle = function( node ) {
+getCStyle = function( element ) {
     var computedStyle;
     try {
-	computedStyle = window.getComputedStyle( node );
+	computedStyle = window.getComputedStyle( element );
     }
     catch ( error ) {
-	console.error( "window.getComputedStyle( node ) called with node " + node );
+	console.error( "window.getComputedStyle( element ) called with element " + element );
 	alert( error );
     }
     return computedStyle;
@@ -153,7 +153,7 @@ calcCriticalPositions = function( header ) {
 	//console.debug( "id => " + boxes[boxIndex].id + ", top => " + boundingRect.top +
 	//	       ", bottom => " + boundingRect.bottom );
 	criticalYPositions[boxIndex] =
-	    Math.round((( boundingRect.bottom - boundingRect.top ) * 0.75 ) + boundingRect.top );
+	    Math.round((( boundingRect.bottom - boundingRect.top ) * 0.5 ) + boundingRect.top );
 	yPositions += criticalYPositions[boxIndex] + ", ";
     }
     console.group( "boxes" ); console.dir( boxes ); console.groupEnd( );
@@ -207,7 +207,7 @@ handleMousedown = function( event ) {
     if ( bimIndex == -1 ) {
 	console.info( "The selected element cannot be handled in this prototype GUI." );
     } else {
-	outliner.outlineOneNode( boxInMotion, "red" );
+	outliner.outlineOneElement( boxInMotion, "red" );
 	calcCriticalPositions( "mousedown" );
 	console.group( "bimIndex, boundingRectangles" ); console.debug( bimIndex ); console.dir( boundingRectangles );
 	console.groupEnd( );
@@ -221,7 +221,14 @@ handleMousedown = function( event ) {
 	boxDisplay = boxInMotion.style.display;
 	logger.log( "handleMousedown: outlining boxes" );
 	//FIXME: The margins that the following line add to boxes spoils the boxInMotion position calculations.
-	boxes.forEach( function( node ) { if ( node != boxInMotion ) { outliner.outlineOneNode( node, "blue" ); } } );
+	boxes.forEach( function( element ) { if ( element != boxInMotion ) { outliner.outlineOneElement( element, "blue" ); } } );
+	boxes.forEach(
+	    function( element ) {
+		if ( element != boxInMotion ) {
+		    logger.log( [ "mousedown: element ",element,"preoutlineStyle.border "+element.zen.preoutlineStyle.border ] );
+		}
+	    }
+	);
 	boxInMotion.style.position = "relative";
 	//console.dir( boxInMotion );
 	//console.debug( "mousedown: boxInMotion.style.display => " + boxInMotion.style.display );
@@ -241,7 +248,7 @@ handleMousedown = function( event ) {
 	//console.debug( "mousedown: boxInMotion top => " + startingYDisplacement +
 	//	       ", left => " + startingXDisplacement );
 	logger.log( "handleMousedown: outlining container box in magenta" );
-	outliner.outlineOneNode( container, "magenta" );
+	outliner.outlineOneElement( container, "magenta" );
 	inDragProcess = true;
     }
     console.debug( "" );
@@ -264,7 +271,7 @@ handleMousemove = function( event ) {
 	boundingRect = boxInMotion.getBoundingClientRect( );
 	targetBoxIndex = boxes.length - 1;
 	for ( boxIndex = boxes.length - 1; boxIndex >= 0; boxIndex-- ) {
-	    if ( boundingRect.bottom > criticalYPositions[boxIndex] ) {
+	    if ( boundingRect.top > criticalYPositions[boxIndex] ) {
 		break;
 	    }
 	    targetBoxIndex = boxIndex - 1;
@@ -315,7 +322,7 @@ handleMouseup = function( event ) {
 	console.debug( "" );
 	if ( findBoxIndex( boxInMotion ) !== -1 ) {
 	    try {
-		outliner.unoutlineOneNode( boxInMotion );
+		outliner.unoutlineOneElement( boxInMotion );
 	    }
 	    catch ( error ) {
 		console.error( "mouseup: " + error );
@@ -360,14 +367,15 @@ handleMouseup = function( event ) {
 	    console.warn( "Box not dragged more than minGesture pixels vertically, so not moved." );
 	}
 	logger.log( "handleMouseup: unoutlining boxes" );
-	boxes.forEach( function( node ) {
-	    if ( node != boxInMotion ) {
+	boxes.forEach( function( element ) {
+	    if ( element != boxInMotion ) {
 		try {
-		    outliner.unoutlineOneNode( node );
+		    //logger.log( "handleMouseup: unoutlining element => " + element );
+		    outliner.unoutlineOneElement( element );
 		}
 		catch ( error ) {
 		    console.error( "mouseup forEach: " + error );
-		    //console.group( "node" ); console.dir( node ); console.groupEnd( );
+		    //console.group( "element" ); console.dir( element ); console.groupEnd( );
 		}
 	    }
 	} );
@@ -380,7 +388,7 @@ handleMouseup = function( event ) {
 	boxInMotion.style.left = boxLeft;
 	boxInMotion.style.display = boxDisplay;
 	logger.log( "handleMouseup: unoutlining container box" );
-	outliner.unoutlineOneNode( container );
+	outliner.unoutlineOneElement( container );
 	calcCriticalPositions( "mouseup: exit: " );
 	inDragProcess = false;
     }

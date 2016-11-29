@@ -10,10 +10,11 @@ outliner = require( "./outliner.js" )();
 
 var target = null, previousTarget = null;
 
-initHighlighter = function( target ) {
-    //document.body.addEventListener( "mousemove", handleMousemoveX );
+initHighlighter = function( element ) {
+    document.body.addEventListener( "mousemove", handleMousemoveX );
     // Save the original, statically set borders of the element the mouse is over.
-    outliner.saveBorders( target );
+    logger.log( "initHighlighter: calling saveStyle" );
+    outliner.saveStyle( element );
 };
 
 // TODO: Maybe don't hightlight the document body element.
@@ -22,23 +23,23 @@ handleMousemoveX = function( event ) {
     //console.group( "handleMouseover" ); console.dir( target ); console.dir( previousTarget ); console.groupEnd( );
     /*
     if ( previousTarget !== null ) {
-	// Restore the original style of the node the mouse pointer passed away from.
+	// Restore the original style of the element the mouse pointer passed away from.
 	logger.log("unoutline previous hover position");
-	outliner.unoutlineOneNode( previousTarget );
+	outliner.unoutlineOneElement( previousTarget );
     }
     */
-    if ( previousTarget === null || previousTarget !== target ) {
+    if ( previousTarget !== target ) {
 	//logger.log(["previous target", target, "x"]);
 	logger.log("**outline current hover position");
 	if ( previousTarget !== null ) {
-	    outliner.unoutlineOneNode( previousTarget );
+	    outliner.unoutlineOneElement( previousTarget );
 	}
-	outliner.saveBorders( target );
-	outliner.outlineOneNode( target, "aqua" );
-	// Now the node is the "previous" node.
+	outliner.outlineOneElement( target, "aqua" );
+	// Now the target is the "previous" target.
 	previousTarget = target;
     }
 };
 
-return { initHighlighter: initHighlighter, target: target };
+//return { initHighlighter: initHighlighter, target: target };
+return { initHighlighter: initHighlighter };
 };
