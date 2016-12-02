@@ -104,13 +104,13 @@ var criticalYPositions = [], criticalXPositions = [], boundingRectangles = [];
 
 // Perform all the page initialization.
 init = function( ) {
+    console.info( "Initializing block-mover.js" );
     highlighter = require( "./highlighter.js" )();
     //console.dir( highlighter );
     logger = require( "./logger.js" )();
     //console.dir( logger );
     outliner = require( "./outliner.js" )();
     //console.dir( outliner );
-
     // Add all the event listeners.
     var body = document.getElementsByTagName( "body" )[0];
     highlighter.initHighlighter( body ); // Initialize the mouseover event listener in the highlighter.js module.
@@ -119,7 +119,7 @@ init = function( ) {
     body.addEventListener( "mousemove", handleMousemove );
     //container = document.getElementsByClassName( "container-box" )[0]; // The element we will work on.
     container = body;
-    console.info( "Initializing block-mover.js" );
+    //console.group( "init: container" ); console.dir( container ); console.groupEnd( );
     // For the current page structure, determine the regions where dropping a moving box will have different results.
     calcCriticalPositions( "init: " );
 };
@@ -137,6 +137,7 @@ getCStyle = function( element ) {
 };
 
 findBoxIndex = function( box ) {
+    console.group( "findBoxIndex: container" ); console.dir( container ); console.groupEnd( );
     // container.children is a NodeList, not an Array, but it is Array-like, so we can apply the indexOf() like this.
     return Array.prototype.indexOf.call( container.children, box );
 };
@@ -144,6 +145,7 @@ findBoxIndex = function( box ) {
 // yPositions is a debug string to be constructed that represents all the critical Y-positions, prepended with a header.
 calcCriticalPositions = function( header ) {
     var boxIndex, yPositions, xPositions, boxBounds, computedStyle;
+    console.group( "calcCriticalPositions: container" ); console.dir( container ); console.groupEnd( );
     boxes = Array.prototype.slice.call( container.children ); // Make a real Array from an HTMLCollection.
     yPositions = header + "critical Y positions => ";
     xPositions = header + "critical X positions => ";
@@ -156,11 +158,9 @@ calcCriticalPositions = function( header ) {
 	    Math.round((( boundingRect.bottom - boundingRect.top ) * 0.5 ) + boundingRect.top );
 	yPositions += criticalYPositions[boxIndex] + ", ";
     }
-    console.group( "boxes" ); console.dir( boxes ); console.groupEnd( );
+    console.group( "calcCriticalPositions: boxes" ); console.dir( boxes ); console.groupEnd( );
     for ( boxIndex = 0; boxIndex < boxes.length; boxIndex++ ) {
 	computedStyle = window.getCStyle( boxes[boxIndex], null );
-	//console.debug( "calcCriticalPositions: Is computedStyle necessary? boxes[boxIndex].style.display => " +
-	//	       boxes[boxIndex].display ); // Yes, necessary: the debug statement prints 'undefined'.
 	boundingRect = boxes[boxIndex].getBoundingClientRect( );
 	boundingRectangles[boxIndex] = boundingRect;
 	if ( computedStyle.display == "inline" || computedStyle.display == "inline-block" ) {
@@ -182,7 +182,7 @@ calcCriticalPositions = function( header ) {
 // NodeLists have an insertBefore method, but no insertAfter method, so we create this useful insertAfter function.
 insertAfter = function( newElement, targetElement ) {
     if ( container.lastchild == targetElement ) {
-	console.debug( "targetElement is container's lastchild" );
+	console.info( "targetElement is container's lastchild" );
 	container.appendChild( newElement );
     } else {
 	container.insertBefore( newElement, targetElement.nextSibling );
@@ -198,11 +198,10 @@ handleMousedown = function( event ) {
     //console.debug( "mousedown: event.clientY => " + event.clientY + ", event.clientX => " + event.clientX );
     boxInMotion = event.target;
     container = boxInMotion.parentElement;
-    //console.debug( "mousedown: container => " + container + ", id => " + container.id  );
-    //highlighter.initHighlighter( container );
-    //console.group( "boxInMotion, container, container.children" );
-    //console.dir( boxInMotion ); console.dir( container ); console.dir (container.children );
-    //console.groupEnd( );
+    console.group( "mousedown: boxInMotion, container, container.children" );
+    console.dir( boxInMotion ); console.dir( container ); console.dir (container.children );
+    console.groupEnd( );
+    console.debug( "mousedown: calling findBoxIndex( boxInMotion )" );
     bimIndex = findBoxIndex( boxInMotion );
     if ( bimIndex == -1 ) {
 	console.info( "The selected element cannot be handled in this prototype GUI." );
@@ -221,11 +220,14 @@ handleMousedown = function( event ) {
 	boxDisplay = boxInMotion.style.display;
 	logger.log( "handleMousedown: outlining boxes" );
 	//FIXME: The margins that the following line add to boxes spoils the boxInMotion position calculations.
-	boxes.forEach( function( element ) { if ( element != boxInMotion ) { outliner.outlineOneElement( element, "blue" ); } } );
+	boxes.forEach(
+	    function( element ) {
+		if ( element != boxInMotion ) { outliner.outlineOneElement( element, "blue" ); } } );
 	boxes.forEach(
 	    function( element ) {
 		if ( element != boxInMotion ) {
-		    logger.log( [ "mousedown: element ",element,"preoutlineStyle.border "+element.zen.preoutlineStyle.border ] );
+		    logger.log( [ "mousedown: element ",element,"preoutlineStyle.border "+
+				  element.zen.preoutlineStyle.border ] );
 		}
 	    }
 	);
@@ -233,7 +235,6 @@ handleMousedown = function( event ) {
 	//console.dir( boxInMotion );
 	//console.debug( "mousedown: boxInMotion.style.display => " + boxInMotion.style.display );
 	computedStyle = window.getCStyle( boxInMotion, null );
-	//console.debug( "mousedown: Is computedStyle necessary? boxInMotion.style.display => " + boxInMotion.display );
 	if ( computedStyle.display == "inline" || computedStyle.display == "inline-block" ) {
 	    console.debug( "mousedown: adding 'draggable-nsew-inline' class to boxInMotion" );
 	    boxInMotion.className += " draggable-nsew-inline";
@@ -375,7 +376,7 @@ handleMouseup = function( event ) {
 		}
 		catch ( error ) {
 		    console.error( "mouseup forEach: " + error );
-		    //console.group( "element" ); console.dir( element ); console.groupEnd( );
+		    console.group( "element" ); console.dir( element ); console.groupEnd( );
 		}
 	    }
 	} );

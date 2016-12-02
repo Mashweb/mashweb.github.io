@@ -20,26 +20,21 @@ initHighlighter = function( element ) {
 // TODO: Maybe don't hightlight the document body element.
 handleMousemoveX = function( event ) {
     target = event.target;
-    //console.group( "handleMouseover" ); console.dir( target ); console.dir( previousTarget ); console.groupEnd( );
-    /*
-    if ( previousTarget !== null ) {
-	// Restore the original style of the element the mouse pointer passed away from.
-	logger.log("unoutline previous hover position");
-	outliner.unoutlineOneElement( previousTarget );
-    }
-    */
+    //console.group( "handleMouseoverX" ); console.dir( target ); console.dir( previousTarget ); console.groupEnd( );
     if ( previousTarget !== target ) {
 	//logger.log(["previous target", target, "x"]);
 	logger.log("**outline current hover position");
 	if ( previousTarget !== null ) {
 	    outliner.unoutlineOneElement( previousTarget );
 	}
-	outliner.outlineOneElement( target, "aqua" );
+	if ( target !== document.body ) {
+	    console.info( "highlighter: target is body; do not highlight it" );
+	    outliner.outlineOneElement( target, "aqua" );
+	}
 	// Now the target is the "previous" target.
 	previousTarget = target;
     }
 };
 
-//return { initHighlighter: initHighlighter, target: target };
 return { initHighlighter: initHighlighter };
 };

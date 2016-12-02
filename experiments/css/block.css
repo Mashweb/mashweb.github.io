@@ -33,7 +33,7 @@ div.box { height:80px; margin:0px 10px 0px 10px; padding:10px; }
 
 div.big-box { height:180px; }
 
-div.inline { display:inline; margin:10px 10px 0px 10px; padding:2px; font-size:14px; }
+div.inline { display:inline; padding:2px; font-size:14px; }
 
 .inline-block { display:inline-block; margin:0px 10px 0px 10px; height:100px; width:50px; }
 
