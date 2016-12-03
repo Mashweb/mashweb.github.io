@@ -1,17 +1,15 @@
 /*
  * FIXME: Update the header comments to reflect the latest code.
  *
- * The idea of the code below is to allow the user to
- * move any block element contained by an element of CSS class "container-box"
- * from one position to another within the parent box's NodeList,
- * assuming all the elements in the NodeList are block elements.
+ * The idea of the code below is to allow the user to move any block or inline
+ * element from one position to another within its parent box's NodeList.
  * We want to give it a direct-manipulation feel,
- * so we "grab" the DIV by temporarily converting its position value to
- * "relative" and tying its vertical position to the relative vertical motion
+ * so we "grab" an element by temporarily converting its position value to
+ * "relative" and tying its vertical position to the relative motion
  *  of the mouse.
  *
  * The critical position for any block box B is, for the sake of a good GUI effect,
- * halfway between the top and bottom of the box. If the bottom of the
+ * halfway between the top and bottom of the box. If the top of the
  * box in motion is dropped farther down the web page than this position, the
  * box in motion will be moved somewhere *after* box B in the parent's NodeList.
  * If the bottom of the box in motion is up the page from the critical position
@@ -58,18 +56,11 @@
  * FIXME: Allow any statically positioned block to be moved to any position
  * in the NodeList.
  *
- * FIXME: Allow any parent element to participate. The parent element is the
- * element whose children are the moving element or its siblings.
- * The code in this file is for a prototype GUI, so it is assumed that the parent
- * element will be determined by a different method than the method used here.
- * An unbroken subcollection of block elements in a NodeList should be outlined
- * to show that any position in it is an easy target for dropping a block.
- * Subcollections of elements separated by inline or inline-block elements
- * will be handled differently; they will need to be handled like blocks
- * with separate parents.
+ * FIXME: Make it possible to rearrange the NodeList positions of consequtive
+ * inlines and inline-blocks by dragging them horizontally.
  *
- * FIXME: Make the setting of the body's margin property to 0, which is being
- * done here in block.html, unnecessary.
+ * FIXME: Make the mouse pointer always be over the upper lefthand corner of the
+ * box-in-motion. There is some bug that prevents this from being so.
  */
 
 // DOM elements
