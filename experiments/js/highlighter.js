@@ -1,3 +1,7 @@
+/*
+ * highlighter.js
+ */
+
 module.exports = function( ) {
 
 logger = require( "./logger.js" )();

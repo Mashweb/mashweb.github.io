@@ -1,7 +1,7 @@
 /*
- * FIXME: Update the header comments to reflect the latest code.
+ * _main.js
  *
- * The idea of the code below is to allow the user to move any block or inline
+ * The idea of this code is to allow the user to move any block or inline
  * element from one position to another within its parent box's NodeList.
  * We want to give it a direct-manipulation feel,
  * so we "grab" an element by temporarily converting its position value to
@@ -95,7 +95,7 @@ var criticalYPositions = [], criticalXPositions = [], boundingRectangles = [];
 
 // Perform all the page initialization.
 init = function( ) {
-    console.info( "Initializing block-mover.js" );
+    console.info( "Initializing" );
     highlighter = require( "./highlighter.js" )();
     logger = require( "./logger.js" )();
     outliner = require( "./outliner.js" )();
@@ -105,7 +105,7 @@ init = function( ) {
     body.addEventListener( "mousedown", handleMousedown );
     body.addEventListener( "mouseup", handleMouseup );
     body.addEventListener( "mousemove", handleMousemove );
-    container = body;
+    container = document.getElementsByClassName( "container-box" )[0] || document.body;
     console.debug( "" );
 };
 
@@ -188,7 +188,7 @@ handleMousedown = function( event ) {
     console.groupEnd( );
     //FIXME: Should boxes have to get set on every mousedown, other than for the first mousedown?
     boxes = Array.prototype.slice.call( container.children ); // Make a real Array from an HTMLCollection.
-    //console.debug( "mousedown: calling findBoxIndex( boxInMotion )" );
+    console.debug( "mousedown: calling findBoxIndex( boxInMotion )" );
     bimIndex = findBoxIndex( boxInMotion );
     if ( bimIndex == -1 ) {
 	console.info( "The selected element cannot be handled in this prototype GUI." );

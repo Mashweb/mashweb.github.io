@@ -1,3 +1,7 @@
+/*
+ * outliner.js
+ */
+
 module.exports = function( ) {
 
 logger = require( "./logger.js" )();
