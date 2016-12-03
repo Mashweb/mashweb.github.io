@@ -64,15 +64,18 @@
  */
 
 // DOM elements
-var container, box, boxInMotion, targetBox, boxes = [];
+var container, box, boxInMotion, targetBox, previousTargetBox = null, boxes = [];
 
 // CSS stuff
-var boxClass, boxTop, boxLeft, boxDisplay;
+var boxClass, boxTop, boxLeft, boxDisplay, boxBackgroundColor;
 var startingYDisplacement, currentYDisplacement, startingXDisplacement, currentXDisplacement;
 
 // Only after a mousedown event is the move process begun,
 // but the mousemove handler can be called many times before then. Hence this.
 var inDragProcess = false;
+
+// Do not highlight a potential target box more than once when the box-in-motion passes over it.
+var targetBoxIsHighlighted = false;
 
 // Moves smaller than minGesture pixels don't move an element in the NodeList.
 var minGesture = 10;
@@ -232,8 +235,8 @@ handleMousedown = function( event ) {
 	    boxInMotion.className += " draggable-block";
 	}
 	//FIXME: Figure out why 10 needs to be subtracted from the X and Y positions to keep the cursor over the box.
-	boxInMotion.style.top = startingYDisplacement - 10;
-	boxInMotion.style.left = startingXDisplacement - 10;
+	boxInMotion.style.top = startingYDisplacement - 35;
+	boxInMotion.style.left = startingXDisplacement - 15;
 	//console.debug( "mousedown: boxInMotion top => " + startingYDisplacement +
 	//	       ", left => " + startingXDisplacement );
 	logger.log( "handleMousedown: outlining container box in magenta" );
@@ -254,8 +257,8 @@ handleMousemove = function( event ) {
 	currentYDisplacement = event.clientY - boundingRectangles[bimIndex].top;
 	currentXDisplacement = event.clientX - boundingRectangles[bimIndex].left;
 	//FIXME: Figure out why 10 needs to be subtracted from the X and Y positions to keep the cursor over the box.
-	boxInMotion.style.top = currentYDisplacement - 20;
-	boxInMotion.style.left = currentXDisplacement - 20;
+	boxInMotion.style.top = currentYDisplacement - 35;
+	boxInMotion.style.left = currentXDisplacement - 15;
 	//console.group( "boxInMotion" ); console.dir( boxInMotion ); console.groupEnd( );
 	boundingRect = boxInMotion.getBoundingClientRect( );
 	targetBoxIndex = boxes.length - 1;
@@ -268,39 +271,51 @@ handleMousemove = function( event ) {
 	if ( targetBoxIndex == -1 ) {
 	    console.info( "The selected target element cannot be handled in this prototype GUI." );
 	} else {
-	targetBox = boxes[targetBoxIndex]; // This is the target box if there are no other boxes inline with it.
-	//console.debug( "mousemove: boxInMotion bottom => " + boundingRect.bottom +
-	//	       ", mousemove: boxInMotion right => " + boundingRect.right +
-	//	       ", criticalYPositions[targetBoxIndex] => " + criticalYPositions[targetBoxIndex] );
-	computedStyle = window.getCStyle( targetBox, null );
-	if ( computedStyle.display == "inline-block" || computedStyle.display == "inline" ) {
-	    console.debug( "mousemove: boxInMotion is passing over an " + computedStyle.display );
-	    if ( typeof boxInMotion.zen.isTempBlock !== "undefined" ) {
-		console.debug( "mousemove: restoring orignal class name and display type of boxInMotion" );
-		delete boxInMotion.zen.isTempBlock;
-		boxInMotion.className = boxClass;
-		boxInMotion.display = boxDisplay;
+	    
+	    targetBox = boxes[targetBoxIndex]; // This is the target box if there are no other boxes inline with it.
+	    if ( previousTargetBox !== targetBox && targetBox !== boxInMotion ) {
+		console.debug( "mousemove: change of potential target, new potential => " + targetBoxIndex );
+		if ( previousTargetBox !== null ) {
+		    previousTargetBox.style.backgroundColor = boxBackgroundColor;
+		}
+		boxBackgroundColor = targetBox.style.backgroundColor;
+		targetBox.style.backgroundColor = "gold";
+		previousTargetBox = targetBox;
 	    }
-	    if ( typeof boxInMotion.zen.isTempInline == "undefined" ) { // Prevent multiple additions of class name.
-		boxInMotion.className = boxClass + " draggable-nsew-inline"; // Add class name.
-		boxInMotion.zen.isTempInline = true;
+	    
+	    //console.debug( "mousemove: boxInMotion bottom => " + boundingRect.bottom +
+	    //	       ", mousemove: boxInMotion right => " + boundingRect.right +
+	    //	       ", criticalYPositions[targetBoxIndex] => " + criticalYPositions[targetBoxIndex] );
+	    computedStyle = window.getCStyle( targetBox, null );
+	    console.debug( "mousemove: boxInMotion is passing over a(n) " + computedStyle.display );
+	    if ( computedStyle.display == "inline-block" || computedStyle.display == "inline" ) {
+		if ( typeof boxInMotion.zen.isTempBlock !== "undefined" ) {
+		    console.debug( "mousemove: restoring orignal class name and display type of boxInMotion" );
+		    delete boxInMotion.zen.isTempBlock;
+		    boxInMotion.className = boxClass;
+		    boxInMotion.display = boxDisplay;
+		}
+		if ( typeof boxInMotion.zen.isTempInline == "undefined" ) { // Prevent multiple additions of class name.
+		    console.debug( "mousemove: adding 'draggable-nsew-inline' class to boxInMotion" );
+		    boxInMotion.className = boxClass + " draggable-nsew-inline"; // Add class name.
+		    boxInMotion.zen.isTempInline = true;
+		}
+		boxInMotion.style.display = "inline-block";
+	    } else {
+		if ( typeof boxInMotion.zen.isTempInline !== "undefined" ) {
+		    console.debug( "mousemove: restoring orignal class name and display type of boxInMotion" );
+		    delete boxInMotion.zen.isTempInline;
+		    boxInMotion.className = boxClass;
+		    boxInMotion.display = boxDisplay;
+		}
+		if ( typeof boxInMotion.zen.isTempBlock == "undefined" ) { // Prevent multiple additions of class name.
+		    console.debug( "mousemove: adding 'draggable-block' class to boxInMotion" );
+		    boxInMotion.className = boxClass + " draggable-block"; // Add class name.
+		    boxInMotion.zen.isTempBlock = true;
+		}
+		boxInMotion.style.display = "block";
 	    }
-	    boxInMotion.style.display = "inline-block";
-	} else {
-	    console.debug( "mousemove: boxInMotion is passing over a block" );
-	    if ( typeof boxInMotion.zen.isTempInline !== "undefined" ) {
-		console.debug( "mousemove: restoring orignal class name and display type of boxInMotion" );
-		delete boxInMotion.zen.isTempInline;
-		boxInMotion.className = boxClass;
-		boxInMotion.display = boxDisplay;
-	    }
-	    if ( typeof boxInMotion.zen.isTempBlock == "undefined" ) { // Prevent multiple additions of class name.
-		console.debug( "mousemove: adding 'draggable-block' class to boxInMotion" );
-		boxInMotion.className = boxClass + " draggable-block"; // Add class name.
-		boxInMotion.zen.isTempBlock = true;
-	    }
-	    boxInMotion.style.display = "block";
-	}}
+	}
     }
 };
 

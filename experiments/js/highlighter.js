@@ -1,5 +1,8 @@
 /*
  * highlighter.js
+ *
+ * As the mouse pointer moves over a targetable element, highlight that element with an aqua border and a margin.
+ * As the mouse pointer moves away from the element, reset the element's borders and margins.
  */
 
 module.exports = function( ) {
@@ -7,12 +10,7 @@ module.exports = function( ) {
 logger = require( "./logger.js" )();
 outliner = require( "./outliner.js" )();
 
-/*
- * As the mouse pointer moves over a targetable element, highlight that element with an aqua border and a margin.
- * As the mouse pointer moves away from the element, reset the element's borders and margins.
- */
-
-var target = null, previousTarget = null;
+var element = null, previousElement = null;
 
 initHighlighter = function( element ) {
     document.body.addEventListener( "mousemove", handleMousemoveX );
@@ -23,20 +21,20 @@ initHighlighter = function( element ) {
 
 // TODO: Maybe don't hightlight the document body element.
 handleMousemoveX = function( event ) {
-    target = event.target;
-    //console.group( "handleMouseoverX" ); console.dir( target ); console.dir( previousTarget ); console.groupEnd( );
-    if ( previousTarget !== target ) {
-	//logger.log(["previous target", target, "x"]);
+    element = event.target;
+    //console.group( "handleMouseoverX" ); console.dir( element ); console.dir( previousElement ); console.groupEnd( );
+    if ( previousElement !== element ) {
+	//logger.log(["previous element", element, "x"]);
 	logger.log("**outline current hover position");
-	if ( previousTarget !== null ) {
-	    outliner.unoutlineOneElement( previousTarget );
+	if ( previousElement !== null ) {
+	    outliner.unoutlineOneElement( previousElement );
 	}
-	if ( target !== document.body ) {
-	    //console.info( "highlighter: target is body; do not highlight it" );
-	    outliner.outlineOneElement( target, "aqua" );
+	if ( element !== document.body ) {
+	    //console.info( "highlighter: element is body; do not highlight it" );
+	    outliner.outlineOneElement( element, "aqua" );
 	}
-	// Now the target is the "previous" target.
-	previousTarget = target;
+	// Now the element is the "previous" element.
+	previousElement = element;
     }
 };
 

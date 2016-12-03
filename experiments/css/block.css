@@ -24,6 +24,8 @@ body { background-color: snow; }
 
 .thistle { background-color:thistle }
 
+.azure { background-color:azure }
+
 .hover { position:absolute; right:0px; width:200px; margin:10px; padding:5px;
 	 background-color:lightgreen; opacity:0.7; }
 

@@ -35,8 +35,12 @@ function outlineOneElement( element, color ) {
     var id;
 
     //console.debug("outlineOneElement");
-    //if (typeof boxInMotion == "undefined") { id = "boxInMotion not found"; } else { id = boxInMotion.id; }
-    if (typeof element.zen == "undefined") { brdr = "border not saved"; } else { brdr = element.zen.preoutlineStyle.border; }
+    if (typeof boxInMotion == "undefined") { id = "boxInMotion not found"; } else { id = boxInMotion.id; }
+    if (typeof element.zen == "undefined") {
+	brdr = "border not saved";
+    } else {
+	brdr = element.zen.preoutlineStyle.border;
+    }
     logger.log( [ "outlineOneElement("+element.id+","+color+"):","now "+element.style.border,"prev "+brdr,"bim "+id ] );
     /*
     if (element == document.body) { // Don't outline the document body element.
