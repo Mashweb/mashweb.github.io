@@ -323,6 +323,7 @@ handleMouseup = function( event ) {
     var deltaY;
     if ( inDragProcess ) {
 	console.debug( "" );
+	targetBox.style.backgroundColor = boxBackgroundColor;
 	logger.log( "handleMouseup: unoutlining boxInMotion" );
 	if ( findBoxIndex( boxInMotion ) !== -1 ) {
 	    try {
