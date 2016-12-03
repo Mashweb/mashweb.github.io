@@ -66,7 +66,7 @@ function outlineOneElement( element, color ) {
 }
 
 function unoutlineOneElement ( element ) {
-    console.debug("unoutlineOneElement");
+    //console.debug("unoutlineOneElement");
     try {
 	if (typeof element.zen == "undefined") {
 	    brdr = "border not saved";

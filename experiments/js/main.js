@@ -106,22 +106,16 @@ var criticalYPositions = [], criticalXPositions = [], boundingRectangles = [];
 init = function( ) {
     console.info( "Initializing block-mover.js" );
     highlighter = require( "./highlighter.js" )();
-    //console.dir( highlighter );
     logger = require( "./logger.js" )();
-    //console.dir( logger );
     outliner = require( "./outliner.js" )();
-    //console.dir( outliner );
     // Add all the event listeners.
     var body = document.getElementsByTagName( "body" )[0];
     highlighter.initHighlighter( body ); // Initialize the mouseover event listener in the highlighter.js module.
     body.addEventListener( "mousedown", handleMousedown );
     body.addEventListener( "mouseup", handleMouseup );
     body.addEventListener( "mousemove", handleMousemove );
-    //container = document.getElementsByClassName( "container-box" )[0]; // The element we will work on.
     container = body;
-    //console.group( "init: container" ); console.dir( container ); console.groupEnd( );
-    // For the current page structure, determine the regions where dropping a moving box will have different results.
-    calcCriticalPositions( "init: " );
+    console.debug( "" );
 };
 
 getCStyle = function( element ) {
@@ -137,19 +131,19 @@ getCStyle = function( element ) {
 };
 
 findBoxIndex = function( box ) {
-    console.group( "findBoxIndex: container" ); console.dir( container ); console.groupEnd( );
+    //console.group( "findBoxIndex: container" ); console.dir( container ); console.groupEnd( );
     // container.children is a NodeList, not an Array, but it is Array-like, so we can apply the indexOf() like this.
     return Array.prototype.indexOf.call( container.children, box );
 };
 
+// For the current page structure, determine the regions where dropping a moving box will have different results.
 // yPositions is a debug string to be constructed that represents all the critical Y-positions, prepended with a header.
 calcCriticalPositions = function( header ) {
     var boxIndex, yPositions, xPositions, boxBounds, computedStyle;
-    console.group( "calcCriticalPositions: container" ); console.dir( container ); console.groupEnd( );
-    boxes = Array.prototype.slice.call( container.children ); // Make a real Array from an HTMLCollection.
+    console.group( "calcCriticalPositions ["+header+"]: container" ); console.dir( container ); console.groupEnd( );
     yPositions = header + "critical Y positions => ";
     xPositions = header + "critical X positions => ";
-    boxBounds = header + "box bounds (top, left) => ";
+    boxBounds = "box bounds (top, left) => ";
     for ( boxIndex = 0; boxIndex < boxes.length; boxIndex++ ) {
 	boundingRect = boxes[boxIndex].getBoundingClientRect( );
 	//console.debug( "id => " + boxes[boxIndex].id + ", top => " + boundingRect.top +
@@ -194,21 +188,24 @@ insertAfter = function( newElement, targetElement ) {
 // type to relative, and start the box-dragging process.
 handleMousedown = function( event ) {
     var computedStyle;
-    event.preventDefault( ); // I forget why this was necessary, but it was only necessary for
+    event.preventDefault( );
     //console.debug( "mousedown: event.clientY => " + event.clientY + ", event.clientX => " + event.clientX );
     boxInMotion = event.target;
     container = boxInMotion.parentElement;
     console.group( "mousedown: boxInMotion, container, container.children" );
     console.dir( boxInMotion ); console.dir( container ); console.dir (container.children );
     console.groupEnd( );
-    console.debug( "mousedown: calling findBoxIndex( boxInMotion )" );
+    //FIXME: Should boxes have to get set on every mousedown, other than for the first mousedown?
+    boxes = Array.prototype.slice.call( container.children ); // Make a real Array from an HTMLCollection.
+    //console.debug( "mousedown: calling findBoxIndex( boxInMotion )" );
     bimIndex = findBoxIndex( boxInMotion );
     if ( bimIndex == -1 ) {
 	console.info( "The selected element cannot be handled in this prototype GUI." );
     } else {
 	outliner.outlineOneElement( boxInMotion, "red" );
 	calcCriticalPositions( "mousedown" );
-	console.group( "bimIndex, boundingRectangles" ); console.debug( bimIndex ); console.dir( boundingRectangles );
+	console.group( "mousedown: bimIndex, boundingRectangles" );
+	console.debug( bimIndex ); console.dir( boundingRectangles );
 	console.groupEnd( );
 	startingYDisplacement = event.clientY - boundingRectangles[bimIndex].top;
 	startingXDisplacement = event.clientX - boundingRectangles[bimIndex].left;
@@ -285,7 +282,6 @@ handleMousemove = function( event ) {
 	//	       ", mousemove: boxInMotion right => " + boundingRect.right +
 	//	       ", criticalYPositions[targetBoxIndex] => " + criticalYPositions[targetBoxIndex] );
 	computedStyle = window.getCStyle( targetBox, null );
-	//console.debug( "mousedown: Is computedStyle necessary? targetBox.style.display => " + targetBox.display );
 	if ( computedStyle.display == "inline-block" || computedStyle.display == "inline" ) {
 	    console.debug( "mousemove: boxInMotion is passing over an " + computedStyle.display );
 	    if ( typeof boxInMotion.zen.isTempBlock !== "undefined" ) {
@@ -321,6 +317,7 @@ handleMouseup = function( event ) {
     var deltaY;
     if ( inDragProcess ) {
 	console.debug( "" );
+	logger.log( "handleMouseup: unoutlining boxInMotion" );
 	if ( findBoxIndex( boxInMotion ) !== -1 ) {
 	    try {
 		outliner.unoutlineOneElement( boxInMotion );
@@ -361,7 +358,6 @@ handleMouseup = function( event ) {
 			    console.groupEnd( );
 			}
 		    }
-		    boxes = Array.prototype.slice.call( container.children ); // Make real Array from HTMLCollection.
 		}
 	    }
 	} else {
@@ -390,7 +386,7 @@ handleMouseup = function( event ) {
 	boxInMotion.style.display = boxDisplay;
 	logger.log( "handleMouseup: unoutlining container box" );
 	outliner.unoutlineOneElement( container );
-	calcCriticalPositions( "mouseup: exit: " );
+	calcCriticalPositions( "mouseup: exit" );
 	inDragProcess = false;
     }
 }

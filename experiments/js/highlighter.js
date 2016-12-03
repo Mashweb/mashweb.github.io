@@ -28,7 +28,7 @@ handleMousemoveX = function( event ) {
 	    outliner.unoutlineOneElement( previousTarget );
 	}
 	if ( target !== document.body ) {
-	    console.info( "highlighter: target is body; do not highlight it" );
+	    //console.info( "highlighter: target is body; do not highlight it" );
 	    outliner.outlineOneElement( target, "aqua" );
 	}
 	// Now the target is the "previous" target.
