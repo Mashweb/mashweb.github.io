@@ -61,6 +61,8 @@
  *
  * FIXME: Make the mouse pointer always be over the upper lefthand corner of the
  * box-in-motion. There is some bug that prevents this from being so.
+ *
+ * FIXME: Use assertions to help improve program correctness.
  */
 
 // DOM elements
