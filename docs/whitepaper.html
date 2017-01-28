@@ -9,11 +9,11 @@ title: Zen White Paper
     <div class="docs-sub-content">
 	<h2 class="page-title">Zen: A New Approach to Web-Page Editing and Web App Development
 	    Based upon Direct Manipulation of the DOM and Visual Programming</h2>
-	Version 0.11.6<br />
+	Version 0.11.9<br />
 	by Tom Elam<br />
 	Elam & Associates<br />
 	Mysuru, India<br />
-	December 12, 2016
+	January 24, 2017
     </div>
   </div>
 </div>
@@ -46,7 +46,7 @@ title: Zen White Paper
 	<p>
 	    A deliverable of the Zen project will be an example Zen-based
 	    web application framework<sup><a href="#1">1</a></sup> comprising the Zen
-	    client-side JavaScript library, aka <em>Core Zen</em> and a liberally licensed server-side framework
+	    client-side JavaScript library, aka <em>Core Zen</em>, and a liberally licensed server-side framework
 	    (possibly Ruby on Rails) augmented with code to store and serve the web pages created and modified by Zen.
 	    Even though Core Zen will only have to be loaded once to create an unlimited number of web pages
 	    with unique URLs, a strong effort will be made to keep the "time-to-interact" (TTI)
@@ -59,18 +59,45 @@ title: Zen White Paper
 	    web content management systems, wikis, website builders, web frameworks, web portals,
 	    web development tools for editing, testing, and debugging code,
 	    and integrated development environments (IDEs) for web development.
+	    Web services such as Google's Accelerated Mobile Pages (AMP)<sup><a href="#2">2</a></sup>
+	    and Google Hosted Libraries<sup><a href="#3">3</a></sup> could broaden Zen's potential.
 	</p>
 
 	<p>
 	    Many user-programmed systems for customizing websites are described in the book
 	    <em>No Code Required: Giving Users Tools to Transform the Web</em>
-	    <sup><a href="#2">2</a></sup> but no system for <em>creating</em> web apps.
-	    Zen will enable simple web apps to be created as simply as are the applications
-	    written by children in specially designed visual programming languages of today.
+	    <sup><a href="#4">4</a></sup> but no system for <em>creating</em> web apps.
+	    With Zen, many kinds of web apps will be created as simply as are the applications
+	    written by children in specially designed visual programming languages.
 	    (Specific references to these child-oriented systems are provided later in this paper.)
-	    To enable this, a synchronous, sequential programming system must be overlaid on
-	    the asynchronous, event-driven infrastructure of a web page's JavaScript.
-	    Zen will do this via specially enabled <em>web continuations</em>.
+	</p>
+
+	<p>
+	    Though many of the problems of creating end-user programming environments
+	    have been overcome to some degree or other,
+	    there is one obstacle to it that still has no embeddable (library-based) solution&mdash;as
+	    opposed to a framework-based solution.
+	    That is a problem that arises from the stateless nature of the Web.
+	    To illustrate, we take an example of a typical program that asks a user's name
+	    and greets him accordingly:
+<pre><code>		    
+    PRINT "What is your name?"
+    INPUT "(Enter your name.)", $name
+    PRINT
+    PRINT "Hello, "; $name; ", how are you today?"</pre></code>
+            The flow of this program is obvious, but even such a simple program must be written on
+            a platform that hides complexity:
+            it must be halted, waiting for a response.
+            This is true no matter what the programming platform is.
+            For desktop applications, the operating system provides system calls, a scheduler,
+            and library functions that
+	    allow program flow to mirror the thread or process of the program, as in the example.
+            For web apps there is no underlying operating system to support the halting and restarting
+            of the program.
+            However, some languages, such as Scheme, support <em>continuations</em>,<sup><a href="#5">5</a></sup>
+            which allow programs written in that language to be halted and restarted using
+            <em>language-level</em> mechanisms (as opposed to operating-styem system calls and library functions).
+            Zen will utilize continuations to simplify the end-user's programming tasks.
 	</p>
 	
 	<p>
@@ -87,7 +114,7 @@ title: Zen White Paper
 		    </figcaption>
 		</figure>
 	    </div>
-	    Why such a new approach is desirable and how it is anticipated to work are the subjects of this whole paper,
+	    Why Zen's new approach is desirable and how it is anticipated to work are the subjects of this whole paper,
 	    but a brief video from the Digital Archaeology project<a href="#1"><sup>1</sup></a>
 	    showing the operation of the first web browser can provide some background context.
 	    The video shows the operation of the first web browser, called Nexus, crafted by the inventor
@@ -362,7 +389,12 @@ title: Zen White Paper
 		    Well-known interface metaphors and gestures must be leveraged to the hilt.
 		    The "principle of least surprise" should be followed.
 		</li>
-		<li>The interface should not be cluttered with details that can be drilled down to.
+		<li>The interface for manipulating and creating semantic and presentation structure
+		    should not be cluttered with details that could be hidden until needed;
+		    the user should be able to drill down to these details.
+		    The interface should present two modes:
+		    one mode to hide purely structural details so that semantic details can be addressed,
+		    and another mode to hide semantic details so that the look and feel of a web page can be addressed.
 		</li>
 		<li>Meta organization, like the creation of themes, templates, or partials,
 		    should not be precluded by the structure of Zen's low-level tools.
@@ -1103,11 +1135,14 @@ title: Zen White Paper
       <h2 id="Name">9. Encapsulating the Zen Concept in a Domain Name</h2>
       <p>How to convey the proper central concept behind the "Zen website"?
 	  Is the central concept for the Zen website all about being "on the same page"?
-	  Would a better encapsulation of the gestalt of Zen be "own the web" or "your web" or "my web"?
+	  Would a better encapsulation of the gestalt of Zen be "own the web" or "your web" or "my web"
+	  or "mash the web"?
 	  Possible catch phrases to encapsulate the gestalt of Zen are:
 	  <ul>
 	      <li>"Own the Web"</li>
 	      <li>"On the same page"</li>
+	      <li>"Mash the Web"</li>
+	      <li>"Remix the Web"</li>
 	  </ul>
 	  The following domain names that could convey the Zen concept are or appear to be squatted upon:
 	  <ul>
@@ -1140,6 +1175,7 @@ title: Zen White Paper
 	      <li>collabweb.com (in use and might be a competitor to Zen)</li>
 	      <li>me.com (redirects to Apple's icloud.com)</li>
 	  </ul>
+	  The top-level domain (TLD) <code>me</code> could convey the personalization aspect of Zen.
       </p>
       </div>
       

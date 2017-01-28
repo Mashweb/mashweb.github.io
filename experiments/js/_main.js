@@ -19,32 +19,32 @@
  *
  * Take an example.
  * If the following diagram represents the web page, box 0 is the box in motion,
- * and box 0 is dropped at vertical position Y=145, box 0 will not be moved
- * in the NodeList. For drop position Y=155, box 0 will be moved just after
+ * and the top of box 0 is dropped at vertical position Y=4, box 0 will not be moved
+ * in the NodeList. For drop position Y=105, box 0 will be moved just after
  * box 1 in the NodeList. The only special case is when box 0 is the box in motion
- * and it gets dropped between postion Y=51 and position Y=150; in this case
+ * and its top gets dropped between postion Y=1 and position Y=104; in this case
  * the box in motion would move just after itself in the NodeList. This is a
  * null operation.
  *
  *      +-----+ 0
- *      |     |
  *      |  0  | <- critcal position for block 0
  *      |     |
- *      +-----+ 100
  *      |     |
+ *      +-----+ 100
  *      |  1  | <- critcal position for block 1
  *      |     |
+ *      |     |
  *      +-----+ 200
- *      |     |
- *      |     |
- *      |     |
  *      |  2  | <- critical position for bock 2
  *      |     |
  *      |     |
  *      |     |
- *      +-----+ 400
  *      |     |
+ *      |     |
+ *      |     |
+ *      +-----+ 400
  *      |  3  | <- critcal position for block 3
+ *      |     |
  *      |     |
  *      +-----+ 500
  *
@@ -96,7 +96,7 @@ var targetBoxIndex;
 // is dropped there, the box in motion will be inserted into the DOM before the box underneath, in the NodeList.
 // If the box in motion is dropped at a position lower than that, it will be inserted somewhere later
 // in the NodeList. The bounding rectangles are obtained for the necessary calculations.
-var criticalYPositions = [], criticalXPositions = [], boundingRectangles = [];
+var dropRegionsYCoords = [], dropRegionsXCoords = [], boundingRectangles = [];
 
 // Perform all the page initialization.
 init = function( ) {
@@ -133,20 +133,21 @@ findBoxIndex = function( box ) {
 };
 
 // For the current page structure, determine the regions where dropping a moving box will have different results.
-// yPositions is a debug string to be constructed that represents all the critical Y-positions, prepended with a header.
+// dropRegionsYCoordsString is a debug string to be constructed that represents all the critical Y-positions,
+// prepended with a header.
 calcCriticalPositions = function( header ) {
-    var boxIndex, yPositions, xPositions, boxBounds, computedStyle;
+    var boxIndex, dropRegionsYCoordsString, xPositions, boxBounds, computedStyle;
     console.group( "calcCriticalPositions ["+header+"]: container" ); console.dir( container ); console.groupEnd( );
-    yPositions = header + "critical Y positions => ";
+    dropRegionsYCoordsString = header + "critical Y positions => ";
     xPositions = header + "critical X positions => ";
     boxBounds = "box bounds (top, left) => ";
     for ( boxIndex = 0; boxIndex < boxes.length; boxIndex++ ) {
 	boundingRect = boxes[boxIndex].getBoundingClientRect( );
 	//console.debug( "id => " + boxes[boxIndex].id + ", top => " + boundingRect.top +
 	//	       ", bottom => " + boundingRect.bottom );
-	criticalYPositions[boxIndex] =
-	    Math.round((( boundingRect.bottom - boundingRect.top ) * 0.5 ) + boundingRect.top );
-	yPositions += criticalYPositions[boxIndex] + ", ";
+	dropRegionsYCoords[boxIndex] =
+	    Math.round((( boundingRect.bottom - boundingRect.top ) * 0.05 ) + boundingRect.top );
+	dropRegionsYCoordsString += dropRegionsYCoords[boxIndex] + ", ";
     }
     console.group( "calcCriticalPositions: boxes" ); console.dir( boxes ); console.groupEnd( );
     for ( boxIndex = 0; boxIndex < boxes.length; boxIndex++ ) {
@@ -156,15 +157,15 @@ calcCriticalPositions = function( header ) {
 	if ( computedStyle.display == "inline" || computedStyle.display == "inline-block" ) {
 	    //console.debug( "id => " + boxes[boxIndex].id + ", top => " + boundingRect.top +
 	    //		   ", bottom => " + boundingRect.bottom );
-	    criticalXPositions[boxIndex] =
-		Math.round((( boundingRect.right - boundingRect.left ) * 0.5 ) + boundingRect.left );
+	    dropRegionsXCoords[boxIndex] =
+		Math.round((( boundingRect.right - boundingRect.left ) * 0.05 ) + boundingRect.left );
 	} else {
-	    criticalXPositions[boxIndex] = -1; // Flag a block box, because it takes up the whole line.
+	    dropRegionsXCoords[boxIndex] = -1; // Flag a block box, because it takes up the whole line.
 	}
-	xPositions += criticalXPositions[boxIndex] + ", ";
+	xPositions += dropRegionsXCoords[boxIndex] + ", ";
 	boxBounds += boundingRect.top + ", " + boundingRect.left + "; ";
     }
-    //console.debug( yPositions );
+    //console.debug( dropRegionsYCoordsString );
     //console.debug( xPositions );
     console.debug( boxBounds );
 };
@@ -265,7 +266,7 @@ handleMousemove = function( event ) {
 	boundingRect = boxInMotion.getBoundingClientRect( );
 	targetBoxIndex = boxes.length - 1;
 	for ( boxIndex = boxes.length - 1; boxIndex >= 0; boxIndex-- ) {
-	    if ( boundingRect.top > criticalYPositions[boxIndex] ) {
+	    if ( boundingRect.top > dropRegionsYCoords[boxIndex] ) {
 		break;
 	    }
 	    targetBoxIndex = boxIndex - 1;
@@ -287,7 +288,7 @@ handleMousemove = function( event ) {
 	    
 	    //console.debug( "mousemove: boxInMotion bottom => " + boundingRect.bottom +
 	    //	       ", mousemove: boxInMotion right => " + boundingRect.right +
-	    //	       ", criticalYPositions[targetBoxIndex] => " + criticalYPositions[targetBoxIndex] );
+	    //	       ", dropRegionsYCoords[targetBoxIndex] => " + dropRegionsYCoords[targetBoxIndex] );
 	    computedStyle = window.getCStyle( targetBox, null );
 	    console.debug( "mousemove: boxInMotion is passing over a(n) " + computedStyle.display );
 	    if ( computedStyle.display == "inline-block" || computedStyle.display == "inline" ) {
@@ -341,8 +342,8 @@ handleMouseup = function( event ) {
 	//console.debug( "mouseup: boxInMotion bottom => " + boundingRect.bottom +
 	//	       ", top => " + boundingRect.top +
 	//	       ", targetBoxIndex => " + targetBoxIndex +
-	//	       ", criticalYPositions[targetBoxIndex] => " + criticalYPositions[targetBoxIndex] +
-	//	       ", criticalXPositions[targetBoxIndex] => " + criticalXPositions[targetBoxIndex]
+	//	       ", dropRegionsYCoords[targetBoxIndex] => " + dropRegionsYCoords[targetBoxIndex] +
+	//	       ", dropRegionsXCoords[targetBoxIndex] => " + dropRegionsXCoords[targetBoxIndex]
 	//	     );
 	if ( Math.abs( deltaY ) > minGesture ) {
 	    if ( bimIndex == targetBoxIndex ) {
