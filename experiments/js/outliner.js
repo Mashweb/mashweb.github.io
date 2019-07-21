@@ -2,16 +2,14 @@
  * outliner.js
  */
 
-module.exports = function( ) {
+import { log } from "../js/logger.js";
 
-logger = require( "./logger.js" )();
-
-var computedProps = [];
+var computedProps = [], brdr, propIndex, boxInMotion, id;
 
 function saveStyle( container ) {
     //console.debug("saveStyle");
     var elements = Array.prototype.slice.call( container.children ); // Make real Array from HTMLCollection.
-    logger.log( "saveStyle: enter" );
+    log( "saveStyle: enter" );
     elements.forEach( function( element ) {
 	if ( typeof element.zen == "undefined" || typeof element.zen.preoutlineStyle == "undefined" ) {
 	    element.zen = {};
@@ -32,7 +30,6 @@ function outlineOneElement( element, color ) {
     var computedStyle;
     var propTab         = [ "marginTop",     "marginRight",     "marginBottom",     "marginLeft"     ];
     var computedPropTab = [ "margin-top",    "margin-right",    "margin-bottom",    "margin-left"    ];
-    var id;
 
     //console.debug("outlineOneElement");
     if (typeof boxInMotion == "undefined") { id = "boxInMotion not found"; } else { id = boxInMotion.id; }
@@ -41,15 +38,15 @@ function outlineOneElement( element, color ) {
     } else {
 	brdr = element.zen.preoutlineStyle.border;
     }
-    logger.log( [ "outlineOneElement("+element.id+","+color+"):","now "+element.style.border,"prev "+brdr,"bim "+id ] );
+    log( [ "outlineOneElement("+element.id+","+color+"):","now "+element.style.border,"prev "+brdr,"bim "+id ] );
     /*
     if (element == document.body) { // Don't outline the document body element.
-	logger.log("outlineOneElement: enter: called for body with color => " + color);
+	log("outlineOneElement: enter: called for body with color => " + color);
 	return;
     }
     */
     if ( typeof element.zen == "undefined" || typeof element.zen.preoutlineStyle == "undefined" ) {
-	logger.log( "outlineOneElement" );
+	log( "outlineOneElement" );
 	element.zen = {};
 	element.zen.preoutlineStyle = {};
 	element.zen.preoutlineStyle.border = element.style.border;
@@ -88,11 +85,11 @@ function unoutlineOneElement ( element ) {
 	    console.group("unoutlineOneElement: id"); console.dir(element); console.groupEnd();
 	    debugger;
 	}
-	logger.log( [ "unoutlineOneElement("+element+"):","now "+element.style.border,"prev "+brdr,"bim "+id ] );
+	log( [ "unoutlineOneElement("+element+"):","now "+element.style.border,"prev "+brdr,"bim "+id ] );
     }
     catch ( error ) {
 	console.error( error + "unoutlineOneElement: element => " + element );
-	logger.log( [ "unoutlineOneElement("+element+"):","now "+element.style.border,"prev "+brdr ] );
+	log( [ "unoutlineOneElement("+element+"):","now "+element.style.border,"prev "+brdr ] );
     }
     if (element !== document.body) {
 	element.style.border = element.zen.preoutlineStyle.border;
@@ -116,7 +113,9 @@ function ensureEnoughMargin( element, prop, computedProp ) {
 
 // Unused.
 // This will fail if it encounters a text element and the like, because text elements have no style property.
-// For that reason, use the outlineAllElements function instead.
+// For that reason, use the walkElementTree function instead of the walkDOM
+// function.
+/*
 function outlineAllElements( color ) {
     walkDOM( document.body,
 	     function( element ) {
@@ -124,6 +123,7 @@ function outlineAllElements( color ) {
 		 outlineOneElement( element, color );
 	     });
 }
+*/
 
 function outlineAllElements( color ) {
     walkElementTree( document.body,
@@ -152,5 +152,4 @@ function walkElementTree( element, func ) {
     }
 }
 
-return { saveStyle: saveStyle, outlineOneElement: outlineOneElement, unoutlineOneElement: unoutlineOneElement };
-};
+export { brdr, propIndex, boxInMotion, saveStyle, outlineOneElement, unoutlineOneElement, ensureEnoughMargin, outlineAllElements, walkDOM, walkElementTree };

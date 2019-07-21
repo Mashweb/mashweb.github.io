@@ -1,14 +1,16 @@
 <html>
     <head>
 	<title>Zen Node-Browser Prototype</title>
-	<link rel="stylesheet" href="css/styles.css" type="text/css">
+	<link rel="stylesheet" href="../css/styles.css" type="text/css">
 	<link rel="stylesheet" href="../css/block.css" type="text/css">
-	<script type="text/javascript" src="../../js/logger.js"></script>
-	<script type="text/javascript" src="../../js/outliner.js"></script>
-	<script type="text/javascript" src="../../js/block-mover.js"></script>
-	<script type="text/javascript" src="../../js/highlighter.js"></script>
+	<script type="module">
+	    import { init } from '../js/nb-main.js';
+	    document.addEventListener("DOMContentLoaded", function(){
+		init();
+	    });
+	</script>
     </head>
-    <body onload="outlineAllElements( 'red' );">
+    <body>
 	
 	<div class="container">
 	    
@@ -32,7 +34,7 @@
 		In the node-browser mode of Zen, every node that it is possible to outline will be
 		outlined so the structure of the page can be better visualized.
 		<hr>
-		<p class="box">Here is a paragraph. This paragraph contains some inline elements&mdash;an image and a span.<img src="images/birds.png" style="height:31px; width:40px; vertical-align:text-top;"></img><span class="elem">This is a span.</span></p>
+		<p class="box">Here is a paragraph. This paragraph contains some inline elements&mdash;an image and a span.<img src="../NodeLists/images/birds.png" style="height:31px; width:40px; vertical-align:text-top;"></img><span class="elem">This is a span.</span></p>
 		<p class="box">Here is another paragraph.</p>
 		<p>This is the last paragraph in the first <span class="elem">&lt;article&gt;</span> element.</p>
 	    </article>

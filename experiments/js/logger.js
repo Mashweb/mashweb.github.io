@@ -1,12 +1,13 @@
 // Save history and dump some of it when called.
+// Edit: Now all the history is dumped when dumpLog is called.
 
-module.exports = function( ) {
+// function dumpLog( index = -5 ) { // What was this for?
 
-function dumpLog( index = -5 ) {
-    for ( ix = log.history.count + index; ix <= log.history.count; ix++ ) {
-	console.debug(log.history[ix]);
+function dumpLog( ) {
+    var ix, count = log.history.count;
+    for ( ix = log.history.count - 1; ix < log.history.count; ix++ ) {
+	console.log(log.history[ix]);
     }
-    return "Done.";
 }
 
 function log( obj ) {
@@ -20,5 +21,4 @@ function clearLog( ) {
     log.history.count = 0;
 }
 
-return { log: log, dumpLog: dumpLog, clearLog: clearLog };
-};
+export { dumpLog, log, clearLog };
