@@ -3,7 +3,8 @@
 <head>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <title></title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+  <title>Direct-Manipulation Interface for Arranging Blocks in a Web Page</title>
 </head>
 <style type="text/css">
   .content {
@@ -80,6 +81,7 @@
   }
 </style>
 <body>
+  <h2>Direct-Manipulation Interface for Arranging Blocks in a Web Page</h2>
   <p id="p">
   Try grabbing a block and dragging a block to a new position.</p>
   <div class="content">
@@ -101,6 +103,7 @@
       placeholder: "block"
     });
     $( ".sortable" ).disableSelection();
+    $( ".sortable" ).draggable();
   } );
 </script>
 </html>
