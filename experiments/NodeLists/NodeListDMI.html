@@ -1,206 +1,106 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <title>NodeList Manipulation with Display Property Set to Block, Inline-Block, or Inline</title>
-    <link rel="stylesheet" href="../css/block.css" type="text/css">
-    <script type="module" src="../js/NodeListDMI.js"></script>
-    <script type="module" src="../js/outliner.js"></script>
-    <script type="module" src="../js/logger.js"></script>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <title></title>
 </head>
-<body id="body" style="margin:0px;">
-    <div class="ruler">
+<style type="text/css">
+  .content {
+    display: flex;
+  }
+  .block {
+    padding: 5px;
+    border: 1px solid #000;
+    margin: 5px;
+    height: 100px; 
+    line-height: 1.2em;
+  }
+  .sortable {
+    width: 220px;
+    border: 1px solid white;
+  }
+  body { background-color: snow; }
 
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line">100</div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line">200</div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line">300</div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line">400</div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line">500</div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line">600</div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line">700</div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line">800</div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line"></div>
-    <div class="decade"></div>
-    <div class="line">900</div>
+  .yellow { background-color: yellow; }
 
+  .wheat { background-color:wheat }
+
+  .pink { background-color:pink }
+
+  .lavender { background-color:lavender }
+
+  .salmon { background-color:salmon }
+
+  .tan { background-color:tan }
+
+  .silver { background-color:silver }
+
+  .thistle { background-color:thistle }
+
+  .azure { background-color:azure }
+
+  .hover { position:absolute; right:0px; width:200px; margin:10px; padding:5px;
+     background-color:lightgreen; opacity:0.7; }
+
+  div.container-box { border:3px solid white; }
+
+  div.box { height:80px; margin:2px 10px 2px 10px; padding:10px; border:3px solid white; }
+
+  div.big-box { height:180px; }
+
+  div.inline { display:inline; padding:2px; font-size:14px; }
+
+  .inline-block { display:inline-block; margin:2px 10px 2px 10px; height:100px; width:50px; border:3px solid white; }
+
+  /* .draggable-block:active { */
+  .draggable-block {
+      cursor: url('../images/ns-move.gif'),auto;
+      /* cursor: ns-resize; */
+  }
+
+  .draggable-inline:active {
+      cursor: url('../images/ew-move.gif'),auto;
+  }
+
+  .draggable-nsew-inline:active {
+      cursor: url('../images/nsew-move.gif'),auto;
+  }
+
+  .box:hover {
+    border-color: aqua
+  }
+
+  .sortable:hover {
+    border: 4px solid aqua;
+  }
+
+  .inline-block:hover {
+    border: 4px solid aqua;
+  }
+</style>
+<body>
+  <p id="p">
+  Try grabbing a block and dragging a block to a new position.</p>
+  <div class="content">
+    <div class="sortable container-box">
+      <div id="box0" class="box yellow block">box 0</div>
+      <div id="inline0" class="inline-block salmon">inline 0</div>
+      <div id="inline1" class="inline-block tan">inline 1</div>
+      <div id="box1" class="box wheat block">box 1</div>
+      <div id="box2" class="box big-box pink block">box 2</div>
+      <div id="box3" class="box lavender block">box 3</div>
+      <img id="brain" class="inline-block block" style="width:150px; height:150px;" src="images/brain.png"></img>
+      <div class="box thistle block">box 4</div>
     </div>
-    <p id="p" class="hover">
-	Try grabbing a block, dragging the top of it over another block, and dropping it there.</p>
-    <div id="container-box" class="container-box" style="width:220px;">
-	<div id="box0" class="box yellow">box 0</div>
-	<div id="inline0" class="inline-block salmon">inline 0</div>
-	<div id="inline1" class="inline-block tan">inline 1</div>
-	<div id="box1" class="box wheat">box 1</div>
-	<div id="box2" class="box big-box pink"><div id="inline2" class="inline silver">inline 2</div>box 2<div id="inline 3" class="inline thistle">inline 3</div></div>
-	<div id="box3" class="box lavender">box 3</div>
-	<img id="brain" class="inline-block" style="width:150px; height:auto;" src="images/brain.png"></img>
-	<div class="box thistle">box with no ID</div>
-    </div>
+  </div>
 </body>
+<script type="text/javascript">
+  $( function() {
+    $( ".sortable" ).sortable({
+      placeholder: "block"
+    });
+    $( ".sortable" ).disableSelection();
+  } );
+</script>
 </html>
