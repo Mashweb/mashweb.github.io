@@ -83,7 +83,11 @@
 <body>
   <h2>Direct-Manipulation Interface for Arranging Blocks in a Web Page</h2>
   <p id="p">
-  Try grabbing a block and dragging a block to a new position.</p>
+Try grabbing a block and dragging a block to a new position.
+Even headings, paragraphs, images, and forms can be dragged, but 
+some such elements might be a little tricky for you to manipulate
+with the mouse.
+</p>
   <div class="content">
     <div class="sortable container-box">
       <div id="box0" class="box yellow block">box 0</div>
@@ -92,8 +96,18 @@
       <div id="box1" class="box wheat block">box 1</div>
       <div id="box2" class="box big-box pink block">box 2</div>
       <div id="box3" class="box lavender block">box 3</div>
+      <div class="box thistle block">box without ID</div>
+      <h2>This is a heading</h2>
+      <p class="boxunnumbered ">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
       <img id="brain" class="inline-block block" style="width:150px; height:150px;" src="images/brain.png"></img>
-      <div class="box thistle block">box 4</div>
+      <form>
+<form action="/action_page.php">
+  <input type="text" name="firstname" value="Name">Name
+  <br>
+  <input type="text" name="lastname" value="21">Age
+  <br><br>
+  <input type="submit" value="Submit">
+</form> 
     </div>
   </div>
 </body>
