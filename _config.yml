@@ -13,3 +13,8 @@ permalink:    pretty
 port:         4000
 baseurl:      /zen
 markdown:     kramdown
+
+title: Zen
+google_analytics: UA-83016942-1
+show_downloads: true
+theme: jekyll-theme-leap-day
