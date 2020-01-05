@@ -18,10 +18,10 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: demos & docs
+title: mashweb.club
 email: tom@mashweb.club
 description: >- # This appears in the head meta and in feed.xml .
-  Mashweb.club
+  demos & docs
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://doc.mashweb.club"
 twitter_username: tomelam

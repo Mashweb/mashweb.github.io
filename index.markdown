@@ -1,146 +1,74 @@
 ---
 layout: default
+title: demos & docs
 ---
 
 <h1>{{ "Mashweb.club" }}</h1>
-is a website devoted to the development of a very simple to use
-but very powerful place for everyone to build her/his/their own website
-or *web app*.
-It uses very unique technology to make this simple,
-as it always should have been, so simple that practically anyone can do it.
+is a website being built to help everyone build her/his/their own
+*web applications* (web apps).
+To make it simple to create a web app,
+as it always should have been&mdash;
+so simple that practically anyone can do it&mdash;
+very unique technology is being developed and premiered on this website.
 Let's repeat that. We're not just talking about creating websites.
 There are plenty of easy to use services for that.
 We're talking about full-fledged web apps.
 While the definition of *web app* is not clear cut,
-what we mean is highly interactive web-based applications,
+what we mean by it is a highly interactive web-based application,
 not just a few web pages that query databases hidden behind web servers.
 
+We hope that Mashweb.club and its technology will empower many people
+who understand the importance of the [IndieWeb](https://indieweb.org/)
+movement and its important principle,
+[POSSE](https://indieweb.org/POSSE)&mdash;
+Publish (on your) Own Site, Syndicate Elsewhere.
+The IndieWeb and POSSE will help to foster
+educated democracy, common ground, and shared perspective,
+which are being destroyed by the influence of the corporate algorithms
+of social media and web search engines.
+
 Mashweb.club is in its pre-alpha stage of development.
-Zen is a major part of its development plan.
+Zen is a major part of its development plan;
+*Zen* is the name of the unique technology being developed for Mashweb.club.
 Zen's purpose will be to enable
 the evolution of websites and web applications
 in a profoundly personal, easy, and adaptable way.
-The source code for various prototypes of Zen is being migrated into the
-[Zen project](https://github.com/tomelam/zen).
-So far, the best documentation on Zen can be found in its
+The source code of various prototypes of Zen will be migrated onto
+[Mashweb.club](https://mashweb.club)
+and will be made available in the
+[Mashweb.club code repository](https://github.com/Mashweb/mashweb.club).
+As of now, the best documentation on Zen can be found in its
 [white paper](whitepaper.html).
 
-Text can be **bold**, _italic_, or ~~strikethrough~~.
+<h2>Inspirations and Demo Prototypes</h2>
 
-[Link to another page](./another-page.html).
+The [demos & docs](/) section of Mashweb.club has a few experimental
+prototypes of some user interfaces that might be used by Mashweb.club
+when the website's unique technology is finally realized.
+It also presents some of the inspirations behind the prototypes.
 
-There should be whitespace between paragraphs.
+1. [a very simple demonstration](experiments/NodeLists/NodeListDMI.html)
+that the blocks making up a web page
+can be manipulated by simply sliding them,
 
-There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.
+1. a prototype of [the same demo](experiments/movies/NodeListDMI_installed_in_Facebook.mov)
+installed in the web browser to manipulate a Facebook page,
 
-# Header 1
+1. [the inspiration](experiments/NodeLists/15-puzzle.html)
+behind the block-sliding demo,
 
-This is a normal paragraph following a header. GitHub is a code hosting platform for version control and collaboration. It lets you and others work together on projects from anywhere.
+1. [a more freeform demo](experiments/NodeLists/blocks+inlines.html)
+to explore the issues that crop up when designing a user interface
+to move any block on a page,
 
-## Header 2
+1. [an exploration of cursors](experiments/NodeLists/css-custom-cursor.html)
+to explore the hints about the functions of
+a user interface that they can give the user,
 
-> This is a blockquote following a header.
->
-> When something is important enough, you do it even if the odds are not in your favor.
+1. a very simple and limited demo of
+[repositioning an inline block](experiments/NodeLists/inline.html),
 
-### Header 3
+1. a prototype of [element highlighting](experiments/layout-visualization/element-outliner.html), and
 
-```js
-// Javascript code with syntax highlighting.
-var fun = function lang(l) {
-dateformat.i18n = require('./lang/' + l)
-return true;
-}
-```
-
-```ruby
-# Ruby code with syntax highlighting
-GitHubPages::Dependencies.gems.each do |gem, version|
-s.add_dependency(gem, "= #{version}")
-end
-```
-
-#### Header 4
-
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
-
-##### Header 5
-
-1.  This is an ordered list following a header.
-2.  This is an ordered list following a header.
-3.  This is an ordered list following a header.
-
-###### Header 6
-
-| head1        | head two          | three |
-|:-------------|:------------------|:------|
-| ok           | good swedish fish | nice  |
-| out of stock | good and plenty   | nice  |
-| ok           | good `oreos`      | hmm   |
-| ok           | good `zoute` drop | yumm  |
-
-### There's a horizontal rule below this.
-
-* * *
-
-### Here is an unordered list:
-
-*   Item foo
-*   Item bar
-*   Item baz
-*   Item zip
-
-### And an ordered list:
-
-1.  Item one
-1.  Item two
-1.  Item three
-1.  Item four
-
-### And a nested list:
-
-- level 1 item
-- level 2 item
-- level 2 item
-- level 3 item
-- level 3 item
-- level 1 item
-- level 2 item
-- level 2 item
-- level 2 item
-- level 1 item
-- level 2 item
-- level 2 item
-- level 1 item
-
-### Small image
-
-![Octocat](https://github.githubassets.com/images/icons/emoji/octocat.png)
-
-### Large image
-
-![Branching](https://guides.github.com/activities/hello-world/branching.png)
-
-
-### Definition lists can be used with HTML syntax.
-
-<dl>
-<dt>Name</dt>
-<dd>Godzilla</dd>
-<dt>Born</dt>
-<dd>1952</dd>
-<dt>Birthplace</dt>
-<dd>Japan</dd>
-<dt>Color</dt>
-<dd>Green</dd>
-</dl>
-
-```
-Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long. This line should be long enough to demonstrate this.
-```
-
-```
-The final element.
-```
+1. a prototype of [element highlighting](experiments/layout-visualization/node-browser.html) showing what it might look like if all web page elements
+were showed distinctly.

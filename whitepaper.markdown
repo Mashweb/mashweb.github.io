@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Zen White Paper
+title: white paper
 ---
 
 
