@@ -26,6 +26,8 @@ The IndieWeb and POSSE will help to foster
 educated democracy, common ground, and shared perspective,
 which are being destroyed by the influence of the corporate algorithms
 of social media and web search engines.
+For further reading, read ["Why Indie Web"](https://indieweb.org/why)
+and ["How to decentralize social media"](https://indieweb.org/social_media).
 
 Mashweb.club is in its pre-alpha stage of development.
 Zen is a major part of its development plan;
@@ -40,12 +42,15 @@ and will be made available in the
 As of now, the best documentation on Zen can be found in its
 [white paper](whitepaper.html).
 
-<h2>Inspirations and Demo Prototypes</h2>
+<h2>Inspirations, Demos, and Prototypes</h2>
 
 The [demos & docs](/) section of Mashweb.club has a few experimental
 prototypes of some user interfaces that might be used by Mashweb.club
 when the website's unique technology is finally realized.
-It also presents some of the inspirations behind the prototypes.
+It also presents some of the inspirations behind the prototypes:
+
+1. [a demo of a unique capability](experiments/seq_webapp_biwascheme)
+being developed for Mashweb.club: sequential programming of a web app,
 
 1. [a very simple demonstration](experiments/NodeLists/NodeListDMI.html)
 that the blocks making up a web page
