@@ -1,6 +1,9 @@
 ---
 layout: default
 title: white paper
+permalink: /whitepaper/
+date:   2020-01-09 12:19:36 +0530
+categories: whitepaper paper theory motivation
 ---
 
 
