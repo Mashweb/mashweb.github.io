@@ -2,3 +2,4 @@
 	path = experiments/seq_webapp_biwascheme
 	url = https://github.com/Mashweb/seq_webapp_biwascheme.git
 	update = merge
+	master = master
