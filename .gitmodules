@@ -1,6 +1,4 @@
 [submodule "experiments/seq_webapp_biwascheme"]
 	path = experiments/seq_webapp_biwascheme
 	url = https://github.com/Mashweb/seq_webapp_biwascheme.git
-	branch = master
-	master = master
 	update = merge
