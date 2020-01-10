@@ -7,7 +7,8 @@ categories: jekyll tutorial
 ---
 # About doc.mashweb.club
 
-This repository was previously named "zen". Almost all of the code it
+The code repository for building the doc.mashweb.club subdomain
+was previously named "zen". Almost all of the code it
 contained was in the "gh-pages" branch. The only other branch,
 "master", was a clone of [https://github.com/barryclark/jekyll-now](jekyll-now)
 with a single post (introduction.md) added.
