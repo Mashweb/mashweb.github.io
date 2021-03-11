@@ -368,7 +368,7 @@ categories: whitepaper paper theory motivation
 	<p>WYMeditor is the best-known WYSIWYM web-page composer.
 	    <div>
 		<figure>
-		    <img src="images/WYMeditor.png" alt="WYMeditor" width="680" height="170"
+		    <img src="/images/WYMeditor.png" alt="WYMeditor" width="680" height="170"
 			 onclick="window.open('images/WYMeditor.png', '_blank');" />
 		    <figcaption>
 			<small>Figure 6. WYMeditor. Click to expand in a new window.</small>
