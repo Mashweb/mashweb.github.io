@@ -23,7 +23,7 @@ email: tom@mashweb.club
 description: >- # This appears in the head meta and in feed.xml .
   demos & docs
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://doc.mashweb.club"
+url: "https://doc.mashweb.club"
 twitter_username: tomelam
 github_username:  Mashweb
 

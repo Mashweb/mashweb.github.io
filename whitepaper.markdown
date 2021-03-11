@@ -284,8 +284,8 @@ categories: whitepaper paper theory motivation
 	    development environments:
 	    <div>
 		<figure>
-		    <img src="/images/bluegriffon1_6_french.jpg" alt="BlueGriffon" width="680" height="499"
-			 onclick="window.open('/images/bluegriffon1_6_french.jpg', '_blank');" />
+		    <img src="{{site.url}}/images/bluegriffon1_6_french.jpg" alt="BlueGriffon" width="680" height="499"
+			 onclick="window.open('{{site.url}}/images/bluegriffon1_6_french.jpg', '_blank');" />
 		    <figcaption>
 			<small>Figure 2. BlueGriffon. Click to expand in a new window.</small>
 		    </figcaption>
@@ -293,8 +293,8 @@ categories: whitepaper paper theory motivation
 	    </div>
 	    <div>
 		<figure>
-		    <img src="/images/ckeditor.jpg" alt="CKeditor" width="680" height="382"
-			 onclick="window.open('/images/ckeditor.jpg', '_blank');" />
+		    <img src="{{site.url}}/images/ckeditor.jpg" alt="CKeditor" width="680" height="382"
+			 onclick="window.open('{{site.url}}/images/ckeditor.jpg', '_blank');" />
 		    <figcaption>
 			<small>Figure 3. CKeditor (web-page-embedded). Click to expand in a new window.</small>
 		    </figcaption>
@@ -302,8 +302,8 @@ categories: whitepaper paper theory motivation
 	    </div>
 	    <div>
 		<figure>
-		    <img src="/images/kompozer.png" alt="KompoZer" width="680" height="510"
-			 onclick="window.open('/images/kompozer.png', '_blank');" />
+		    <img src="{{site.url}}/images/kompozer.png" alt="KompoZer" width="680" height="510"
+			 onclick="window.open('{{site.url}}/images/kompozer.png', '_blank');" />
 		    <figcaption>
 			<small>Figure 4. KompoZer (discontinued). Click to expand in a new window.</small>
 		    </figcaption>
@@ -311,8 +311,8 @@ categories: whitepaper paper theory motivation
 	    </div>
 	    <div>
 		<figure>
-		    <img src="/images/maqetta.png" alt="Maqetta" width="680" height="486"
-			 onclick="window.open('/images/maqetta.png', '_blank');" />
+		    <img src="{{site.url}}/images/maqetta.png" alt="Maqetta" width="680" height="486"
+			 onclick="window.open('{{site.url}}/images/maqetta.png', '_blank');" />
 		    <figcaption>
 			<small>Figure 5. Maqetta (inactive as of May 2013). Click to expand in a new window.</small>
 		    </figcaption>
@@ -320,8 +320,8 @@ categories: whitepaper paper theory motivation
 	    </div>
 	    <div>
 		<figure>
-		    <img src="/images/tinymce.jpg" alt="TinyMCE" width="680" height="221"
-			 onclick="window.open('/images/tinymce.jpg', '_blank');" />
+		    <img src="{{site.url}}/images/tinymce.jpg" alt="TinyMCE" width="680" height="221"
+			 onclick="window.open('{{site.url}}/images/tinymce.jpg', '_blank');" />
 		    <figcaption>
 			<small>Figure 6. TinyMCE (web-page-embedded). Click to expand in a new window.</small>
 		    </figcaption>
@@ -368,8 +368,8 @@ categories: whitepaper paper theory motivation
 	<p>WYMeditor is the best-known WYSIWYM web-page composer.
 	    <div>
 		<figure>
-		    <img src="/images/WYMeditor.png" alt="WYMeditor" width="680" height="170"
-			 onclick="window.open('/images/WYMeditor.png', '_blank');" />
+		    <img src="{{site.url}}/images/WYMeditor.png" alt="WYMeditor" width="680" height="170"
+			 onclick="window.open('{{site.url}}/images/WYMeditor.png', '_blank');" />
 		    <figcaption>
 			<small>Figure 6. WYMeditor. Click to expand in a new window.</small>
 		    </figcaption>
@@ -505,7 +505,7 @@ categories: whitepaper paper theory motivation
 	    and <em>inline-block boxes</em><sup><a href="#21">21</a></sup> are visible (Figure 7).
 	    <div>
 		<figure>
-		    <img src="/images/node-browser-cropped.png" 
+		    <img src="{{site.url}}/images/node-browser-cropped.png" 
 			 alt="Node-Browser Prototype" width="643" height="345"
 			 onclick="window.open('/zen/experiments/layouts/node-browser.html', '_blank');" />
 		    <figcaption>
@@ -552,7 +552,7 @@ categories: whitepaper paper theory motivation
 	    In node-selection mode, passing the mouse pointer over nodes will highlight them one at a time (Figure 9).
 	    <div>
 		<figure>
-		    <img src="/images/layout-manipulator.gif" 
+		    <img src="{{site.url}}/images/layout-manipulator.gif" 
 			 alt="Layout-Manipulator Prototype" width="720" height="516"
 			 onclick="window.open('/zen/experiments/layouts/blocks+inlines.html', '_blank');" />
 		    <figcaption>
@@ -657,9 +657,9 @@ categories: whitepaper paper theory motivation
 	    can program using a cleverly designed visual programming language (Figure 12).
 	    <div style="margin-left:20px; display:inline-block;">
 		<figure>
-		    <img align="right" src="/images/snap.png" width="720" height="371"
+		    <img align="right" src="{{site.url}}/images/snap.png" width="720" height="371"
 			 alt="Snap! Visual Programming Language"
-			 onclick="window.open('/images/snap.png', '_blank');" />
+			 onclick="window.open('{{site.url}}/images/snap.png', '_blank');" />
 		    <figcaption>
 			<small>Figure 12. The Snap! visual programming language.
 			    Click to open in a new window.</small>
@@ -699,7 +699,7 @@ categories: whitepaper paper theory motivation
 	    (Figure 13).
 	    <div style="margin-left:20px; display:inline-block;">
 		<figure>
-		    <img align="right" src="/images/15-puzzle.gif" alt="Jamie Wong's 15-Puzzle Solver">
+		    <img align="right" src="{{site.url}}/images/15-puzzle.gif" alt="Jamie Wong's 15-Puzzle Solver">
 		    <figcaption>
 			<small>Figure 13. Jamie Wong's 15-Puzzle solver.</small>
 		    </figcaption>
@@ -729,7 +729,7 @@ categories: whitepaper paper theory motivation
 	    for rearranging NodeLists that contain just <em>blocks</em> or just <em>inlines</em>, respectively:
 	    <div>
 		<figure>
-		    <img src="/images/block-demo.gif"
+		    <img src="{{site.url}}/images/block-demo.gif"
 			 alt="Block-Manipulator Prototype" width="188" height="564"
 			 onclick="window.open('/zen/experiments/NodeLists/block.html', '_blank');" />
 		    <figcaption>
@@ -738,7 +738,7 @@ categories: whitepaper paper theory motivation
 		    </figcaption>
 		</figure>
 		<figure>
-		    <img src="/images/inline-demo.gif"
+		    <img src="{{site.url}}/images/inline-demo.gif"
 			 alt="Inline-Manipulator Prototype" width="720" height="304"
 			 onclick="window.open('/zen/experiments/NodeLists/inline.html', '_blank');" />
 		    <figcaption>
