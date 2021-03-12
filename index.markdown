@@ -40,7 +40,7 @@ The source code of various prototypes of Zen will be migrated onto
 and will be made available in the
 [Mashweb.club code repository](https://github.com/Mashweb/mashweb.club).
 As of now, the best documentation on Zen can be found in its
-[white paper](whitepaper.html).
+[white paper](whitepaper).
 
 <h2>Inspirations, Demos, and Prototypes</h2>
 
