@@ -507,7 +507,7 @@ categories: whitepaper paper theory motivation
 		<figure>
 		    <img src="{{site.url}}/images/node-browser-cropped.png" 
 			 alt="Node-Browser Prototype" width="643" height="345"
-			 onclick="window.open('/zen/experiments/layouts/node-browser.html', '_blank');" />
+			 onclick="window.open('/zen/experiments/NodeLists/node-browser.html', '_blank');" />
 		    <figcaption>
 			<small>Figure 7. Screenshot of a node-browser prototype.
 			    Click to open the live demo in a new window.</small>
@@ -529,17 +529,16 @@ categories: whitepaper paper theory motivation
 
 	    <div>
 		<figure>
-		    <img src="https://addons.cdn.mozilla.net/user-media/previews/full/62/62218.png" 
-			 alt="Tilt 3D Add-on for Firefox" width="720" height="540"
-			 onclick="window.open('https://addons.cdn.mozilla.net/user-media/previews/full/62/62218.png', '_blank');" />
-		    <img src="https://addons.cdn.mozilla.net/user-media/previews/full/62/62220.png" 
-			 alt="Tilt 3D Add-on for Firefox" width="720" height="540"
-			 onclick="window.open('https://addons.cdn.mozilla.net/user-media/previews/full/62/62220.png', '_blank');" />
-		    <img src="https://addons.cdn.mozilla.net/user-media/previews/full/62/62222.png" 
-			 alt="Tilt 3D Add-on for Firefox" width="720" height="540"
-			 onclick="window.open('https://addons.cdn.mozilla.net/user-media/previews/full/62/62222.png', '_blank');" />
+		    <img src="https://developer.mozilla.org/en-US/docs/Tools/3D_View/3dview.png"
+			 alt="3D View for Firefox 46 Developer Tools" width="1000" height="350"
+			 onclick="window.open('https://developer.mozilla.org/en-US/docs/Tools/3D_View/3dview.png', '_blank');" />
+		    <img src="https://wiki.mozilla.org/images/5/5f/Tilt.png"
+			 alt="Tilt 3D Add-on for Firefox" width="640" height="390"
+			 onclick="window.open('https://wiki.mozilla.org/images/5/5f/Tilt.png', '_blank');" />
 		    <figcaption>
-			<small>Figure 8. Screenshots of Tilt 3D Add-on for Firefox.
+			<small>Figure 8. Screenshots of the Fireox 3D View tool for
+			    Firefox versions prior to Firefox 47 and
+			    the Tilt 3D Add-on for Firefox.
 			    (These screenshots are not meant to represent the paradigm that Zen will use.)
 			    Click each to expand it in a new window.</small>
 		    </figcaption>
@@ -554,7 +553,7 @@ categories: whitepaper paper theory motivation
 		<figure>
 		    <img src="{{site.url}}/images/layout-manipulator.gif" 
 			 alt="Layout-Manipulator Prototype" width="720" height="516"
-			 onclick="window.open('/zen/experiments/layouts/blocks+inlines.html', '_blank');" />
+			 onclick="window.open('{{site.url}}/experiments/NodeLists/blocks+inlines.html', '_blank');" />
 		    <figcaption>
 			<small>Figure 9. Layout-manipulator prototype.
 			    Click to open the live demo in a new window.</small>
